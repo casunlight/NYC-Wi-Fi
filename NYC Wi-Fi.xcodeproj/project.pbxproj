@@ -36,6 +36,8 @@
 		0A7DFDD315F6C1F6002CA296 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDD115F6C1F6002CA296 /* UIImage+ImageWithUIView.m */; };
 		0A7DFDDA15F6C320002CA296 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDD915F6C320002CA296 /* MenuViewController.m */; };
 		0A7DFDDD15F6FEA1002CA296 /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDDC15F6FEA1002CA296 /* InitialSlidingViewController.m */; };
+		0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */; };
+		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
@@ -96,6 +98,10 @@
 		0A7DFDD915F6C320002CA296 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		0A7DFDDB15F6FEA1002CA296 /* InitialSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialSlidingViewController.h; sourceTree = "<group>"; };
 		0A7DFDDC15F6FEA1002CA296 /* InitialSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialSlidingViewController.m; sourceTree = "<group>"; };
+		0A9679ED15F7F4BB00EB60B6 /* SingletonObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonObj.h; sourceTree = "<group>"; };
+		0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonObj.m; sourceTree = "<group>"; };
+		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
 		0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -210,6 +216,10 @@
 				0A65F1E915ED6EB200E58FC5 /* AppDelegate.h */,
 				0A65F1EA15ED6EB200E58FC5 /* AppDelegate.m */,
 				0A65F1EC15ED6EB200E58FC5 /* MainStoryboard.storyboard */,
+				0A9679F015F7FEDA00EB60B6 /* ListViewController.h */,
+				0A9679F115F7FEDB00EB60B6 /* ListViewController.m */,
+				0A9679ED15F7F4BB00EB60B6 /* SingletonObj.h */,
+				0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */,
 				0A65F1EF15ED6EB200E58FC5 /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
 				0A7DFDDB15F6FEA1002CA296 /* InitialSlidingViewController.h */,
@@ -352,6 +362,8 @@
 				0A7DFDD315F6C1F6002CA296 /* UIImage+ImageWithUIView.m in Sources */,
 				0A7DFDDA15F6C320002CA296 /* MenuViewController.m in Sources */,
 				0A7DFDDD15F6FEA1002CA296 /* InitialSlidingViewController.m in Sources */,
+				0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */,
+				0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

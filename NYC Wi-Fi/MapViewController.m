@@ -68,7 +68,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	//[self plotMapLocations];
+    displayToggle = [SingletonObj singleObj];
+    displayToggle.gblStr = @"map";
+	[self loadLocationsFromXML];
 }
 
 - (void)viewDidUnload
@@ -83,25 +85,17 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-// Add new method above refreshTapped
-//- (void)plotMapLocations
 - (void)plotMapLocations:(NSString *)responseString
 {    
     for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
     }
     
-    //NSArray *mapLocations = [self loadMapLocations];
     NSData* xmlData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     //NSLog(@"%@", xmlData);
     NSError *error;
     SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
     SMXMLElement *mapLocations = [document.root childNamed:@"row"];
-    //NSLog(@"%@", [data objectAtIndex:1]);
-    //NSArray *dictValues =  [root allValues];
-    //NSLog(@"%@", dictValues);
-    //NSArray *data = [root objectForKey:@"data"];
-    //NSLog(@"%@", data);
     
     //for (NSArray * mapLocation in mapLocations) {
     for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
@@ -136,11 +130,10 @@
     return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
 }
 
-- (IBAction)refreshTapped:(id)sender {
-    //NSURL *url = [[NSBundle mainBundle] URLForResource: @"rows" withExtension:@"xml"];
+- (void)loadLocationsFromXML
+{
     //NSURL *url = [NSURL URLWithString:@"https://nycopendata.socrata.com/api/views/ehc4-fktp/rows.xml"];
     NSURL *url = [NSURL URLWithString:@"http://127.0.0.1/ios/nycwifi/rows.xml"];
-    //NSURL *url = [NSURL URLWithString:@"https://nycopendata.socrata.com/api/views/ehc4-fktp/rows.json?method=index"];
     
     __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
@@ -163,7 +156,18 @@
 }
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
-    NSLog(@"Toggling sidebar");
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
+
+- (IBAction)displayList:(UIBarButtonItem *)sender {
+    NSString *identifier = @"ListView";
+    
+    UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    
+    CGRect frame = self.slidingViewController.topViewController.view.frame;
+    self.slidingViewController.topViewController = newTopViewController;
+    self.slidingViewController.topViewController.view.frame = frame;
+    [self.slidingViewController resetTopView];
+}
+
 @end
