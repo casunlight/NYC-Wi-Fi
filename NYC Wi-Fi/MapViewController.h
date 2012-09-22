@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreData/CoreData.h> // necessary?
+#import "ListViewController.h"
 #import "ECSlidingViewController.h"
 #import "MenuViewController.h"
 #import "SingletonObj.h"
@@ -23,13 +25,16 @@
 
 @class SidebarViewController;
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate> {
+@interface MapViewController : UIViewController<NSFetchedResultsControllerDelegate, MKMapViewDelegate, UITableViewDelegate> {
     BOOL _doneInitialZoom;
     SingletonObj * displayToggle;
 }
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+//@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
 
 @end

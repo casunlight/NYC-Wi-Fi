@@ -11,6 +11,8 @@
 #import "ECSlidingViewController.h"
 #import "MenuViewController.h"
 #import "SingletonObj.h"
+#import "LocationInfo.h"
+#import "LocationDetails.h"
 
 // Orientation changing is not an officially completed feature,
 // The main thing to fix is the rotation animation and the
@@ -19,13 +21,22 @@
 // You can change EXPERIEMENTAL_ORIENTATION_SUPPORT to 1 for testing purpose
 #define EXPERIEMENTAL_ORIENTATION_SUPPORT 1
 
-@class SidebarViewController;
+@class ListViewController;
+
+@protocol ListViewControllerDelegate
+
+- (void)theMapButtonOnTheListViewControllerWasTapped:(ListViewController *)controller;
+
+@end
 
 @interface ListViewController : UIViewController<UITableViewDelegate> {
     SingletonObj * displayToggle;
 }
 
-@property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
+@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+//@property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
+
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
 
 @end

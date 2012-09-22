@@ -8,12 +8,9 @@
 
 #import "ListViewController.h"
 #import "MapLocation.h"
-#import "ASIHTTPRequest.h"
-#import "SMXMLDocument.h"
-#import "MBProgressHUD.h"
 
 @implementation ListViewController
-@synthesize leftSidebarViewController;
+//@synthesize leftSidebarViewController;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -42,9 +39,18 @@
     // e.g. self.myOutlet = nil;
 }
 
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section;
+    // Return the number of rows in the section.
+    return 0;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -120,14 +126,18 @@
 }
 
 - (IBAction)displayMap:(UIBarButtonItem *)sender {
-    NSString *identifier = @"MapView";
+    /* NSString *identifier = @"MapView";
     
     UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
     
     CGRect frame = self.slidingViewController.topViewController.view.frame;
     self.slidingViewController.topViewController = newTopViewController;
     self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView];
+    [self.slidingViewController resetTopView]; */
+    
+    [self.delegate theMapButtonOnTheListViewControllerWasTapped:self];
+    
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

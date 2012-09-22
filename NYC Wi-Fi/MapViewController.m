@@ -7,15 +7,21 @@
 //
 
 #import "MapViewController.h"
+#import "ListViewController.h"
 #import "MapLocation.h"
+#import "LocationInfo.h"
+#import "LocationDetails.h"
 #import "ASIHTTPRequest.h"
 #import "SMXMLDocument.h"
 #import "MBProgressHUD.h"
+#import "AppDelegate.h"
 //#import "CLLocation+Geocodereverse.h"
 
 @implementation MapViewController
 @synthesize mapView = _mapView;
-@synthesize leftSidebarViewController;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
+//@synthesize leftSidebarViewController;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
@@ -36,6 +42,63 @@
         return annotationView;
     }
     return nil;
+}
+
+/* - (void)setupFetchedResultsController
+{
+    NSString *entityName = @"LocationInfo"; // Put your entity name here
+    NSLog(@"Setting up a Fetched Results Controller for the Entity named %@", entityName);
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    //request.predicate = [NSPredicate predicateWithFormat:@"LocationInfo.name = Blah"];
+    
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
+    
+    [self.fetchedResultsController performFetch:nil];
+} */
+
+- (void)importCoreDataDefaultLocations:(NSString *)responseString {
+    
+    NSLog(@"Importing Core Data Default Values for Locations...");
+    
+    NSData* xmlData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error;
+    SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
+    SMXMLElement *mapLocations = [document.root childNamed:@"row"];
+    
+    for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
+        LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
+                                                                   inManagedObjectContext:self.managedObjectContext];
+        
+        locationInfo.name = [mapLocation valueWithPath:@"name"];
+        locationInfo.address = [mapLocation valueWithPath:@"address"];
+        locationInfo.fee_type = [mapLocation valueWithPath:@"type"];
+        
+        LocationDetails *locationDetails = [NSEntityDescription
+                                            insertNewObjectForEntityForName:@"LocationDetails"
+                                            inManagedObjectContext:self.managedObjectContext];
+        
+        SMXMLElement *shape = [mapLocation childNamed:@"shape"];
+        locationDetails.latitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"latitude"] doubleValue]];
+        locationDetails.longitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"longitude"] doubleValue]];
+        locationDetails.city = [mapLocation valueWithPath:@"city"];
+        locationDetails.zip = [NSNumber numberWithInteger:[[shape attributeNamed:@"zip"] integerValue]];
+        locationDetails.phone = [mapLocation valueWithPath:@"phone"];
+        locationDetails.info = locationInfo;
+        locationInfo.details = locationDetails;
+        
+        [self.managedObjectContext save:nil];
+    }
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSLog(@"Importing Core Data Default Values for Locations Completed!");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,7 +133,28 @@
     [super viewDidLoad];
     displayToggle = [SingletonObj singleObj];
     displayToggle.gblStr = @"map";
-	[self loadLocationsFromXML];
+    
+    if (_managedObjectContext == nil) {
+        _managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    }
+    //[self setupFetchedResultsController];
+    
+    NSError *error;
+	if (![[self fetchedResultsController] performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+    
+    if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
+        NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
+        [self loadLocationsFromXML];
+    }
+    else {
+        NSLog(@"There's stuff in the database so skipping the import of default data");
+    }
+    
+    [self plotMapLocations];
 }
 
 - (void)viewDidUnload
@@ -85,41 +169,36 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (void)plotMapLocations:(NSString *)responseString
+- (void)plotMapLocations
 {    
     for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
     }
     
-    NSData* xmlData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-    //NSLog(@"%@", xmlData);
-    NSError *error;
-    SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
-    SMXMLElement *mapLocations = [document.root childNamed:@"row"];
+    NSArray *fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
     
-    //for (NSArray * mapLocation in mapLocations) {
-    for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
-        NSString *name = [mapLocation valueWithPath:@"name"];
-        NSString *address = [mapLocation valueWithPath:@"address"];
-        
-        SMXMLElement *shape = [mapLocation childNamed:@"shape"];
-        NSString *latitude = [shape attributeNamed:@"latitude"];
-        NSString *longitude = [shape attributeNamed:@"longitude"];
+    for (LocationInfo *location in fetchedLocations) {
+        //NSLog(@"%@", location.name);
+        LocationDetails *locationDetails = location.details;
         
         //CLLocation *coordinates = [address newGeocodeAddress];
         //NSLog(@"Coordinates - Latitude : %.10f, Longitude : %.10f", coordinates.coordinate.latitude, coordinates.coordinate.longitude);
         
         CLLocationCoordinate2D coordinate;
-        coordinate.latitude = latitude.doubleValue;
-        coordinate.longitude = longitude.doubleValue;
+        coordinate.latitude = locationDetails.latitude.doubleValue;
+        coordinate.longitude = locationDetails.longitude.doubleValue;
+        //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
         
-        MapLocation *annotation = [[MapLocation alloc] initWithName:name address:address coordinate:coordinate];
+        MapLocation *annotation = [[MapLocation alloc] initWithName:location.name address:location.address coordinate:coordinate];
+        /* SBPinAnnotation *annotation = [[SBPinAnnotation alloc] initWithCoordinate:coordinate
+                                                                            title:localObject.objectName
+                                                                        objecttId:localObject.objectId]; */
         [_mapView addAnnotation:annotation];
     }
     
 }
 
-- (NSArray*)loadMapLocations
+/* - (NSArray*)loadMapLocations
 {
     NSArray *location1 = [[NSArray alloc] initWithObjects:@"Juan Valdez - Midtown", @"140 East 57 St, 10022", @"40.761236", @"-73.968805", nil];
     NSArray *location2 = [[NSArray alloc] initWithObjects:@"Whole Foods Cafe Tribeca", @"270 Greenwich St, 10007", @"40.715794", @"-74.011484", nil];
@@ -128,7 +207,7 @@
     NSArray *location5 = [[NSArray alloc] initWithObjects:@"Orchard House Cafe", @"1064 1st Ave, 10022", @"40.759155", @"-73.962432", nil];
     
     return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
-}
+} */
 
 - (void)loadLocationsFromXML
 {
@@ -138,10 +217,9 @@
     __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
     [request setCompletionBlock:^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSString *responseString = [request responseString];
         //NSLog(@"Response: %@", responseString);
-        [self plotMapLocations:responseString];
+        [self importCoreDataDefaultLocations:responseString];
     }];
     [request setFailedBlock:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -152,7 +230,7 @@
     // 6
     [request startAsynchronous];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading locations...";
+    hud.labelText = @"Refreshing locations...";
 }
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
@@ -160,14 +238,175 @@
 }
 
 - (IBAction)displayList:(UIBarButtonItem *)sender {
-    NSString *identifier = @"ListView";
+    /* NSString *identifier = @"ListView";
     
     UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
     
     CGRect frame = self.slidingViewController.topViewController.view.frame;
     self.slidingViewController.topViewController = newTopViewController;
     self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView];
+    [self.slidingViewController resetTopView]; */
+    
+    ListViewController *listViewController = [[ListViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:listViewController animated:NO];
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"List Segue"])
+	{
+        NSLog(@"Setting MapViewController as a delegate of ListViewController");
+        
+        ListViewController *listViewController = segue.destinationViewController;
+        listViewController.delegate = self;
+        listViewController.managedObjectContext = self.managedObjectContext;
+	}
+    /* else if ([segue.identifier isEqualToString:@"Location Detail Segue"])
+    {
+        NSLog(@"Setting MapViewController as a delegate of LocationDetailController");
+        LocationDetailController *locationDetailController = segue.destinationViewController;
+        locationDetailController.delegate = self;
+        locationDetailController.managedObjectContext = self.managedObjectContext;
+        
+        // Store selected Person in selectedPerson property
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        self.selectedPerson = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        NSLog(@"Passing selected location (%@) to LocationDetailController", self.selectedLocation.name);
+        personDetailTVC.person = self.selectedPerson;
+    } */
+    else
+    { NSLog(@"Unidentified Segue Attempted!"); }
+}
+
+- (void)theMapButtonOnTheListViewControllerWasTapped:(ListViewController *)controller
+{
+    // do something here like refreshing the table or whatever
+    
+    
+    // close the delegated view
+    [controller.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - fetchedResultsController
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"LocationInfo" inManagedObjectContext:_managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    
+    //[fetchRequest setFetchBatchSize:20];
+    
+    NSFetchedResultsController *theFetchedResultsController =
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                        managedObjectContext:_managedObjectContext sectionNameKeyPath:nil
+                                                   cacheName:@"Root"];
+    self.fetchedResultsController = theFetchedResultsController;
+    _fetchedResultsController.delegate = self;
+    
+    return _fetchedResultsController;
+    
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    //[self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [self fetchedResultsChangeInsert:anObject];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self fetchedResultsChangeDelete:anObject];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self fetchedResultsChangeUpdate:anObject];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            // Do nothing
+            break;
+    }
+}
+
+
+/* - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+} */
+
+- (void)fetchedResultsChangeInsert:(NSObject*)anObject {
+    LocationInfo *location = (LocationInfo*)anObject;
+    LocationDetails *locationDetails = location.details;
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = locationDetails.latitude.doubleValue;
+    coordinate.longitude = locationDetails.longitude.doubleValue;
+    
+    MapLocation *annotation = [[MapLocation alloc] initWithName:location.name address:location.address coordinate:coordinate];
+    [_mapView addAnnotation:annotation];
+}
+
+- (void)fetchedResultsChangeDelete:(NSObject*)anObject  {
+    LocationInfo *location = (LocationInfo*)anObject;
+    LocationDetails *locationDetails = location.details;
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = locationDetails.latitude.doubleValue;
+    coordinate.longitude = locationDetails.longitude.doubleValue;
+    
+    //In case we have more then one match for whatever reason
+    NSMutableArray *toRemove = [NSMutableArray arrayWithCapacity:1];
+    for (id annotation in _mapView.annotations) {
+        
+        if (annotation != _mapView.userLocation) {
+            MapLocation *pinAnnotation = annotation;
+            
+            // THIS NEEDS TO BE CHANGED TO OBJECTID IN THE NEXT VERSION FOR LOCATION MANAGEMENT
+            if ([[pinAnnotation address] isEqualToString:location.address]) {
+                [toRemove addObject:annotation];
+            }
+        }
+    }
+    [_mapView removeAnnotations:toRemove];
+}
+
+- (void)fetchedResultsChangeUpdate:(NSObject*)anObject  {
+    //Takes a little bit of overheard but it is simple
+    [self fetchedResultsChangeDelete:anObject];
+    [self fetchedResultsChangeInsert:anObject];
+    
+}
+
+
+/* - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
+} */
 
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2279FB160E6CA700E37FDE /* LocationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2279FA160E6CA700E37FDE /* LocationDetails.m */; };
+		0A2279FE160E6CA700E37FDE /* LocationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2279FD160E6CA700E37FDE /* LocationInfo.m */; };
 		0A556F8B15F2C42600C5638C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7715F2C42600C5638C /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F8C15F2C42600C5638C /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7815F2C42600C5638C /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F8D15F2C42600C5638C /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7B15F2C42600C5638C /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -39,12 +41,19 @@
 		0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */; };
 		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
+		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
+		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
 		0AFFD5FF15F140770023C83C /* MapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFD5FE15F140770023C83C /* MapLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A2279E8160E658100E37FDE /* nycwifi 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "nycwifi 2.xcdatamodel"; sourceTree = "<group>"; };
+		0A2279F9160E6CA600E37FDE /* LocationDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetails.h; sourceTree = "<group>"; };
+		0A2279FA160E6CA700E37FDE /* LocationDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetails.m; sourceTree = "<group>"; };
+		0A2279FC160E6CA700E37FDE /* LocationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfo.h; sourceTree = "<group>"; };
+		0A2279FD160E6CA700E37FDE /* LocationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationInfo.m; sourceTree = "<group>"; };
 		0A556F7515F2C42600C5638C /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		0A556F7615F2C42600C5638C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0A556F7715F2C42600C5638C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -103,6 +112,8 @@
 		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
+		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
 		0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AFFD5FD15F140770023C83C /* MapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocation.h; sourceTree = "<group>"; };
@@ -114,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */,
 				0A556FA115F2C4D700C5638C /* libz.1.1.3.dylib in Frameworks */,
 				0A556F9F15F2C4C300C5638C /* MobileCoreServices.framework in Frameworks */,
 				0A556F9D15F2C4BA00C5638C /* SystemConfiguration.framework in Frameworks */,
@@ -129,6 +141,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A22800A1603C8FA00189106 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0A2279FC160E6CA700E37FDE /* LocationInfo.h */,
+				0A2279FD160E6CA700E37FDE /* LocationInfo.m */,
+				0A2279F9160E6CA600E37FDE /* LocationDetails.h */,
+				0A2279FA160E6CA700E37FDE /* LocationDetails.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		0A556F7415F2C41700C5638C /* ASIHTTPRequest */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +220,7 @@
 		0A65F1D915ED6EB200E58FC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */,
 				0A556F9E15F2C4C300C5638C /* MobileCoreServices.framework */,
 				0A556F9C15F2C4BA00C5638C /* SystemConfiguration.framework */,
 				0A556F9A15F2C4B200C5638C /* CFNetwork.framework */,
@@ -212,6 +236,7 @@
 		0A65F1E015ED6EB200E58FC5 /* NYC Wi-Fi */ = {
 			isa = PBXGroup;
 			children = (
+				0A22800A1603C8FA00189106 /* Model */,
 				0AEE2C8115F16631003C3BE8 /* Additions */,
 				0A65F1E915ED6EB200E58FC5 /* AppDelegate.h */,
 				0A65F1EA15ED6EB200E58FC5 /* AppDelegate.m */,
@@ -220,6 +245,8 @@
 				0A9679F115F7FEDB00EB60B6 /* ListViewController.m */,
 				0A9679ED15F7F4BB00EB60B6 /* SingletonObj.h */,
 				0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */,
+				0AFFD5FD15F140770023C83C /* MapLocation.h */,
+				0AFFD5FE15F140770023C83C /* MapLocation.m */,
 				0A65F1EF15ED6EB200E58FC5 /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
 				0A7DFDDB15F6FEA1002CA296 /* InitialSlidingViewController.h */,
@@ -227,8 +254,6 @@
 				0A7DFDD815F6C320002CA296 /* MenuViewController.h */,
 				0A7DFDD915F6C320002CA296 /* MenuViewController.m */,
 				0A65F1E115ED6EB200E58FC5 /* Supporting Files */,
-				0AFFD5FD15F140770023C83C /* MapLocation.h */,
-				0AFFD5FE15F140770023C83C /* MapLocation.m */,
 			);
 			path = "NYC Wi-Fi";
 			sourceTree = "<group>";
@@ -236,6 +261,7 @@
 		0A65F1E115ED6EB200E58FC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */,
 				0A556FA215F3D24B00C5638C /* command.json */,
 				0AA37CD715F1D53C00659109 /* Images */,
 				0A65F1E215ED6EB200E58FC5 /* NYC Wi-Fi-Info.plist */,
@@ -364,6 +390,9 @@
 				0A7DFDDD15F6FEA1002CA296 /* InitialSlidingViewController.m in Sources */,
 				0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */,
 				0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */,
+				0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */,
+				0A2279FB160E6CA700E37FDE /* LocationDetails.m in Sources */,
+				0A2279FE160E6CA700E37FDE /* LocationInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +511,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0A2279E8160E658100E37FDE /* nycwifi 2.xcdatamodel */,
+				0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */,
+			);
+			currentVersion = 0A2279E8160E658100E37FDE /* nycwifi 2.xcdatamodel */;
+			path = nycwifi.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0A65F1CD15ED6EB200E58FC5 /* Project object */;
 }
