@@ -10,6 +10,4 @@
 
 @interface InitialSlidingViewController : ECSlidingViewController
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @end

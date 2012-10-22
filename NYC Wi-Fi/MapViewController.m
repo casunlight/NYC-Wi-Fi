@@ -21,6 +21,7 @@
 @synthesize mapView = _mapView;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize fetchedLocations = _fetchedLocations;
 //@synthesize leftSidebarViewController;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -43,26 +44,6 @@
     }
     return nil;
 }
-
-/* - (void)setupFetchedResultsController
-{
-    NSString *entityName = @"LocationInfo"; // Put your entity name here
-    NSLog(@"Setting up a Fetched Results Controller for the Entity named %@", entityName);
-    
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    //request.predicate = [NSPredicate predicateWithFormat:@"LocationInfo.name = Blah"];
-    
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                        managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil
-                                                                                   cacheName:nil];
-    
-    [self.fetchedResultsController performFetch:nil];
-} */
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
     
@@ -137,7 +118,6 @@
     if (_managedObjectContext == nil) {
         _managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     }
-    //[self setupFetchedResultsController];
     
     NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
@@ -171,13 +151,16 @@
 
 - (void)plotMapLocations
 {    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading locations...";
+    
     for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
     }
     
-    NSArray *fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
+    _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
     
-    for (LocationInfo *location in fetchedLocations) {
+    for (LocationInfo *location in _fetchedLocations) {
         //NSLog(@"%@", location.name);
         LocationDetails *locationDetails = location.details;
         
@@ -196,6 +179,7 @@
         [_mapView addAnnotation:annotation];
     }
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 /* - (NSArray*)loadMapLocations
@@ -237,18 +221,27 @@
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (IBAction)displayList:(UIBarButtonItem *)sender {
-    /* NSString *identifier = @"ListView";
+- (IBAction)displayList:(UIBarButtonItem *)sender {    
+    //[self performSegueWithIdentifier:@"List Segue" sender:sender];
     
-    UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    /* NSString *identifier = @"ListView";
+    ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    //ListViewController *listViewController = [[ListViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:listViewController animated:NO]; */
+    
+    //ListViewController *listViewController = [[ListViewController alloc] init];
+    //listViewController.name = self.myModel.name;
+    //[self.slidingViewController.topViewController.navigationController pushViewController:listViewController animated:YES];
+    
+    NSString *identifier = @"ListView";
+    ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    listViewController.delegate = self;
+    listViewController.fetchedLocations = _fetchedLocations;
     
     CGRect frame = self.slidingViewController.topViewController.view.frame;
-    self.slidingViewController.topViewController = newTopViewController;
+    self.slidingViewController.topViewController = listViewController;
     self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView]; */
-    
-    ListViewController *listViewController = [[ListViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:listViewController animated:NO];
+    [self.slidingViewController resetTopView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -261,6 +254,11 @@
         listViewController.delegate = self;
         listViewController.managedObjectContext = self.managedObjectContext;
 	}
+    else if ([segue.identifier isEqualToString:@"Near Me Segue"]) {
+        NSLog(@"Near Me segue");
+        MapViewController *mapViewController = segue.destinationViewController;
+        mapViewController.managedObjectContext = self.managedObjectContext;
+    }
     /* else if ([segue.identifier isEqualToString:@"Location Detail Segue"])
     {
         NSLog(@"Setting MapViewController as a delegate of LocationDetailController");
@@ -317,10 +315,10 @@
     
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+/* - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
     //[self.tableView beginUpdates];
-}
+} */
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
@@ -402,7 +400,6 @@
     [self fetchedResultsChangeInsert:anObject];
     
 }
-
 
 /* - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.

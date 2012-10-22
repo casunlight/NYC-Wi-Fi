@@ -9,7 +9,6 @@
 #import "InitialSlidingViewController.h"
 
 @implementation InitialSlidingViewController
-@synthesize managedObjectContext = _managedObjectContext;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

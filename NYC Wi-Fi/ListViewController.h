@@ -35,6 +35,7 @@
 
 @property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSArray *fetchedLocations;
 //@property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;

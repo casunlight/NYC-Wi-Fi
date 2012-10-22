@@ -11,6 +11,7 @@
 
 @implementation ListViewController
 //@synthesize leftSidebarViewController;
+@synthesize fetchedLocations = _fetchedLocations;
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -19,6 +20,8 @@
     self.view.layer.shadowOpacity = 0.75f;
     self.view.layer.shadowRadius = 10.0f;
     self.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    //NSLog(@"%@", _fetchedLocations);
     
     if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]]) {
         self.slidingViewController.underLeftViewController  = [self.storyboard instantiateViewControllerWithIdentifier:@"Menu"];
@@ -44,13 +47,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    return _fetchedLocations.count;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -62,8 +65,16 @@
 {
     static NSString *CellIdentifier = @"ListViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
     
     // Configure the cell...
+    LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
+    cell.textLabel.text = location.name;
+    cell.detailTextLabel.text = location.address;
+    //NSLog(@"!!!%@", cell.detailTextLabel.text);
+    //NSLog(@"!!!!!!!%@", location.address);
     
     return cell;
 }
@@ -121,7 +132,6 @@
 }
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
-    NSLog(@"Toggling sidebar");
     [self.slidingViewController anchorTopViewTo:ECRight];
 }
 

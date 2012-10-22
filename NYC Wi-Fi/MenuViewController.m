@@ -50,16 +50,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSString *identifier = [NSString stringWithFormat:@"%@Top", [self.menuItems objectAtIndex:indexPath.row]];
-
-  UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
-  
-  [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
-    CGRect frame = self.slidingViewController.topViewController.view.frame;
-    self.slidingViewController.topViewController = newTopViewController;
-    self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView];
-  }];
+    NSString *identifier = [self.menuItems objectAtIndex:indexPath.row];
+    NSLog(@"%@", identifier);
+    
+    UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MapView"];
+    
+    if (identifier == @"Near Me") {
+        newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MapView"];
+        [newTopViewController performSegueWithIdentifier:@"Near Me Segue" sender:self];
+    } else if (identifier == @"View All") {
+        
+    } else if (identifier == @"Find by Borough") {
+        newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"BoroughView"];
+    }
+    
+    [self.slidingViewController anchorTopViewOffScreenTo:ECRight animations:nil onComplete:^{
+        CGRect frame = self.slidingViewController.topViewController.view.frame;
+        self.slidingViewController.topViewController = newTopViewController;
+        self.slidingViewController.topViewController.view.frame = frame;
+        [self.slidingViewController resetTopView];
+    }];
 }
 
 @end

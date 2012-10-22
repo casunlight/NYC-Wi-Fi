@@ -33,8 +33,10 @@
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSArray *fetchedLocations;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 //@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
+- (IBAction)displayList:(UIBarButtonItem *)sender;
 
 @end
