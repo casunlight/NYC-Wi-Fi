@@ -145,9 +145,19 @@
     self.slidingViewController.topViewController.view.frame = frame;
     [self.slidingViewController resetTopView]; */
     
-    [self.delegate theMapButtonOnTheListViewControllerWasTapped:self];
+    //[self.delegate theMapButtonOnTheListViewControllerWasTapped:self];
     
     //[self.navigationController popViewControllerAnimated:YES];
+    
+    NSString *identifier = @"MapView";
+    MapViewController *mapViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    mapViewController.delegate = self;
+    mapViewController.fetchedLocations = _fetchedLocations;
+    
+    CGRect frame = self.slidingViewController.topViewController.view.frame;
+    self.slidingViewController.topViewController = mapViewController;
+    self.slidingViewController.topViewController.view.frame = frame;
+    [self.slidingViewController resetTopView];
 }
 
 @end

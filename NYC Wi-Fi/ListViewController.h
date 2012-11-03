@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ECSlidingViewController.h"
 #import "MenuViewController.h"
+#import "MapViewController.h"
 #import "SingletonObj.h"
 #import "LocationInfo.h"
 #import "LocationDetails.h"
@@ -29,7 +30,7 @@
 
 @end
 
-@interface ListViewController : UIViewController<UITableViewDelegate> {
+@interface ListViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
     SingletonObj * displayToggle;
 }
 
@@ -39,5 +40,6 @@
 //@property (strong, nonatomic) SidebarViewController *leftSidebarViewController;
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
+- (IBAction)displayMap:(UIBarButtonItem *)sender;
 
 @end
