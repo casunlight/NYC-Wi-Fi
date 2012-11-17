@@ -7,14 +7,13 @@
 //
 
 #import "MapViewController.h"
-#import "ListViewController.h"
+//#import "ListViewController.h"
 #import "MapLocation.h"
 #import "LocationInfo.h"
 #import "LocationDetails.h"
 #import "ASIHTTPRequest.h"
 #import "SMXMLDocument.h"
 #import "MBProgressHUD.h"
-#import "AppDelegate.h"
 //#import "CLLocation+Geocodereverse.h"
 
 @implementation MapViewController
@@ -82,18 +81,31 @@
     NSLog(@"Importing Core Data Default Values for Locations Completed!");
 }
 
+- (void)loadLocationsFromXML
+{
+    //NSURL *url = [NSURL URLWithString:@"https://nycopendata.socrata.com/api/views/ehc4-fktp/rows.xml"];
+    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1/ios/nycwifi/rows.xml"];
+    
+    __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setDelegate:self];
+    [request setCompletionBlock:^{
+        NSString *responseString = [request responseString];
+        //NSLog(@"Response: %@", responseString);
+        [self importCoreDataDefaultLocations:responseString];
+    }];
+    [request setFailedBlock:^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSError *error = [request error];
+        NSLog(@"Error: %@", error.localizedDescription);
+    }];
+    
+    [request startAsynchronous];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Refreshing locations...";
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
-    // shadowPath, shadowOffset, and rotation is handled by ECSlidingViewController.
-    // You just need to set the opacity, radius, and color.
-    self.view.layer.shadowOpacity = 0.75f;
-    self.view.layer.shadowRadius = 10.0f;
-    self.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    
-    if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]]) {
-        self.slidingViewController.underLeftViewController  = [self.storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-    }
-    
     // 1
     CLLocationCoordinate2D zoomLocation;
     zoomLocation.latitude = 40.746347;
@@ -112,12 +124,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    displayToggle = [SingletonObj singleObj];
-    displayToggle.gblStr = @"map";
+    //displayToggle = [SingletonObj singleObj];
+    //displayToggle.gblStr = @"map";
     
-    if (_managedObjectContext == nil) {
+    /* if (_managedObjectContext == nil) {
         _managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    }
+    } */
     
     NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
@@ -193,88 +205,7 @@
     return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
 } */
 
-- (void)loadLocationsFromXML
-{
-    //NSURL *url = [NSURL URLWithString:@"https://nycopendata.socrata.com/api/views/ehc4-fktp/rows.xml"];
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1/ios/nycwifi/rows.xml"];
-    
-    __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    [request setDelegate:self];
-    [request setCompletionBlock:^{
-        NSString *responseString = [request responseString];
-        //NSLog(@"Response: %@", responseString);
-        [self importCoreDataDefaultLocations:responseString];
-    }];
-    [request setFailedBlock:^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSError *error = [request error];
-        NSLog(@"Error: %@", error.localizedDescription);
-    }];
-    
-    // 6
-    [request startAsynchronous];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Refreshing locations...";
-}
-
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
-    [self.slidingViewController anchorTopViewTo:ECRight];
-}
-
-- (IBAction)displayList:(UIBarButtonItem *)sender {    
-    //[self performSegueWithIdentifier:@"List Segue" sender:sender];
-    
-    /* NSString *identifier = @"ListView";
-    ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
-    //ListViewController *listViewController = [[ListViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:listViewController animated:NO]; */
-    
-    //ListViewController *listViewController = [[ListViewController alloc] init];
-    //listViewController.name = self.myModel.name;
-    //[self.slidingViewController.topViewController.navigationController pushViewController:listViewController animated:YES];
-    
-    NSString *identifier = @"ListView";
-    ListViewController *listViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
-    listViewController.delegate = self;
-    listViewController.fetchedLocations = _fetchedLocations;
-    
-    CGRect frame = self.slidingViewController.topViewController.view.frame;
-    self.slidingViewController.topViewController = listViewController;
-    self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	if ([segue.identifier isEqualToString:@"List Segue"])
-	{
-        NSLog(@"Setting MapViewController as a delegate of ListViewController");
-        
-        ListViewController *listViewController = segue.destinationViewController;
-        listViewController.delegate = self;
-        listViewController.managedObjectContext = self.managedObjectContext;
-	}
-    else if ([segue.identifier isEqualToString:@"Near Me Segue"]) {
-        NSLog(@"Near Me segue");
-        MapViewController *mapViewController = segue.destinationViewController;
-        mapViewController.managedObjectContext = self.managedObjectContext;
-    }
-    /* else if ([segue.identifier isEqualToString:@"Location Detail Segue"])
-    {
-        NSLog(@"Setting MapViewController as a delegate of LocationDetailController");
-        LocationDetailController *locationDetailController = segue.destinationViewController;
-        locationDetailController.delegate = self;
-        locationDetailController.managedObjectContext = self.managedObjectContext;
-        
-        // Store selected Person in selectedPerson property
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        self.selectedPerson = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        NSLog(@"Passing selected location (%@) to LocationDetailController", self.selectedLocation.name);
-        personDetailTVC.person = self.selectedPerson;
-    } */
-    else
-    { NSLog(@"Unidentified Segue Attempted!"); }
 }
 
 /* - (void)theMapButtonOnTheListViewControllerWasTapped:(ListViewController *)controller

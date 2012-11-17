@@ -16,13 +16,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    ECSlidingViewController *slidingViewController = (ECSlidingViewController *)self.window.rootViewController;
-    UIStoryboard *storyboard;
-    storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    slidingViewController.topViewController = [storyboard instantiateViewControllerWithIdentifier:@"MapView"];
-    //NSLog(@"%@", slidingViewController.topViewController);
-    MapViewController *mapViewController = (MapViewController *)slidingViewController.topViewController;
-    mapViewController.managedObjectContext = _managedObjectContext;
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    
+    MapViewController *mapViewController = [[tabBarController viewControllers] objectAtIndex:0];
+    mapViewController.managedObjectContext = self.managedObjectContext;
+    
+    UINavigationController *listViewControllerNav = [[tabBarController viewControllers] objectAtIndex:1];
+    ListViewController *listViewController = [[listViewControllerNav viewControllers] objectAtIndex:0];
+    listViewController.managedObjectContext = self.managedObjectContext;
     
     return YES;
 }

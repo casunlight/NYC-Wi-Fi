@@ -34,22 +34,21 @@
 		0A65F1EB15ED6EB200E58FC5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F1EA15ED6EB200E58FC5 /* AppDelegate.m */; };
 		0A65F1EE15ED6EB200E58FC5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A65F1EC15ED6EB200E58FC5 /* MainStoryboard.storyboard */; };
 		0A65F1F115ED6EB200E58FC5 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F1F015ED6EB200E58FC5 /* MapViewController.m */; };
-		0A7DFDD215F6C1F6002CA296 /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDCF15F6C1F6002CA296 /* ECSlidingViewController.m */; };
-		0A7DFDD315F6C1F6002CA296 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDD115F6C1F6002CA296 /* UIImage+ImageWithUIView.m */; };
-		0A7DFDDA15F6C320002CA296 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDD915F6C320002CA296 /* MenuViewController.m */; };
-		0A7DFDDD15F6FEA1002CA296 /* InitialSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7DFDDC15F6FEA1002CA296 /* InitialSlidingViewController.m */; };
-		0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */; };
+		0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A83BBA31646D2AF00319860 /* Default-568h@2x.png */; };
 		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
+		0A9DE5C116572A08009EAF5E /* LocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
 		0AFFD5FF15F140770023C83C /* MapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFD5FE15F140770023C83C /* MapLocation.m */; };
+		0AFFF9501645A3E7001E3D6F /* location-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AFFF94F1645A3E7001E3D6F /* location-button.png */; };
+		0AFFF9531645A80B001E3D6F /* location-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AFFF9521645A80B001E3D6F /* location-arrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A2279E8160E658100E37FDE /* nycwifi 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "nycwifi 2.xcdatamodel"; sourceTree = "<group>"; };
+		0A2279E8160E658100E37FDE /* nycwifi 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "nycwifi 2.xcdatamodel"; sourceTree = "<group>"; };
 		0A2279F9160E6CA600E37FDE /* LocationDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetails.h; sourceTree = "<group>"; };
 		0A2279FA160E6CA700E37FDE /* LocationDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetails.m; sourceTree = "<group>"; };
 		0A2279FC160E6CA700E37FDE /* LocationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationInfo.h; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		0A556FA215F3D24B00C5638C /* command.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = command.json; sourceTree = "<group>"; };
 		0A556FA515F41F8D00C5638C /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
 		0A556FA615F41F9C00C5638C /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
+		0A5B3A311645971300E11B4A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		0A65F1D615ED6EB200E58FC5 /* NYC Wi-Fi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NYC Wi-Fi.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A65F1DA15ED6EB200E58FC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0A65F1DC15ED6EB200E58FC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -97,20 +97,12 @@
 		0A65F1E915ED6EB200E58FC5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0A65F1EA15ED6EB200E58FC5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0A65F1ED15ED6EB200E58FC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		0A65F1EF15ED6EB200E58FC5 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		0A65F1F015ED6EB200E58FC5 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		0A7DFDCE15F6C1F6002CA296 /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
-		0A7DFDCF15F6C1F6002CA296 /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
-		0A7DFDD015F6C1F6002CA296 /* UIImage+ImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageWithUIView.h"; sourceTree = "<group>"; };
-		0A7DFDD115F6C1F6002CA296 /* UIImage+ImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageWithUIView.m"; sourceTree = "<group>"; };
-		0A7DFDD815F6C320002CA296 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
-		0A7DFDD915F6C320002CA296 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
-		0A7DFDDB15F6FEA1002CA296 /* InitialSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialSlidingViewController.h; sourceTree = "<group>"; };
-		0A7DFDDC15F6FEA1002CA296 /* InitialSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialSlidingViewController.m; sourceTree = "<group>"; };
-		0A9679ED15F7F4BB00EB60B6 /* SingletonObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonObj.h; sourceTree = "<group>"; };
-		0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonObj.m; sourceTree = "<group>"; };
+		0A83BBA31646D2AF00319860 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		0A9DE5BF16572A08009EAF5E /* LocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailViewController.h; sourceTree = "<group>"; };
+		0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailViewController.m; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
@@ -118,6 +110,8 @@
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AFFD5FD15F140770023C83C /* MapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocation.h; sourceTree = "<group>"; };
 		0AFFD5FE15F140770023C83C /* MapLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocation.m; sourceTree = "<group>"; };
+		0AFFF94F1645A3E7001E3D6F /* location-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-button.png"; sourceTree = "<group>"; };
+		0AFFF9521645A80B001E3D6F /* location-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-arrow.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,16 +237,12 @@
 				0A65F1EC15ED6EB200E58FC5 /* MainStoryboard.storyboard */,
 				0A9679F015F7FEDA00EB60B6 /* ListViewController.h */,
 				0A9679F115F7FEDB00EB60B6 /* ListViewController.m */,
-				0A9679ED15F7F4BB00EB60B6 /* SingletonObj.h */,
-				0A9679EE15F7F4BC00EB60B6 /* SingletonObj.m */,
 				0AFFD5FD15F140770023C83C /* MapLocation.h */,
 				0AFFD5FE15F140770023C83C /* MapLocation.m */,
-				0A65F1EF15ED6EB200E58FC5 /* MapViewController.h */,
+				0A5B3A311645971300E11B4A /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
-				0A7DFDDB15F6FEA1002CA296 /* InitialSlidingViewController.h */,
-				0A7DFDDC15F6FEA1002CA296 /* InitialSlidingViewController.m */,
-				0A7DFDD815F6C320002CA296 /* MenuViewController.h */,
-				0A7DFDD915F6C320002CA296 /* MenuViewController.m */,
+				0A9DE5BF16572A08009EAF5E /* LocationDetailViewController.h */,
+				0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */,
 				0A65F1E115ED6EB200E58FC5 /* Supporting Files */,
 			);
 			path = "NYC Wi-Fi";
@@ -272,20 +262,12 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0A7DFDCD15F6C1DE002CA296 /* ECSlidingViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0A7DFDCE15F6C1F6002CA296 /* ECSlidingViewController.h */,
-				0A7DFDCF15F6C1F6002CA296 /* ECSlidingViewController.m */,
-				0A7DFDD015F6C1F6002CA296 /* UIImage+ImageWithUIView.h */,
-				0A7DFDD115F6C1F6002CA296 /* UIImage+ImageWithUIView.m */,
-			);
-			name = ECSlidingViewController;
-			sourceTree = "<group>";
-		};
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A83BBA31646D2AF00319860 /* Default-568h@2x.png */,
+				0AFFF9521645A80B001E3D6F /* location-arrow.png */,
+				0AFFF94F1645A3E7001E3D6F /* location-button.png */,
 				0A556F9815F2C47800C5638C /* wifi-pin.png */,
 				0AA37CD915F1D54D00659109 /* ButtonMenu.png */,
 			);
@@ -295,7 +277,6 @@
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				0A7DFDCD15F6C1DE002CA296 /* ECSlidingViewController */,
 				0A556FA415F41F6300C5638C /* SMXMLDocument */,
 				0A556F9415F2C44700C5638C /* MBProgressHUD */,
 				0A556F7415F2C41700C5638C /* ASIHTTPRequest */,
@@ -359,6 +340,9 @@
 				0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */,
 				0A556F9915F2C47800C5638C /* wifi-pin.png in Resources */,
 				0A556FA315F3D24B00C5638C /* command.json in Resources */,
+				0AFFF9501645A3E7001E3D6F /* location-button.png in Resources */,
+				0AFFF9531645A80B001E3D6F /* location-arrow.png in Resources */,
+				0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,15 +368,11 @@
 				0A556F9315F2C42600C5638C /* ASINetworkQueue.m in Sources */,
 				0A556F9715F2C45000C5638C /* MBProgressHUD.m in Sources */,
 				0A556FA715F41F9C00C5638C /* SMXMLDocument.m in Sources */,
-				0A7DFDD215F6C1F6002CA296 /* ECSlidingViewController.m in Sources */,
-				0A7DFDD315F6C1F6002CA296 /* UIImage+ImageWithUIView.m in Sources */,
-				0A7DFDDA15F6C320002CA296 /* MenuViewController.m in Sources */,
-				0A7DFDDD15F6FEA1002CA296 /* InitialSlidingViewController.m in Sources */,
-				0A9679EF15F7F4BC00EB60B6 /* SingletonObj.m in Sources */,
 				0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */,
 				0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */,
 				0A2279FB160E6CA700E37FDE /* LocationDetails.m in Sources */,
 				0A2279FE160E6CA700E37FDE /* LocationInfo.m in Sources */,
+				0A9DE5C116572A08009EAF5E /* LocationDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

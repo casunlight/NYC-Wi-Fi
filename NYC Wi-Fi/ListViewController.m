@@ -7,32 +7,44 @@
 //
 
 #import "ListViewController.h"
-#import "MapLocation.h"
+#import "MBProgressHUD.h"
 
 @implementation ListViewController
-//@synthesize leftSidebarViewController;
 @synthesize fetchedLocations = _fetchedLocations;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize selectedLocation = _selectedLocation;
+
+- (void)listLocations
+{
+    //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //hud.labelText = @"Loading locations...";
+    
+    _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
+    NSLog(@"%@", _fetchedLocations);
+    
+    //[MBProgressHUD hideHUDForView:self.view animated:YES];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // shadowPath, shadowOffset, and rotation is handled by ECSlidingViewController.
-    // You just need to set the opacity, radius, and color.
-    self.view.layer.shadowOpacity = 0.75f;
-    self.view.layer.shadowRadius = 10.0f;
-    self.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    
-    //NSLog(@"%@", _fetchedLocations);
-    
-    if (![self.slidingViewController.underLeftViewController isKindOfClass:[MenuViewController class]]) {
-        self.slidingViewController.underLeftViewController  = [self.storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-    }
+    NSLog(@"%@", @"Appeared!");
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    displayToggle = [SingletonObj singleObj];
-    displayToggle.gblStr = @"list";
+    
+    NSError *error;
+	if (![[self fetchedResultsController] performFetch:&error]) {
+		// Update to handle the error appropriately.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		exit(-1);  // Fail
+	}
+    
+    if ([[self.fetchedResultsController fetchedObjects] count] > 0) {
+        [self listLocations];
+    }
 }
 
 - (void)viewDidUnload
@@ -53,6 +65,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    NSLog(@"!!!%u", _fetchedLocations.count);
     return _fetchedLocations.count;
 }
 
@@ -118,46 +131,106 @@
 }
 */
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+	if ([segue.identifier isEqualToString:@"Location Detail Segue"])
+	{
+        //NSLog(@"Setting ListViewController as a delegate of LocationDetailViewController");
+        
+        LocationDetailViewController *locationDetailViewController = segue.destinationViewController;
+        //locationDetailViewController.delegate = self;
+        locationDetailViewController.managedObjectContext = self.managedObjectContext;
+        
+        // Store selected Person in selectedPerson property
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        NSLog(@"Passing selected location (%@) to LocationDetailViewController", self.selectedLocation.name);
+        locationDetailViewController.location = self.selectedLocation;
+	}
+    else
+    { NSLog(@"Unidentified Segue Attempted!"); }
 }
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
-    [self.slidingViewController anchorTopViewTo:ECRight];
 }
 
-- (IBAction)displayMap:(UIBarButtonItem *)sender {
-    /* NSString *identifier = @"MapView";
+#pragma mark - fetchedResultsController
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
     
-    UIViewController *newTopViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"LocationInfo" inManagedObjectContext:_managedObjectContext];
+    [fetchRequest setEntity:entity];
     
-    CGRect frame = self.slidingViewController.topViewController.view.frame;
-    self.slidingViewController.topViewController = newTopViewController;
-    self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView]; */
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     
-    //[self.delegate theMapButtonOnTheListViewControllerWasTapped:self];
+    //[fetchRequest setFetchBatchSize:20];
     
-    //[self.navigationController popViewControllerAnimated:YES];
+    NSFetchedResultsController *theFetchedResultsController =
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                        managedObjectContext:_managedObjectContext sectionNameKeyPath:nil
+                                                   cacheName:@"Root"];
+    self.fetchedResultsController = theFetchedResultsController;
     
-    NSString *identifier = @"MapView";
-    MapViewController *mapViewController = [self.storyboard instantiateViewControllerWithIdentifier:identifier];
-    mapViewController.delegate = self;
-    mapViewController.fetchedLocations = _fetchedLocations;
+    NSLog(@"%@", theFetchedResultsController);
     
-    CGRect frame = self.slidingViewController.topViewController.view.frame;
-    self.slidingViewController.topViewController = mapViewController;
-    self.slidingViewController.topViewController.view.frame = frame;
-    [self.slidingViewController resetTopView];
+    _fetchedResultsController.delegate = self;
+    
+    return _fetchedResultsController;
+    
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+	[self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            // Do nothing
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+	switch(type) {
+		case NSFetchedResultsChangeInsert:
+			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			break;
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	// The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+	[self.tableView endUpdates];
 }
 
 @end
