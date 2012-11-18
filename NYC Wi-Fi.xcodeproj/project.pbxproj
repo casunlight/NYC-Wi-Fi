@@ -36,7 +36,9 @@
 		0A65F1F115ED6EB200E58FC5 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F1F015ED6EB200E58FC5 /* MapViewController.m */; };
 		0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A83BBA31646D2AF00319860 /* Default-568h@2x.png */; };
 		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
-		0A9DE5C116572A08009EAF5E /* LocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */; };
+		0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C3165818FF009EAF5E /* tab-notepad.png */; };
+		0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C4165818FF009EAF5E /* tab-pin.png */; };
+		0A9DE5C916584CD2009EAF5E /* LocationDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
@@ -101,8 +103,10 @@
 		0A83BBA31646D2AF00319860 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		0A9DE5BF16572A08009EAF5E /* LocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailViewController.h; sourceTree = "<group>"; };
-		0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailViewController.m; sourceTree = "<group>"; };
+		0A9DE5C3165818FF009EAF5E /* tab-notepad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-notepad.png"; sourceTree = "<group>"; };
+		0A9DE5C4165818FF009EAF5E /* tab-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-pin.png"; sourceTree = "<group>"; };
+		0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailTVC.h; sourceTree = "<group>"; };
+		0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailTVC.m; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
@@ -241,8 +245,8 @@
 				0AFFD5FE15F140770023C83C /* MapLocation.m */,
 				0A5B3A311645971300E11B4A /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
-				0A9DE5BF16572A08009EAF5E /* LocationDetailViewController.h */,
-				0A9DE5C016572A08009EAF5E /* LocationDetailViewController.m */,
+				0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */,
+				0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */,
 				0A65F1E115ED6EB200E58FC5 /* Supporting Files */,
 			);
 			path = "NYC Wi-Fi";
@@ -265,6 +269,8 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A9DE5C3165818FF009EAF5E /* tab-notepad.png */,
+				0A9DE5C4165818FF009EAF5E /* tab-pin.png */,
 				0A83BBA31646D2AF00319860 /* Default-568h@2x.png */,
 				0AFFF9521645A80B001E3D6F /* location-arrow.png */,
 				0AFFF94F1645A3E7001E3D6F /* location-button.png */,
@@ -343,6 +349,8 @@
 				0AFFF9501645A3E7001E3D6F /* location-button.png in Resources */,
 				0AFFF9531645A80B001E3D6F /* location-arrow.png in Resources */,
 				0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */,
+				0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */,
+				0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +380,7 @@
 				0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */,
 				0A2279FB160E6CA700E37FDE /* LocationDetails.m in Sources */,
 				0A2279FE160E6CA700E37FDE /* LocationInfo.m in Sources */,
-				0A9DE5C116572A08009EAF5E /* LocationDetailViewController.m in Sources */,
+				0A9DE5C916584CD2009EAF5E /* LocationDetailTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

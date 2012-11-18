@@ -77,7 +77,6 @@
         [self.managedObjectContext save:nil];
     }
     
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
     NSLog(@"Importing Core Data Default Values for Locations Completed!");
 }
 
@@ -92,6 +91,7 @@
         NSString *responseString = [request responseString];
         //NSLog(@"Response: %@", responseString);
         [self importCoreDataDefaultLocations:responseString];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     [request setFailedBlock:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];

@@ -21,14 +21,14 @@
     //hud.labelText = @"Loading locations...";
     
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
-    NSLog(@"%@", _fetchedLocations);
+    //NSLog(@"%@", _fetchedLocations);
     
     //[MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"%@", @"Appeared!");
+    //NSLog(@"%@", @"Appeared!");
 }
 
 - (void)viewDidLoad
@@ -65,7 +65,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"!!!%u", _fetchedLocations.count);
+    //NSLog(@"!!!%u", _fetchedLocations.count);
     return _fetchedLocations.count;
 }
 
@@ -133,20 +133,20 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	if ([segue.identifier isEqualToString:@"Location Detail Segue"])
+    if ([segue.identifier isEqualToString:@"Location Detail Segue"])
 	{
         //NSLog(@"Setting ListViewController as a delegate of LocationDetailViewController");
         
-        LocationDetailViewController *locationDetailViewController = segue.destinationViewController;
+        LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
         //locationDetailViewController.delegate = self;
-        locationDetailViewController.managedObjectContext = self.managedObjectContext;
+        //locationDetailViewController.managedObjectContext = self.managedObjectContext;
         
         // Store selected Person in selectedPerson property
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
         
         NSLog(@"Passing selected location (%@) to LocationDetailViewController", self.selectedLocation.name);
-        locationDetailViewController.location = self.selectedLocation;
+        locationDetailTVC.selectedLocation = self.selectedLocation;
 	}
     else
     { NSLog(@"Unidentified Segue Attempted!"); }

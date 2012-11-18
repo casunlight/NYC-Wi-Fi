@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h> // necessary?
 #import "LocationInfo.h"
 #import "LocationDetails.h"
-#import "LocationDetailViewController.h"
+#import "LocationDetailTVC.h"
 
 @class ListViewController;
 
