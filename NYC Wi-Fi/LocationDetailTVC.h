@@ -7,16 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "LocationInfo.h"
 #import "LocationDetails.h"
 
 @interface LocationDetailTVC : UITableViewController
 
-@property (strong, nonatomic) LocationInfo *selectedLocation;
-@property (strong, nonatomic) IBOutlet UILabel *locationName;
-@property (strong, nonatomic) IBOutlet UILabel *locationAddress1;
-@property (strong, nonatomic) IBOutlet UILabel *locationAddress2;
-@property (strong, nonatomic) IBOutlet UILabel *locationType;
+- (void)setupLocationName;
+- (void)setupLocationAddress;
+
+@property (weak, nonatomic) LocationInfo *selectedLocation;
+@property (strong, nonatomic) IBOutlet UITableViewCell *locationName;
+@property (strong, nonatomic) IBOutlet UITableViewCell *locationType;
+@property (strong, nonatomic) IBOutlet MKMapView *locationMap;
+@property (strong, nonatomic) IBOutlet UITableViewCell *locationAddress;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationPhone;
+@property (strong, nonatomic) IBOutlet UITableViewCell *locationWebsite;
 
 @end
