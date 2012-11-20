@@ -41,6 +41,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //[tableView deselectRowAtIndexPath:indexPath animated:NO];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([cell.textLabel.text rangeOfString:@"Call"].location != NSNotFound) {
+        [self callLocationPhoneNumber:self.selectedLocation.details.phone];
+    } else {
+        // Catch something here?
+    }
+}
+
 - (void)viewDidUnload {
     [self setSelectedLocation:nil];
     [self setLocationName:nil];
@@ -56,7 +67,6 @@
 
 - (void)setupLocationName
 {
-    //NSLog(@"In setupLocationName");
     NSArray *locationNameSplit = [[NSArray alloc] initWithArray:[self.selectedLocation.name componentsSeparatedByString:@" - "]];
     
     _locationName.textLabel.text = [locationNameSplit objectAtIndex:0];
@@ -66,7 +76,6 @@
     } else {
         _locationName.detailTextLabel.text = @"";
     }
-    //NSLog(@"Out setupLocationName");
 }
 
 - (void)setupLocationAddress
@@ -76,6 +85,20 @@
     if (self.selectedLocation.details.zip > 0) {
         [_locationAddress.detailTextLabel.text stringByAppendingString:@" "];
         [_locationAddress.detailTextLabel.text stringByAppendingString:[self.selectedLocation.details.zip stringValue]];
+    }
+}
+
+- (void)callLocationPhoneNumber:(NSString *)locationPhone
+{
+    //NSLog(@"Calling %@", locationPhone);
+    NSString *cleanedString = [[locationPhone componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
+    
+    UIDevice *device = [UIDevice currentDevice];
+    if ([[device model] rangeOfString:@"iPhone"].location != NSNotFound) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", cleanedString]]];
+    } else {
+        UIAlertView *notPermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [notPermitted show];
     }
 }
 

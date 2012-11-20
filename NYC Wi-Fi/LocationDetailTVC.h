@@ -15,6 +15,7 @@
 
 - (void)setupLocationName;
 - (void)setupLocationAddress;
+- (void)callLocationPhoneNumber:(NSString *)locationPhone;
 
 @property (weak, nonatomic) LocationInfo *selectedLocation;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationName;
