@@ -7,22 +7,62 @@
 //
 
 #import "LocationDetailTVC.h"
+#import "MapLocation.h"
 
 @implementation LocationDetailTVC
 @synthesize locationName = _locationName;
 @synthesize locationAddress = _locationAddress;
 @synthesize locationType = _locationType;
+@synthesize locationMap = _locationMap;
 @synthesize locationPhone = _locationPhone;
 @synthesize locationWebsite = _locationWebsite;
 @synthesize selectedLocation = _selectedLocation;
+
+- (MKAnnotationView *)locationMap:(MKMapView *)locationMap viewForAnnotation:(id <MKAnnotation>)annotation {
+    
+    static NSString *identifier = @"MapLocation";
+    
+    if ([annotation isKindOfClass:[MapLocation class]]) {
+        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [_locationMap dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (annotationView == nil) {
+            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        } else {
+            annotationView.annotation = annotation;
+        }
+        
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = NO;
+        //annotationView.image = [UIImage imageNamed:@"wifi-pin.png"];
+        
+        return annotationView;
+    }
+    return nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _locationMap.layer.cornerRadius = 8;
+    
+    CLLocationCoordinate2D zoomLocation;
+    zoomLocation.latitude = _selectedLocation.details.latitude.doubleValue;
+    zoomLocation.longitude = _selectedLocation.details.longitude.doubleValue;
+    
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 0.25*METERS_PER_MILE, 0.25*METERS_PER_MILE);
+    MKCoordinateRegion adjustedRegion = [_locationMap regionThatFits:viewRegion];
+
+    [_locationMap setRegion:adjustedRegion animated:YES];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setupLocationName];
     [self setupLocationAddress];
-    NSLog(@"%@", self.selectedLocation.details.url);
+    
+    NSLog(@"%@", self.selectedLocation.details);
     _locationType.detailTextLabel.text = self.selectedLocation.fee_type;
+    [self plotMapLocation];
+    
     if (self.selectedLocation.details.phone != nil) {
         _locationPhone.textLabel.text = [@"Call " stringByAppendingString:self.selectedLocation.details.phone];
     }
@@ -45,11 +85,28 @@
 {
     //[tableView deselectRowAtIndexPath:indexPath animated:NO];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"%@", cell.textLabel.text);
     if ([cell.textLabel.text rangeOfString:@"Call"].location != NSNotFound) {
-        [self callLocationPhoneNumber:self.selectedLocation.details.phone];
+        [self callLocationPhoneNumber];
+    } else if ([cell.textLabel.text isEqualToString:@"More Information"]) {
+        [self launchWebsiteInSafari];
     } else {
         // Catch something here?
     }
+}
+
+- (void)plotMapLocation
+{
+    for (id<MKAnnotation> annotation in _locationMap.annotations) {
+        [_locationMap removeAnnotation:annotation];
+    }
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = _selectedLocation.details.latitude.doubleValue;
+    coordinate.longitude = _selectedLocation.details.longitude.doubleValue;
+    
+    MapLocation *annotation = [[MapLocation alloc] initWithName:_selectedLocation.name address:_selectedLocation.address coordinate:coordinate];
+    [_locationMap addAnnotation:annotation];
 }
 
 - (void)viewDidUnload {
@@ -88,10 +145,10 @@
     }
 }
 
-- (void)callLocationPhoneNumber:(NSString *)locationPhone
+- (void)callLocationPhoneNumber
 {
     //NSLog(@"Calling %@", locationPhone);
-    NSString *cleanedString = [[locationPhone componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
+    NSString *cleanedString = [[self.selectedLocation.details.phone componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
     
     UIDevice *device = [UIDevice currentDevice];
     if ([[device model] rangeOfString:@"iPhone"].location != NSNotFound) {
@@ -100,6 +157,14 @@
         UIAlertView *notPermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [notPermitted show];
     }
+}
+
+- (void)launchWebsiteInSafari
+{
+    NSURL *url = [NSURL URLWithString:self.selectedLocation.details.url];
+    
+    if (![[UIApplication sharedApplication] openURL:url])
+        NSLog(@"%@%@", @"Failed to open url:", [url description]);
 }
 
 @end

@@ -71,6 +71,7 @@
         locationDetails.city = [mapLocation valueWithPath:@"city"];
         locationDetails.zip = [NSNumber numberWithInteger:[[shape attributeNamed:@"zip"] integerValue]];
         locationDetails.phone = [mapLocation valueWithPath:@"phone"];
+        locationDetails.url = [mapLocation valueWithPath:@"url"];
         locationDetails.info = locationInfo;
         locationInfo.details = locationDetails;
         

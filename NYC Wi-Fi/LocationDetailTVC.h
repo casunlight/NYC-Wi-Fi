@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "LocationInfo.h"
 #import "LocationDetails.h"
 
-@interface LocationDetailTVC : UITableViewController
+#define METERS_PER_MILE 1609.344
 
-- (void)setupLocationName;
-- (void)setupLocationAddress;
-- (void)callLocationPhoneNumber:(NSString *)locationPhone;
+@interface LocationDetailTVC : UITableViewController {
+    BOOL _doneInitialZoom;
+}
 
 @property (weak, nonatomic) LocationInfo *selectedLocation;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationName;
@@ -24,5 +25,10 @@
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationAddress;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationPhone;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationWebsite;
+
+- (void)setupLocationName;
+- (void)setupLocationAddress;
+- (void)callLocationPhoneNumber;
+- (void)launchWebsiteInSafari;
 
 @end
