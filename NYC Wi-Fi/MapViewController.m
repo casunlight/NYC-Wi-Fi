@@ -26,6 +26,7 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
     static NSString *identifier = @"MapLocation";
+    
     if ([annotation isKindOfClass:[MapLocation class]]) {
         
         MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
@@ -35,13 +36,32 @@
             annotationView.annotation = annotation;
         }
         
-        annotationView.enabled = YES;
+        //annotationView.pinColor = MKPinAnnotationColorGreen;
+        annotationView.backgroundColor = [UIColor clearColor];
+        UIButton *goToDetail = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        annotationView.rightCalloutAccessoryView = goToDetail;
+        annotationView.draggable = NO;
+        //annotationView.highlighted = YES;
         annotationView.canShowCallout = YES;
-        //annotationView.image = [UIImage imageNamed:@"wifi-pin.png"];
+        annotationView.image = [UIImage imageNamed:@"green-pin.png"];
         
         return annotationView;
     }
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view
+calloutAccessoryControlTapped:(UIControl *)control
+{
+    MapLocation *annotationView = view.annotation;
+    LocationDetailTVC *locationDetailTVC = [[LocationDetailTVC alloc] init];
+    locationDetailTVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    //NSLog(@"%@", annotationView);
+    //NSLog(@"%@", view.annotation);
+    locationDetailTVC.selectedLocation = annotationView.location;
+    NSLog(@"Callout tapped. Heading to LocationDetailTVC");
+    [self presentModalViewController:locationDetailTVC animated:YES];
+    //NSLog(@"%@", view);
 }
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
@@ -107,18 +127,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // 1
     CLLocationCoordinate2D zoomLocation;
     zoomLocation.latitude = 40.746347;
     zoomLocation.longitude = -73.978011;
     
-    // 2
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 5.5*METERS_PER_MILE, 5.5*METERS_PER_MILE);
     
-    // 3
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
     
-    // 4
     [_mapView setRegion:adjustedRegion animated:YES];
 }
 
@@ -185,7 +201,7 @@
         coordinate.longitude = locationDetails.longitude.doubleValue;
         //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
         
-        MapLocation *annotation = [[MapLocation alloc] initWithName:location.name address:location.address coordinate:coordinate];
+        MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
         /* SBPinAnnotation *annotation = [[SBPinAnnotation alloc] initWithCoordinate:coordinate
                                                                             title:localObject.objectName
                                                                         objecttId:localObject.objectId]; */
@@ -298,7 +314,7 @@
     coordinate.latitude = locationDetails.latitude.doubleValue;
     coordinate.longitude = locationDetails.longitude.doubleValue;
     
-    MapLocation *annotation = [[MapLocation alloc] initWithName:location.name address:location.address coordinate:coordinate];
+    MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
     [_mapView addAnnotation:annotation];
 }
 

@@ -32,7 +32,7 @@
         
         annotationView.enabled = YES;
         annotationView.canShowCallout = NO;
-        //annotationView.image = [UIImage imageNamed:@"wifi-pin.png"];
+        annotationView.image = [UIImage imageNamed:@"green-pin.png"];
         
         return annotationView;
     }
@@ -41,6 +41,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"LocationDetailTVC will appear");
+    
     _locationMap.layer.cornerRadius = 8;
     
     CLLocationCoordinate2D zoomLocation;
@@ -105,7 +107,7 @@
     coordinate.latitude = _selectedLocation.details.latitude.doubleValue;
     coordinate.longitude = _selectedLocation.details.longitude.doubleValue;
     
-    MapLocation *annotation = [[MapLocation alloc] initWithName:_selectedLocation.name address:_selectedLocation.address coordinate:coordinate];
+    MapLocation *annotation = [[MapLocation alloc] initWithLocation:_selectedLocation coordinate:coordinate];
     [_locationMap addAnnotation:annotation];
 }
 
