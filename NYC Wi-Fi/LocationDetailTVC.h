@@ -28,6 +28,7 @@
 
 - (void)setupLocationName;
 - (void)setupLocationAddress;
+- (void)setupLocationType;
 - (void)callLocationPhoneNumber;
 - (void)launchWebsiteInSafari;
 

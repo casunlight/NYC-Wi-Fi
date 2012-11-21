@@ -44,7 +44,14 @@
         annotationView.draggable = NO;
         //annotationView.highlighted = YES;
         annotationView.canShowCallout = YES;
-        annotationView.image = [UIImage imageNamed:@"green-pin.png"];
+        
+        MapLocation *locationAnnotation = annotationView.annotation;
+        
+        if ([locationAnnotation.location.fee_type isEqualToString:@"Free"]) {
+            annotationView.image = [UIImage imageNamed:@"green-pin.png"];
+        } else {
+            annotationView.image = [UIImage imageNamed:@"yellow-pin.png"];
+        }
         
         return annotationView;
     }
@@ -81,7 +88,7 @@ calloutAccessoryControlTapped:(UIControl *)control
         
         locationInfo.name = [mapLocation valueWithPath:@"name"];
         locationInfo.address = [mapLocation valueWithPath:@"address"];
-        locationInfo.fee_type = [mapLocation valueWithPath:@"type"];
+        locationInfo.fee_type = [self setupLocationType:locationInfo.name:[mapLocation valueWithPath:@"type"]];
         
         LocationDetails *locationDetails = [NSEntityDescription
                                             insertNewObjectForEntityForName:@"LocationDetails"
@@ -101,6 +108,15 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     NSLog(@"Importing Core Data Default Values for Locations Completed!");
+}
+
+- (NSString *)setupLocationType:(NSString *)locationName:(NSString *)locationType
+{
+    if ([locationName isEqualToString:@"Starbucks"] || [locationName isEqualToString:@"McDonalds"]) {
+        return @"Free";
+    } else {
+        return locationType;
+    }
 }
 
 - (void)loadLocationsFromXML

@@ -40,6 +40,7 @@
 		0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C4165818FF009EAF5E /* tab-pin.png */; };
 		0A9DE5C916584CD2009EAF5E /* LocationDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */; };
 		0A9E08D8165CA06100DFF08C /* green-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08D7165CA06100DFF08C /* green-pin.png */; };
+		0A9E08DB165D4AD400DFF08C /* yellow-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08DA165D4AD400DFF08C /* yellow-pin.png */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
@@ -109,6 +110,7 @@
 		0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailTVC.h; sourceTree = "<group>"; };
 		0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailTVC.m; sourceTree = "<group>"; };
 		0A9E08D7165CA06100DFF08C /* green-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-pin.png"; sourceTree = "<group>"; };
+		0A9E08DA165D4AD400DFF08C /* yellow-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-pin.png"; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A9E08DA165D4AD400DFF08C /* yellow-pin.png */,
 				0A9E08D7165CA06100DFF08C /* green-pin.png */,
 				0A9DE5C3165818FF009EAF5E /* tab-notepad.png */,
 				0A9DE5C4165818FF009EAF5E /* tab-pin.png */,
@@ -355,6 +358,7 @@
 				0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */,
 				0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */,
 				0A9E08D8165CA06100DFF08C /* green-pin.png in Resources */,
+				0A9E08DB165D4AD400DFF08C /* yellow-pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

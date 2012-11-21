@@ -41,8 +41,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"LocationDetailTVC will appear");
-    
     _locationMap.layer.cornerRadius = 8;
     
     CLLocationCoordinate2D zoomLocation;
@@ -60,9 +58,9 @@
     [super viewDidLoad];
     [self setupLocationName];
     [self setupLocationAddress];
+    [self setupLocationType];
     
-    NSLog(@"%@", self.selectedLocation.details);
-    _locationType.detailTextLabel.text = self.selectedLocation.fee_type;
+    //NSLog(@"%@", self.selectedLocation.details);
     [self plotMapLocation];
     
     if (self.selectedLocation.details.phone != nil) {
@@ -85,9 +83,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[tableView deselectRowAtIndexPath:indexPath animated:NO];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@", cell.textLabel.text);
+    
     if ([cell.textLabel.text rangeOfString:@"Call"].location != NSNotFound) {
         [self callLocationPhoneNumber];
     } else if ([cell.textLabel.text isEqualToString:@"More Information"]) {
@@ -144,6 +141,17 @@
     if (self.selectedLocation.details.zip > 0) {
         [_locationAddress.detailTextLabel.text stringByAppendingString:@" "];
         [_locationAddress.detailTextLabel.text stringByAppendingString:[self.selectedLocation.details.zip stringValue]];
+    }
+}
+
+- (void)setupLocationType
+{
+    _locationType.textLabel.text = self.selectedLocation.fee_type;
+    //_locationType.imageView.contentMode = UIViewContentModeLeft;
+    if ([self.selectedLocation.fee_type isEqualToString:@"Free"]) {
+        _locationType.imageView.image = [UIImage imageNamed:@"green-pin.png"];
+    } else {
+        _locationType.imageView.image = [UIImage imageNamed:@"yellow-pin.png"];
     }
 }
 
