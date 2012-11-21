@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *fetchedLocations;
+@property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
 

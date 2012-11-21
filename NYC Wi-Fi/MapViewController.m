@@ -21,6 +21,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize fetchedLocations = _fetchedLocations;
+@synthesize selectedLocation = _selectedLocation;
 //@synthesize leftSidebarViewController;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -54,13 +55,14 @@
 calloutAccessoryControlTapped:(UIControl *)control
 {
     MapLocation *annotationView = view.annotation;
-    LocationDetailTVC *locationDetailTVC = [[LocationDetailTVC alloc] init];
-    locationDetailTVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    //LocationDetailTVC *locationDetailTVC = [[LocationDetailTVC alloc] init];
+    //locationDetailTVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     //NSLog(@"%@", annotationView);
     //NSLog(@"%@", view.annotation);
-    locationDetailTVC.selectedLocation = annotationView.location;
+    self.selectedLocation = annotationView.location;
     NSLog(@"Callout tapped. Heading to LocationDetailTVC");
-    [self presentModalViewController:locationDetailTVC animated:YES];
+    //[self presentModalViewController:locationDetailTVC animated:YES];
+    [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
     //NSLog(@"%@", view);
 }
 
@@ -221,6 +223,22 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
 } */
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Location Detail Segue"])
+	{
+        LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
+        //locationDetailTVC.delegate = self;
+        //locationDetailTVC.managedObjectContext = self.managedObjectContext;
+        
+        NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
+        //NSLog(@"%@", self.selectedLocation);
+        locationDetailTVC.selectedLocation = self.selectedLocation;
+	}
+    else
+    { NSLog(@"Unidentified Segue Attempted!"); }
+}
 
 - (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
 }

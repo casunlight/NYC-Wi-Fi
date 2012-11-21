@@ -18,7 +18,8 @@
 {
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     
-    MapViewController *mapViewController = [[tabBarController viewControllers] objectAtIndex:0];
+    UINavigationController *mapViewControllerNav = [[tabBarController viewControllers] objectAtIndex:0];
+    MapViewController *mapViewController = [[mapViewControllerNav viewControllers] objectAtIndex:0];
     mapViewController.managedObjectContext = self.managedObjectContext;
     
     UINavigationController *listViewControllerNav = [[tabBarController viewControllers] objectAtIndex:1];

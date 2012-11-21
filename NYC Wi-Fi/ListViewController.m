@@ -141,7 +141,6 @@
         //locationDetailTVC.delegate = self;
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
         
-        // Store selected Person in selectedPerson property
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
         
