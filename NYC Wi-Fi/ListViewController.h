@@ -28,8 +28,10 @@
 
 //@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSArray *fetchedLocations;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSArray *fetchedLocations;
+@property (strong, nonatomic) NSMutableArray *sections;
+@property (strong, nonatomic) NSMutableArray *sectionTitles;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (nonatomic, retain) WEPopoverController *popoverController;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;

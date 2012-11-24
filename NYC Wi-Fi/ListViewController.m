@@ -16,7 +16,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize selectedLocation = _selectedLocation;
-@synthesize popoverController;
+@synthesize popoverController, sections, sectionTitles;
 
 - (void)listLocations
 {
@@ -49,6 +49,25 @@
         [self listLocations];
     }
     
+    self.sections = [[NSMutableArray alloc] init];
+    self.sectionTitles = [[NSMutableArray alloc] init];
+    /* self.sectionTitles = [NSArray arrayWithArray:
+                          [@"A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|#"
+                           componentsSeparatedByString:@"|"]]; */
+    
+    for (LocationInfo *location in _fetchedLocations) {
+        NSMutableArray *section = [self.sections lastObject];
+        
+        if (!section || ![[[[section lastObject] name] substringToIndex:1] isEqualToString:[location.name substringToIndex:1]]) {
+            // Create a new section on change of first character
+            
+            [self.sections addObject:[[NSMutableArray alloc] init]];
+            [self.sectionTitles addObject:[location.name substringToIndex:1]];
+        }
+        
+        [[self.sections lastObject] addObject:location];
+    }
+    
     popoverClass = [WEPopoverController class];
 }
 
@@ -63,15 +82,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    //NSLog(@"!!!%u", _fetchedLocations.count);
-    return _fetchedLocations.count;
+    return [[self.sections objectAtIndex:section] count];
+}
+
+- (NSArray *) sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return self.sectionTitles;
+}
+
+- (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
+    return [self.sectionTitles objectAtIndex:section];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -88,7 +113,8 @@
     }
     
     // Configure the cell...
-    LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
+    //LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
+    LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = location.name;
     cell.detailTextLabel.text = location.address;
     //NSLog(@"!!!%@", cell.detailTextLabel.text);
@@ -182,9 +208,10 @@
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        //self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
-        NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
+        //NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         //NSLog(@"%@", self.selectedLocation);
         locationDetailTVC.selectedLocation = self.selectedLocation;
 	}
