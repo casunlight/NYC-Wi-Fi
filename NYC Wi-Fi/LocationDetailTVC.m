@@ -153,7 +153,7 @@
     if ([self.selectedLocation.fee_type isEqualToString:@"Free"]) {
         _locationType.imageView.image = [UIImage imageNamed:@"green-pin.png"];
     } else {
-        _locationType.imageView.image = [UIImage imageNamed:@"yellow-pin.png"];
+        _locationType.imageView.image = [UIImage imageNamed:@"orange-pin.png"];
     }
 }
 

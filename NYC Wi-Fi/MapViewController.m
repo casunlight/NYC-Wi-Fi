@@ -115,7 +115,9 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (NSString *)setupLocationType:(NSString *)locationName:(NSString *)locationType
 {
-    if ([locationName isEqualToString:@"Starbucks"] || [locationName isEqualToString:@"McDonalds"]) {
+    if ([locationName isEqualToString:@"Starbucks"] ||
+        [locationName isEqualToString:@"McDonalds"] ||
+        [locationName isEqualToString:@"McDonald's"]) {
         return @"Free";
     } else {
         return locationType;
@@ -196,10 +198,10 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [self plotMapLocations];
-    /* self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest; */
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     popoverClass = [WEPopoverController class];
 }
@@ -250,28 +252,30 @@ calloutAccessoryControlTapped:(UIControl *)control
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
-- (void)mapView:(MKMapView *)mapView didUpdateToUserLocation:(MKUserLocation *)location
+/* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation
 {
     NSLog(@"didUpdateToUserLocation");
-    [self zoomToUserLocation:location];
-}
-
-/* - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"didUpdateToLocation");
-    //NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
-    //NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-    [self zoomToUserLocation:self.mapView.userLocation];
-    [self.locationManager stopUpdatingLocation];
+    [self zoomToUserLocation:userLocation.location];
 } */
 
-- (void)zoomToUserLocation:(MKUserLocation *)userLocation
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    //NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+    //NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    [self zoomToUserLocation:newLocation];
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"B");
+}
+
+- (void)zoomToUserLocation:(CLLocation *)userLocation
 {
-    NSLog(@"zoomToUserLocation");
     if (!userLocation)
         return;
     
     MKCoordinateRegion region;
-    region.center = userLocation.location.coordinate;
+    region.center = userLocation.coordinate;
     region.span = MKCoordinateSpanMake(0.01, 0.01);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
@@ -369,9 +373,8 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (IBAction)showUserLocation:(UIBarButtonItem *)sender {
-    //[self.locationManager startUpdatingLocation];
     _mapView.showsUserLocation = YES;
-    //[self zoomToUserLocation:self.mapView.userLocation];
+    [self.locationManager startUpdatingLocation];
 }
 
 
