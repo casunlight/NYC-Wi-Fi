@@ -14,6 +14,8 @@
 #import "ASIHTTPRequest.h"
 #import "SMXMLDocument.h"
 #import "MBProgressHUD.h"
+#import "PopoverViewController.h"
+#import "UIBarButtonItem+WEPopover.h"
 //#import "CLLocation+Geocodereverse.h"
 
 @implementation MapViewController
@@ -22,6 +24,7 @@
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize popoverController;
 //@synthesize leftSidebarViewController;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -50,7 +53,7 @@
         if ([locationAnnotation.location.fee_type isEqualToString:@"Free"]) {
             annotationView.image = [UIImage imageNamed:@"green-pin.png"];
         } else {
-            annotationView.image = [UIImage imageNamed:@"yellow-pin.png"];
+            annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
         }
         
         return annotationView;
@@ -182,11 +185,14 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [self plotMapLocations];
+    popoverClass = [WEPopoverController class];
 }
 
 - (void)viewDidUnload
 {
     [self setMapView:nil];
+    [self.popoverController dismissPopoverAnimated:NO];
+	self.popoverController = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -240,6 +246,41 @@ calloutAccessoryControlTapped:(UIControl *)control
     return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
 } */
 
+- (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
+	
+	WEPopoverContainerViewProperties *props = [WEPopoverContainerViewProperties alloc];
+	NSString *bgImageName = nil;
+	CGFloat bgMargin = 0.0;
+	CGFloat bgCapSize = 0.0;
+	CGFloat contentMargin = 4.0;
+	
+	bgImageName = @"popoverBg.png";
+	
+	// These constants are determined by the popoverBg.png image file and are image dependent
+	bgMargin = 13; // margin width of 13 pixels on all sides popoverBg.png (62 pixels wide - 36 pixel background) / 2 == 26 / 2 == 13
+	bgCapSize = 31; // ImageSize/2  == 62 / 2 == 31 pixels
+	
+	props.leftBgMargin = bgMargin;
+	props.rightBgMargin = bgMargin;
+	props.topBgMargin = bgMargin;
+	props.bottomBgMargin = bgMargin;
+	props.leftBgCapSize = bgCapSize;
+	props.topBgCapSize = bgCapSize;
+	props.bgImageName = bgImageName;
+	props.leftContentMargin = contentMargin;
+	props.rightContentMargin = contentMargin - 1; // Need to shift one pixel for border to look correct
+	props.topContentMargin = contentMargin;
+	props.bottomContentMargin = contentMargin;
+	
+	props.arrowMargin = 4.0;
+	
+	props.upArrowImageName = @"popoverArrowUp.png";
+	props.downArrowImageName = @"popoverArrowDown.png";
+	props.leftArrowImageName = @"popoverArrowLeft.png";
+	props.rightArrowImageName = @"popoverArrowRight.png";
+	return props;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Location Detail Segue"])
@@ -256,9 +297,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     { NSLog(@"Unidentified Segue Attempted!"); }
 }
 
-- (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
-}
-
 /* - (void)theMapButtonOnTheListViewControllerWasTapped:(ListViewController *)controller
 {
     // do something here like refreshing the table or whatever
@@ -267,6 +305,39 @@ calloutAccessoryControlTapped:(UIControl *)control
     // close the delegated view
     [controller.navigationController popViewControllerAnimated:YES];
 } */
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)showPopover:(UIBarButtonItem *)sender {
+	if (!self.popoverController) {
+		
+		UIViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
+		self.popoverController = [[popoverClass alloc] initWithContentViewController:contentViewController];
+		self.popoverController.delegate = self;
+		self.popoverController.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
+        
+		[self.popoverController presentPopoverFromBarButtonItem:sender
+									   permittedArrowDirections:(UIPopoverArrowDirectionUp|UIPopoverArrowDirectionDown)
+													   animated:YES];
+	} else {
+		[self.popoverController dismissPopoverAnimated:YES];
+		self.popoverController = nil;
+	}
+}
+
+#pragma mark -
+#pragma mark WEPopoverControllerDelegate implementation
+
+- (void)popoverControllerDidDismissPopover:(WEPopoverController *)thePopoverController {
+	//Safe to release the popover here
+	self.popoverController = nil;
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)thePopoverController {
+	//The popover is automatically dismissed if you click outside it, unless you return NO here
+	return YES;
+}
 
 #pragma mark - fetchedResultsController
 

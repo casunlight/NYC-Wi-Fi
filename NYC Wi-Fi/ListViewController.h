@@ -11,6 +11,7 @@
 #import "LocationInfo.h"
 #import "LocationDetails.h"
 #import "LocationDetailTVC.h"
+#import "WEPopoverController.h"
 
 @class ListViewController;
 
@@ -20,14 +21,17 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate>//UITableViewDelegate, UITableViewDataSource>
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate> {
+    WEPopoverController *popoverController;
+    Class popoverClass;
+}
 
 //@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
-
-- (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
+@property (nonatomic, retain) WEPopoverController *popoverController;
+- (IBAction)showPopover:(UIBarButtonItem *)sender;
 
 @end

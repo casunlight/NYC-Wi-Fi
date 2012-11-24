@@ -11,11 +11,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreData/CoreData.h> // necessary?
 #import "ListViewController.h"
+#import "WEPopoverController.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate> {
     BOOL _doneInitialZoom;
+    WEPopoverController *popoverController;
+    Class popoverClass;
 }
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
@@ -23,6 +26,7 @@
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-- (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender;
+@property (nonatomic, retain) WEPopoverController *popoverController;
+- (IBAction)showPopover:(UIBarButtonItem *)sender;
 
 @end

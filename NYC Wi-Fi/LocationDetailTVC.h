@@ -18,7 +18,7 @@
     BOOL _doneInitialZoom;
 }
 
-@property (weak, nonatomic) LocationInfo *selectedLocation;
+@property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationName;
 @property (strong, nonatomic) IBOutlet UITableViewCell *locationType;
 @property (strong, nonatomic) IBOutlet MKMapView *locationMap;

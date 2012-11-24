@@ -26,7 +26,7 @@
                     <navigationItem key="navigationItem" title="NYC Wi-Fi" id="R4K-4k-vjg">
                         <barButtonItem key="leftBarButtonItem" image="ButtonMenu.png" id="M47-F4-PP5">
                             <connections>
-                                <action selector="revealLeftSidebar:" destination="Fz6-DD-M11" id="4F6-80-ZpE"/>
+                                <action selector="showPopover:" destination="Fz6-DD-M11" id="VZc-pp-2dc"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="o8j-nJ-WTW"/>
@@ -120,7 +120,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="NYC Wi-Fi" id="hOJ-VO-zYa">
-                        <barButtonItem key="leftBarButtonItem" image="ButtonMenu.png" id="CRd-JV-5vi"/>
+                        <barButtonItem key="leftBarButtonItem" image="ButtonMenu.png" id="CRd-JV-5vi">
+                            <connections>
+                                <action selector="showPopover:" destination="54D-ba-TnM" id="lXw-xF-gfU"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="cgo-G4-SmU"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -134,7 +138,7 @@
             <objects>
                 <tableViewController id="zp5-Bt-SbM" customClass="LocationDetailTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7rD-w9-cO8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
@@ -326,7 +330,7 @@
         <class className="ListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
             <relationships>
-                <relationship kind="action" name="revealLeftSidebar:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="LocationDetailTVC" superclassName="UITableViewController">
@@ -343,7 +347,7 @@
         <class className="MapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="revealLeftSidebar:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
@@ -354,6 +358,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="kod-LG-W6i"/>
+        <segue reference="6la-k8-mOZ"/>
     </inferredMetricsTieBreakers>
 </document>

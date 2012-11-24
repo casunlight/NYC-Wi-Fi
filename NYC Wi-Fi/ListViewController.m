@@ -8,12 +8,15 @@
 
 #import "ListViewController.h"
 #import "MBProgressHUD.h"
+#import "PopoverViewController.h"
+#import "UIBarButtonItem+WEPopover.h"
 
 @implementation ListViewController
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize popoverController;
 
 - (void)listLocations
 {
@@ -45,13 +48,15 @@
     if ([[self.fetchedResultsController fetchedObjects] count] > 0) {
         [self listLocations];
     }
+    
+    popoverClass = [WEPopoverController class];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self.popoverController dismissPopoverAnimated:NO];
+	self.popoverController = nil;
 }
 
 #pragma mark - Table view data source
@@ -131,6 +136,41 @@
  }
  */
 
+- (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
+	
+	WEPopoverContainerViewProperties *props = [WEPopoverContainerViewProperties alloc];
+	NSString *bgImageName = nil;
+	CGFloat bgMargin = 0.0;
+	CGFloat bgCapSize = 0.0;
+	CGFloat contentMargin = 4.0;
+	
+	bgImageName = @"popoverBg.png";
+	
+	// These constants are determined by the popoverBg.png image file and are image dependent
+	bgMargin = 13; // margin width of 13 pixels on all sides popoverBg.png (62 pixels wide - 36 pixel background) / 2 == 26 / 2 == 13
+	bgCapSize = 31; // ImageSize/2  == 62 / 2 == 31 pixels
+	
+	props.leftBgMargin = bgMargin;
+	props.rightBgMargin = bgMargin;
+	props.topBgMargin = bgMargin;
+	props.bottomBgMargin = bgMargin;
+	props.leftBgCapSize = bgCapSize;
+	props.topBgCapSize = bgCapSize;
+	props.bgImageName = bgImageName;
+	props.leftContentMargin = contentMargin;
+	props.rightContentMargin = contentMargin - 1; // Need to shift one pixel for border to look correct
+	props.topContentMargin = contentMargin;
+	props.bottomContentMargin = contentMargin;
+	
+	props.arrowMargin = 4.0;
+	
+	props.upArrowImageName = @"popoverArrowUp.png";
+	props.downArrowImageName = @"popoverArrowDown.png";
+	props.leftArrowImageName = @"popoverArrowLeft.png";
+	props.rightArrowImageName = @"popoverArrowRight.png";
+	return props;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Location Detail Segue"])
@@ -152,7 +192,38 @@
     { NSLog(@"Unidentified Segue Attempted!"); }
 }
 
-- (IBAction)revealLeftSidebar:(UIBarButtonItem *)sender {
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)showPopover:(UIBarButtonItem *)sender {
+    //[sheet showInView:self.view];
+	if (!self.popoverController) {
+		
+		UIViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
+		self.popoverController = [[popoverClass alloc] initWithContentViewController:contentViewController];
+		self.popoverController.delegate = self;
+		self.popoverController.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
+        
+		[self.popoverController presentPopoverFromBarButtonItem:sender
+									   permittedArrowDirections:(UIPopoverArrowDirectionUp|UIPopoverArrowDirectionDown)
+													   animated:YES];
+	} else {
+		[self.popoverController dismissPopoverAnimated:YES];
+		self.popoverController = nil;
+	}
+}
+
+#pragma mark -
+#pragma mark WEPopoverControllerDelegate implementation
+
+- (void)popoverControllerDidDismissPopover:(WEPopoverController *)thePopoverController {
+	//Safe to release the popover here
+	self.popoverController = nil;
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)thePopoverController {
+	//The popover is automatically dismissed if you click outside it, unless you return NO here
+	return YES;
 }
 
 #pragma mark - fetchedResultsController
