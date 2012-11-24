@@ -9,14 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <CoreData/CoreData.h> // necessary?
+#import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
 #import "ListViewController.h"
 #import "WEPopoverController.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate> {
     BOOL _doneInitialZoom;
+    CLLocationManager *locationManager;
     WEPopoverController *popoverController;
     Class popoverClass;
 }
@@ -26,7 +28,9 @@
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
+- (IBAction)showUserLocation:(UIBarButtonItem *)sender;
 
 @end

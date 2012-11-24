@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MapViewController.h"
+//#import <CoreLocation/CoreLocation.h>
 
 @implementation AppDelegate
 @synthesize managedObjectModel = _managedObjectModel;
@@ -25,6 +26,12 @@
     UINavigationController *listViewControllerNav = [[tabBarController viewControllers] objectAtIndex:1];
     ListViewController *listViewController = [[listViewControllerNav viewControllers] objectAtIndex:0];
     listViewController.managedObjectContext = self.managedObjectContext;
+    
+    //CLLocationManager *manager = [[CLLocationManager alloc] init];
+    /* if ([CLLocationManager locationServicesEnabled] == NO) {
+        UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [servicesDisabledAlert show];
+    } */
     
     return YES;
 }

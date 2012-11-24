@@ -137,11 +137,13 @@
 - (void)setupLocationAddress
 {
     _locationAddress.textLabel.text = self.selectedLocation.address;
-    _locationAddress.detailTextLabel.text = [self.selectedLocation.details.city stringByAppendingString:@", NY"];
-    if (self.selectedLocation.details.zip > 0) {
-        [_locationAddress.detailTextLabel.text stringByAppendingString:@" "];
-        [_locationAddress.detailTextLabel.text stringByAppendingString:[self.selectedLocation.details.zip stringValue]];
+    NSString *locationCityStateZip = [self.selectedLocation.details.city stringByAppendingString:@", NY"];
+    
+    if ([self.selectedLocation.details.zip integerValue] > 0) {
+        locationCityStateZip = [locationCityStateZip stringByAppendingFormat:@" %@", [self.selectedLocation.details.zip stringValue]];
     }
+    
+    _locationAddress.detailTextLabel.text = locationCityStateZip;
 }
 
 - (void)setupLocationType

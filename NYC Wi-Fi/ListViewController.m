@@ -51,9 +51,6 @@
     
     self.sections = [[NSMutableArray alloc] init];
     self.sectionTitles = [[NSMutableArray alloc] init];
-    /* self.sectionTitles = [NSArray arrayWithArray:
-                          [@"A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|#"
-                           componentsSeparatedByString:@"|"]]; */
     
     for (LocationInfo *location in _fetchedLocations) {
         NSMutableArray *section = [self.sections lastObject];

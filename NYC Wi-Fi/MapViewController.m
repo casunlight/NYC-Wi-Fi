@@ -24,7 +24,7 @@
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
-@synthesize popoverController;
+@synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -65,15 +65,14 @@
 calloutAccessoryControlTapped:(UIControl *)control
 {
     MapLocation *annotationView = view.annotation;
+    self.selectedLocation = annotationView.location;
     //LocationDetailTVC *locationDetailTVC = [[LocationDetailTVC alloc] init];
     //locationDetailTVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     //NSLog(@"%@", annotationView);
     //NSLog(@"%@", view.annotation);
-    self.selectedLocation = annotationView.location;
-    NSLog(@"Callout tapped. Heading to LocationDetailTVC");
+    //NSLog(@"Callout tapped. Heading to LocationDetailTVC");
     //[self presentModalViewController:locationDetailTVC animated:YES];
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
-    //NSLog(@"%@", view);
 }
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
@@ -101,7 +100,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         locationDetails.latitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"latitude"] doubleValue]];
         locationDetails.longitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"longitude"] doubleValue]];
         locationDetails.city = [mapLocation valueWithPath:@"city"];
-        locationDetails.zip = [NSNumber numberWithInteger:[[shape attributeNamed:@"zip"] integerValue]];
+        locationDetails.zip = [NSNumber numberWithInteger:[[mapLocation valueWithPath:@"zip"] integerValue]];
+        //NSLog(@"%i", [locationDetails.zip integerValue]);
         locationDetails.phone = [mapLocation valueWithPath:@"phone"];
         locationDetails.url = [mapLocation valueWithPath:@"url"];
         locationDetails.info = locationInfo;
@@ -139,6 +139,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSError *error = [request error];
         NSLog(@"Error: %@", error.localizedDescription);
+        UIAlertView *locationImportFailedAlert = [[UIAlertView alloc] initWithTitle:@"Location Load Failed" message:@"NYC Open Data is currently unreachable. Pleaes try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [locationImportFailedAlert show];
     }];
     
     [request startAsynchronous];
@@ -157,6 +159,15 @@ calloutAccessoryControlTapped:(UIControl *)control
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
     
     [_mapView setRegion:adjustedRegion animated:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    NSLog(@"viewDidDisappear");
+    [super viewDidDisappear:(BOOL)animated];    // Call the super class implementation.
+    // Usually calling super class implementation is done before self class implementation, but it's up to your application.
+    
+    _mapView.showsUserLocation = NO;
+    //[self.locationManager stopUpdatingLocation];
 }
 
 - (void)viewDidLoad
@@ -185,6 +196,11 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [self plotMapLocations];
+    /* self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest; */
+    
     popoverClass = [WEPopoverController class];
 }
 
@@ -194,7 +210,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self.popoverController dismissPopoverAnimated:NO];
 	self.popoverController = nil;
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -233,6 +248,33 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateToUserLocation:(MKUserLocation *)location
+{
+    NSLog(@"didUpdateToUserLocation");
+    [self zoomToUserLocation:location];
+}
+
+/* - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    //NSLog(@"didUpdateToLocation");
+    //NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+    //NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    [self zoomToUserLocation:self.mapView.userLocation];
+    [self.locationManager stopUpdatingLocation];
+} */
+
+- (void)zoomToUserLocation:(MKUserLocation *)userLocation
+{
+    NSLog(@"zoomToUserLocation");
+    if (!userLocation)
+        return;
+    
+    MKCoordinateRegion region;
+    region.center = userLocation.location.coordinate;
+    region.span = MKCoordinateSpanMake(0.01, 0.01);
+    region = [_mapView regionThatFits:region];
+    [_mapView setRegion:region animated:YES];
 }
 
 /* - (NSArray*)loadMapLocations
@@ -325,6 +367,13 @@ calloutAccessoryControlTapped:(UIControl *)control
 		self.popoverController = nil;
 	}
 }
+
+- (IBAction)showUserLocation:(UIBarButtonItem *)sender {
+    //[self.locationManager startUpdatingLocation];
+    _mapView.showsUserLocation = YES;
+    //[self zoomToUserLocation:self.mapView.userLocation];
+}
+
 
 #pragma mark -
 #pragma mark WEPopoverControllerDelegate implementation

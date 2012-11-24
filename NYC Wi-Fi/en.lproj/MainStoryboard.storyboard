@@ -29,7 +29,11 @@
                                 <action selector="showPopover:" destination="Fz6-DD-M11" id="VZc-pp-2dc"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="o8j-nJ-WTW"/>
+                        <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="o8j-nJ-WTW">
+                            <connections>
+                                <action selector="showUserLocation:" destination="Fz6-DD-M11" id="mhv-k9-zAZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Ii1-ZB-cUL" id="aXJ-l0-UvA"/>
@@ -138,7 +142,7 @@
             <objects>
                 <tableViewController id="zp5-Bt-SbM" customClass="LocationDetailTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7rD-w9-cO8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
@@ -326,38 +330,12 @@
         <image name="tab-notepad.png" width="22" height="28"/>
         <image name="tab-pin.png" width="10" height="20"/>
     </resources>
-    <classes>
-        <class className="ListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="LocationDetailTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationDetailTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="locationAddress" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="locationMap" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="locationName" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="locationPhone" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="locationType" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="locationWebsite" candidateClass="UITableViewCell"/>
-            </relationships>
-        </class>
-        <class className="MapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6la-k8-mOZ"/>
+        <segue reference="kod-LG-W6i"/>
     </inferredMetricsTieBreakers>
 </document>
