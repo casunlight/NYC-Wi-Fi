@@ -92,4 +92,8 @@
      */
 }
 
+- (IBAction)doneButton:(UIBarButtonItem *)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 @end

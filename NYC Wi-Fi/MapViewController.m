@@ -345,15 +345,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     { NSLog(@"Unidentified Segue Attempted!"); }
 }
 
-/* - (void)theMapButtonOnTheListViewControllerWasTapped:(ListViewController *)controller
-{
-    // do something here like refreshing the table or whatever
-    
-    
-    // close the delegated view
-    [controller.navigationController popViewControllerAnimated:YES];
-} */
-
 #pragma mark -
 #pragma mark Actions
 

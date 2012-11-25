@@ -113,6 +113,8 @@
 {
     if (indexPath.row == 0) {
         [self.delegate theAboutButtonOnThePopoverViewControllerWasTapped:self];
+    } else if (indexPath.row == 1) {
+        // @TODO Display Tell A Friend modal form
     }
 }
 
