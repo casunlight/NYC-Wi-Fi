@@ -12,6 +12,7 @@
 #import "LocationDetails.h"
 #import "LocationDetailTVC.h"
 #import "WEPopoverController.h"
+#import "PopoverViewController.h"
 
 @class ListViewController;
 
@@ -21,7 +22,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }

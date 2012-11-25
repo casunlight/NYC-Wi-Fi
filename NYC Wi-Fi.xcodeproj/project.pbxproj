@@ -30,6 +30,7 @@
 		0A4DBABB166040B400CD17F3 /* popoverBgSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4DBAAC166040B400CD17F3 /* popoverBgSimple.png */; };
 		0A4DBABE166040BF00CD17F3 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */; };
 		0A4DBAD11661541E00CD17F3 /* orange-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4DBAD01661541E00CD17F3 /* orange-pin.png */; };
+		0A4DBAD41661EDB600CD17F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */; };
 		0A556F8B15F2C42600C5638C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7715F2C42600C5638C /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F8C15F2C42600C5638C /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7815F2C42600C5638C /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F8D15F2C42600C5638C /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F7B15F2C42600C5638C /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -105,6 +106,8 @@
 		0A4DBABC166040BF00CD17F3 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
 		0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
 		0A4DBAD01661541E00CD17F3 /* orange-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-pin.png"; sourceTree = "<group>"; };
+		0A4DBAD21661EDB300CD17F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		0A556F7515F2C42600C5638C /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		0A556F7615F2C42600C5638C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0A556F7715F2C42600C5638C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -315,6 +318,8 @@
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
 				0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */,
 				0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */,
+				0A4DBAD21661EDB300CD17F3 /* AboutViewController.h */,
+				0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */,
 				0A4DBABC166040BF00CD17F3 /* PopoverViewController.h */,
 				0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */,
 				0A65F1E115ED6EB200E58FC5 /* Supporting Files */,
@@ -493,6 +498,7 @@
 				0A4DBA9C1660404800CD17F3 /* WEPopoverController.m in Sources */,
 				0A4DBA9D1660404800CD17F3 /* WETouchableView.m in Sources */,
 				0A4DBABE166040BF00CD17F3 /* PopoverViewController.m in Sources */,
+				0A4DBAD41661EDB600CD17F3 /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

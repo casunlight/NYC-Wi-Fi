@@ -360,7 +360,8 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (IBAction)showPopover:(UIBarButtonItem *)sender {
 	if (!self.popoverController) {
 		
-		UIViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
+		PopoverViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
+        contentViewController.delegate = self;
 		self.popoverController = [[popoverClass alloc] initWithContentViewController:contentViewController];
 		self.popoverController.delegate = self;
 		self.popoverController.passthroughViews = [NSArray arrayWithObject:self.navigationController.navigationBar];
@@ -379,7 +380,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self.locationManager startUpdatingLocation];
 }
 
-
 #pragma mark -
 #pragma mark WEPopoverControllerDelegate implementation
 
@@ -391,6 +391,14 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)thePopoverController {
 	//The popover is automatically dismissed if you click outside it, unless you return NO here
 	return YES;
+}
+
+#pragma mark -
+#pragma mark PopoverViewControllerDelegate implementation
+
+- (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
+{
+    [self performSegueWithIdentifier:@"About Segue" sender:self];
 }
 
 #pragma mark - fetchedResultsController

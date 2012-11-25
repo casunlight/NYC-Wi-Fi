@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class PopoverViewController;
+
+@protocol PopoverViewControllerDelegate
+
+- (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
+
+@end
+
 @interface PopoverViewController : UITableViewController
+
+@property (nonatomic, weak) id <PopoverViewControllerDelegate> delegate;
 
 @end

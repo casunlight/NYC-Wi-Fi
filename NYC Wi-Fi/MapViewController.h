@@ -13,10 +13,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ListViewController.h"
 #import "WEPopoverController.h"
+#import "PopoverViewController.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate> {
     BOOL _doneInitialZoom;
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
