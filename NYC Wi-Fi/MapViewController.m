@@ -266,7 +266,9 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"B");
+    NSLog(@"%@", error.localizedDescription);
+    UIAlertView *locationUpdateFailed = [[UIAlertView alloc] initWithTitle:@"Location Unavailable" message:@"Please try again and ensure Location Services are enabled for NYC Wi-Fi." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [locationUpdateFailed show];
 }
 
 - (void)zoomToUserLocation:(CLLocation *)userLocation
