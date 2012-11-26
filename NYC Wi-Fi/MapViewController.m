@@ -175,12 +175,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //displayToggle = [SingletonObj singleObj];
-    //displayToggle.gblStr = @"map";
-    
-    /* if (_managedObjectContext == nil) {
-        _managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    } */
     
     NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
@@ -231,11 +225,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
     
     for (LocationInfo *location in _fetchedLocations) {
-        //NSLog(@"%@", location.name);
         LocationDetails *locationDetails = location.details;
-        
-        //CLLocation *coordinates = [address newGeocodeAddress];
-        //NSLog(@"Coordinates - Latitude : %.10f, Longitude : %.10f", coordinates.coordinate.latitude, coordinates.coordinate.longitude);
         
         CLLocationCoordinate2D coordinate;
         coordinate.latitude = locationDetails.latitude.doubleValue;
@@ -243,9 +233,6 @@ calloutAccessoryControlTapped:(UIControl *)control
         //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
         
         MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
-        /* SBPinAnnotation *annotation = [[SBPinAnnotation alloc] initWithCoordinate:coordinate
-                                                                            title:localObject.objectName
-                                                                        objecttId:localObject.objectId]; */
         [_mapView addAnnotation:annotation];
     }
     
@@ -281,6 +268,24 @@ calloutAccessoryControlTapped:(UIControl *)control
     region.span = MKCoordinateSpanMake(0.01, 0.01);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            break;
+        case MFMailComposeResultSaved:
+            break;
+        case MFMailComposeResultSent:
+            break;
+        case MFMailComposeResultFailed:
+            break;
+        default:
+            break;
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 /* - (NSArray*)loadMapLocations
@@ -390,6 +395,25 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
 {
     [self performSegueWithIdentifier:@"About Segue" sender:self];
+}
+
+- (void)theTellAFriendButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+        mailViewController.mailComposeDelegate = self;
+        [mailViewController setSubject:@"NYC Wi-Fi App."];
+        [mailViewController setMessageBody:@"Check out this handy new app to help you find wi-fi in New York City!" isHTML:YES];
+      
+        [self presentModalViewController:mailViewController animated:YES];
+    } else {
+        UIAlertView *mailFailAlert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                        message:@"Your device doesn't support the email composer app window"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [mailFailAlert show];
+    }
 }
 
 #pragma mark - fetchedResultsController

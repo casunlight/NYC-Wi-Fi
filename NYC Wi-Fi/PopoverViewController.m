@@ -26,6 +26,8 @@
     [super viewDidLoad];
 
     self.tableView.rowHeight = 44.0;
+    self.tableView.directionalLockEnabled = YES;
+    self.tableView.scrollEnabled = NO;
 	self.view.backgroundColor = [UIColor clearColor];
 }
 
@@ -114,7 +116,7 @@
     if (indexPath.row == 0) {
         [self.delegate theAboutButtonOnThePopoverViewControllerWasTapped:self];
     } else if (indexPath.row == 1) {
-        // @TODO Display Tell A Friend modal form
+        [self.delegate theTellAFriendButtonOnThePopoverViewControllerWasTapped:self];
     }
 }
 

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h> // necessary?
+#import <CoreData/CoreData.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 #import "LocationInfo.h"
 #import "LocationDetails.h"
 #import "LocationDetailTVC.h"
@@ -22,7 +24,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }

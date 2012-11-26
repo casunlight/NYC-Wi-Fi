@@ -75,6 +75,24 @@
 	self.popoverController = nil;
 }
 
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            break;
+        case MFMailComposeResultSaved:
+            break;
+        case MFMailComposeResultSent:
+            break;
+        case MFMailComposeResultFailed:
+            break;
+        default:
+            break;
+    }
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -257,6 +275,25 @@
 - (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
 {
     [self performSegueWithIdentifier:@"About Segue" sender:self];
+}
+
+- (void)theTellAFriendButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+        mailViewController.mailComposeDelegate = self;
+        [mailViewController setSubject:@"NYC Wi-Fi App."];
+        [mailViewController setMessageBody:@"Check out this handy new app to help you find wi-fi in New York City!" isHTML:YES];
+        
+        [self presentModalViewController:mailViewController animated:YES];
+    } else {
+        UIAlertView *mailFailAlert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                                message:@"Your device doesn't support the email composer app window"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+        [mailFailAlert show];
+    }
 }
 
 #pragma mark - fetchedResultsController

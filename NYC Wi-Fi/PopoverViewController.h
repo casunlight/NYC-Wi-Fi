@@ -13,6 +13,7 @@
 @protocol PopoverViewControllerDelegate
 
 - (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
+- (void)theTellAFriendButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
 
 @end
 
