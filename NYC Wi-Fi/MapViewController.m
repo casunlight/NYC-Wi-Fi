@@ -18,6 +18,18 @@
 #import "UIBarButtonItem+WEPopover.h"
 //#import "CLLocation+Geocodereverse.h"
 
+//mapview starting points
+#define kCenterPointLatitude  40.746347
+#define kCenterPointLongitude -73.978011
+#define kSpanDeltaLatitude    5.5
+#define kSpanDeltaLongitude   5.5
+
+#define iphoneScaleFactorLatitude   9.0
+#define iphoneScaleFactorLongitude  11.0
+
+#define nycOpenDataWifiLocationsXMLAddress  @"https://data.cityofnewyork.us/api/views/ehc4-fktp/rows.xml"
+#define localLocationsXMLAddress  @"http://127.0.0.1/ios/nycwifi/rows.xml"
+
 @implementation MapViewController
 @synthesize mapView = _mapView;
 @synthesize managedObjectContext = _managedObjectContext;
@@ -45,7 +57,7 @@
         UIButton *goToDetail = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         annotationView.rightCalloutAccessoryView = goToDetail;
         annotationView.draggable = NO;
-        //annotationView.highlighted = YES;
+        annotationView.highlighted = NO;
         annotationView.canShowCallout = YES;
         
         MapLocation *locationAnnotation = annotationView.annotation;
@@ -74,6 +86,41 @@ calloutAccessoryControlTapped:(UIControl *)control
     //[self presentModalViewController:locationDetailTVC animated:YES];
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
 }
+
+/* - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    if (zoomLevel != mapView.region.span.longitudeDelta) {
+        [self filterAnnotations:_fetchedLocations];
+        zoomLevel = mapView.region.span.longitudeDelta;
+    }
+}
+
+- (void)filterAnnotations:(NSArray *)locationsToFilter{
+    float latDelta = _mapView.region.span.latitudeDelta / iphoneScaleFactorLatitude;
+    float longDelta = _mapView.region.span.longitudeDelta / iphoneScaleFactorLongitude;
+    [locationsToFilter makeObjectsPerformSelector:@selector(cleanPlaces)];
+    NSMutableArray *shopsToShow = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    for (int i=0; i<[locationsToFilter count]; i++) {
+        MapLocation *checkingLocation = [locationsToFilter objectAtIndex:i];
+        CLLocationDegrees latitude = [checkingLocation getCoordinate].latitude;
+        CLLocationDegrees longitude = [checkingLocation getCoordinate].longitude;
+        
+        bool found=FALSE;
+        for (LocationInfo *tempPlacemark in shopsToShow) {
+            if (fabs([tempPlacemark getCoordinate].latitude - latitude) < latDelta && fabs([tempPlacemark getCoordinate].longitude - longitude) < longDelta) {
+                [_mapView removeAnnotation:checkingLocation];
+                found = TRUE;
+                [tempPlacemark addPlace:checkingLocation];
+                break;
+            }
+        }
+        if (!found) {
+            [shopsToShow addObject:checkingLocation];
+            [_mapView addAnnotation:checkingLocation];
+        }
+        
+    }
+} */
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
     
@@ -126,8 +173,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)loadLocationsFromXML
 {
-    //NSURL *url = [NSURL URLWithString:@"https://nycopendata.socrata.com/api/views/ehc4-fktp/rows.xml"];
-    NSURL *url = [NSURL URLWithString:@"http://127.0.0.1/ios/nycwifi/rows.xml"];
+    NSURL *url = [NSURL URLWithString:nycOpenDataWifiLocationsXMLAddress];
     
     __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
@@ -147,16 +193,16 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     [request startAsynchronous];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Refreshing locations...";
+    hud.labelText = @"Downloading locations...";
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     CLLocationCoordinate2D zoomLocation;
-    zoomLocation.latitude = 40.746347;
-    zoomLocation.longitude = -73.978011;
+    zoomLocation.latitude = kCenterPointLatitude;
+    zoomLocation.longitude = kCenterPointLongitude;
     
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 5.5*METERS_PER_MILE, 5.5*METERS_PER_MILE);
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, kSpanDeltaLatitude*METERS_PER_MILE, kSpanDeltaLongitude*METERS_PER_MILE);
     
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
     
@@ -164,7 +210,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    NSLog(@"viewDidDisappear");
     [super viewDidDisappear:(BOOL)animated];    // Call the super class implementation.
     // Usually calling super class implementation is done before self class implementation, but it's up to your application.
     
@@ -346,8 +391,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         //NSLog(@"%@", self.selectedLocation);
         locationDetailTVC.selectedLocation = self.selectedLocation;
 	}
-    else
-    { NSLog(@"Unidentified Segue Attempted!"); }
+    /* else
+    { NSLog(@"Unidentified Segue Attempted!"); } */
 }
 
 #pragma mark -

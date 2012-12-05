@@ -33,6 +33,10 @@
     return self;
 }
 
+- (CLLocationCoordinate2D)getCoordinate {
+    return _coordinate;
+}
+
 - (NSString *)title {
     if ([_name isKindOfClass:[NSNull class]])
         return @"Unknown charge";

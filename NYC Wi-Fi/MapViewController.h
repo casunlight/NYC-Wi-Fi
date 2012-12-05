@@ -21,6 +21,7 @@
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     BOOL _doneInitialZoom;
+    //CLLocationDegrees zoomLevel;
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
     Class popoverClass;
@@ -33,6 +34,7 @@
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
+//- (void)filterAnnotations:(NSArray *)placesToFilter;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
 - (IBAction)showUserLocation:(UIBarButtonItem *)sender;
 

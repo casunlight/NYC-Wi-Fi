@@ -25,5 +25,6 @@
 
 - (id)initWithLocation:(LocationInfo *)location coordinate:(CLLocationCoordinate2D)coordinate;
 //- (id)initWithName:(NSString *)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
+- (CLLocationCoordinate2D)getCoordinate;
 
 @end

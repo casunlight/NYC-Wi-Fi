@@ -28,6 +28,7 @@
     self.tableView.rowHeight = 44.0;
     self.tableView.directionalLockEnabled = YES;
     self.tableView.scrollEnabled = NO;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor clearColor];
 }
 

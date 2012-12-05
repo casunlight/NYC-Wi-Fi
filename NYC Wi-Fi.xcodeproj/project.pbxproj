@@ -57,6 +57,8 @@
 		0A65F1EE15ED6EB200E58FC5 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A65F1EC15ED6EB200E58FC5 /* MainStoryboard.storyboard */; };
 		0A65F1F115ED6EB200E58FC5 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F1F015ED6EB200E58FC5 /* MapViewController.m */; };
 		0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A83BBA31646D2AF00319860 /* Default-568h@2x.png */; };
+		0A91C257166C1B570027BEB0 /* nyc-wifi-logo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */; };
+		0A91C25A166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */; };
 		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
 		0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C3165818FF009EAF5E /* tab-notepad.png */; };
 		0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C4165818FF009EAF5E /* tab-pin.png */; };
@@ -155,6 +157,8 @@
 		0A65F1ED15ED6EB200E58FC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		0A65F1F015ED6EB200E58FC5 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		0A83BBA31646D2AF00319860 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "nyc-wifi-logo-icon.png"; path = "../nyc-wifi-logo-icon.png"; sourceTree = "<group>"; };
+		0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "nyc-wifi-logo-icon-retina.png"; path = "../nyc-wifi-logo-icon-retina.png"; sourceTree = "<group>"; };
 		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		0A9DE5C3165818FF009EAF5E /* tab-notepad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-notepad.png"; sourceTree = "<group>"; };
@@ -348,6 +352,8 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */,
+				0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */,
 				0A4DBAD01661541E00CD17F3 /* orange-pin.png */,
 				0A4DBA9E166040B400CD17F3 /* popoverArrowDown.png */,
 				0A4DBA9F166040B400CD17F3 /* popoverArrowDown@2x.png */,
@@ -414,7 +420,7 @@
 		0A65F1CD15ED6EB200E58FC5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Kevin Wolkober";
 			};
 			buildConfigurationList = 0A65F1D015ED6EB200E58FC5 /* Build configuration list for PBXProject "NYC Wi-Fi" */;
@@ -467,6 +473,8 @@
 				0A4DBABA166040B400CD17F3 /* popoverBg@2x.png in Resources */,
 				0A4DBABB166040B400CD17F3 /* popoverBgSimple.png in Resources */,
 				0A4DBAD11661541E00CD17F3 /* orange-pin.png in Resources */,
+				0A91C257166C1B570027BEB0 /* nyc-wifi-logo-icon.png in Resources */,
+				0A91C25A166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
