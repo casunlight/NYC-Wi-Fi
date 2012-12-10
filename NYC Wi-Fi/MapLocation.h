@@ -12,19 +12,23 @@
 #import "LocationDetails.h"
 
 @interface MapLocation : NSObject <MKAnnotation> {
-    NSString *_name;
-    NSString *_address;
-    LocationInfo *_location;
-    CLLocationCoordinate2D _coordinate;
+    NSString *name;
+    NSString *address;
+    LocationInfo *location;
+    CLLocationCoordinate2D coordinate;
+    NSArray *nodes;
 }
 
 @property (copy) NSString *name;
 @property (copy) NSString *address;
 @property (copy) LocationInfo *location;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic, retain) NSArray *nodes;
 
-- (id)initWithLocation:(LocationInfo *)location coordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithLocation:(LocationInfo *)locationInfo coordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithNodes:(NSArray *)initNodes coordinate:(CLLocationCoordinate2D)initCoordinate;
 //- (id)initWithName:(NSString *)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate;
-- (CLLocationCoordinate2D)getCoordinate;
+//- (CLLocationCoordinate2D)getCoordinate;
+- (NSUInteger) nodeCount;
 
 @end

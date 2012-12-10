@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
+#import "WifiClusterAnnotationView.h"
 //#import "CLLocation+Geocodereverse.h"
 
 //mapview starting points
@@ -39,13 +40,50 @@
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
 
+#pragma mark -
+#pragma mark Map view delegate
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
-    static NSString *identifier = @"MapLocation";
+    //static NSString *identifier = @"MapLocation";
     
     if ([annotation isKindOfClass:[MapLocation class]]) {
         
-        MKPinAnnotationView *annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        MapLocation *pin = (MapLocation *)annotation;
+        
+        MKAnnotationView *annotationView;
+        
+        if ([pin nodeCount] > 0) {
+            pin.name = @"___";
+            
+            annotationView = (WifiClusterAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"cluster"];
+            
+            if( !annotationView )
+                annotationView = (WifiClusterAnnotationView *) [[WifiClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
+            
+            annotationView.image = [UIImage imageNamed:@"cluster.png"];
+            
+            [(WifiClusterAnnotationView *)annotationView setClusterText:[NSString stringWithFormat:@"%i",[pin nodeCount]]];
+            
+            annotationView.canShowCallout = NO;
+        } else {
+            annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
+            
+            if( !annotationView )
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                        reuseIdentifier:@"pin"];
+            
+            if ([pin.location.fee_type isEqualToString:@"Free"]) {
+                annotationView.image = [UIImage imageNamed:@"green-pin.png"];
+            } else {
+                annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
+            }
+            annotationView.canShowCallout = YES;
+            
+            annotationView.calloutOffset = CGPointMake(-6.0, 0.0);
+        }
+        
+        /* annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         if (annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         } else {
@@ -60,13 +98,11 @@
         annotationView.highlighted = NO;
         annotationView.canShowCallout = YES;
         
-        MapLocation *locationAnnotation = annotationView.annotation;
-        
-        if ([locationAnnotation.location.fee_type isEqualToString:@"Free"]) {
+        if ([pin.location.fee_type isEqualToString:@"Free"]) {
             annotationView.image = [UIImage imageNamed:@"green-pin.png"];
         } else {
             annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
-        }
+        } */
         
         return annotationView;
     }
@@ -78,12 +114,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 {
     MapLocation *annotationView = view.annotation;
     self.selectedLocation = annotationView.location;
-    //LocationDetailTVC *locationDetailTVC = [[LocationDetailTVC alloc] init];
-    //locationDetailTVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    //NSLog(@"%@", annotationView);
-    //NSLog(@"%@", view.annotation);
-    //NSLog(@"Callout tapped. Heading to LocationDetailTVC");
-    //[self presentModalViewController:locationDetailTVC animated:YES];
+    NSLog(@"Callout tapped. Heading to LocationDetailTVC");
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
 }
 
@@ -206,6 +237,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
     
+    _mapView.delegate = self;
     [_mapView setRegion:adjustedRegion animated:YES];
 }
 
@@ -263,11 +295,12 @@ calloutAccessoryControlTapped:(UIControl *)control
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading locations...";
     
-    for (id<MKAnnotation> annotation in _mapView.annotations) {
+    /* for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
-    }
+    } */
     
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
+    NSMutableArray *pins = [NSMutableArray array];
     
     for (LocationInfo *location in _fetchedLocations) {
         LocationDetails *locationDetails = location.details;
@@ -278,9 +311,11 @@ calloutAccessoryControlTapped:(UIControl *)control
         //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
         
         MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
-        [_mapView addAnnotation:annotation];
+        //[_mapView addAnnotation:annotation];
+        [pins addObject:annotation];
     }
     
+    [_mapView addAnnotations:pins];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 

@@ -16,6 +16,7 @@
 #import "ListViewController.h"
 #import "WEPopoverController.h"
 #import "PopoverViewController.h"
+#import "WifiClusterMapView.h"
 
 #define METERS_PER_MILE 1609.344
 
@@ -25,9 +26,10 @@
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
     Class popoverClass;
+    //WifiClusterMapView *_mapView;
 }
 
-@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) IBOutlet WifiClusterMapView *mapView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;

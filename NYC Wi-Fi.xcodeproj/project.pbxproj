@@ -66,6 +66,15 @@
 		0A9E08D8165CA06100DFF08C /* green-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08D7165CA06100DFF08C /* green-pin.png */; };
 		0A9E08DB165D4AD400DFF08C /* yellow-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08DA165D4AD400DFF08C /* yellow-pin.png */; };
 		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
+		0AAA2904167136B900BF6383 /* WifiClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA2903167136B900BF6383 /* WifiClusterAnnotationView.m */; };
+		0AAA290816757C3500BF6383 /* WifiClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290716757C3500BF6383 /* WifiClusterMapView.m */; };
+		0AAA290C16757CA400BF6383 /* WifiClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290B16757CA400BF6383 /* WifiClusterManager.m */; };
+		0AAA291116757D4400BF6383 /* WifiClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290E16757D4400BF6383 /* WifiClusterBlock.m */; };
+		0AAA291716758A0B00BF6383 /* WifiAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA291616758A0B00BF6383 /* WifiAnnotationsCollection.m */; };
+		0AAA291E16758DB500BF6383 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291A16758DB500BF6383 /* cluster.png */; };
+		0AAA291F16758DB500BF6383 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291B16758DB500BF6383 /* cluster@2x.png */; };
+		0AAA292016758DB500BF6383 /* pinpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291C16758DB500BF6383 /* pinpoint.png */; };
+		0AAA292116758DB500BF6383 /* pinpoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291D16758DB500BF6383 /* pinpoint@2x.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AD7BC8C16632D0B006745F7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7BC8B16632D0B006745F7 /* MessageUI.framework */; };
@@ -168,6 +177,21 @@
 		0A9E08D7165CA06100DFF08C /* green-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-pin.png"; sourceTree = "<group>"; };
 		0A9E08DA165D4AD400DFF08C /* yellow-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-pin.png"; sourceTree = "<group>"; };
 		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
+		0AAA2902167136B800BF6383 /* WifiClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterAnnotationView.h; sourceTree = "<group>"; };
+		0AAA2903167136B900BF6383 /* WifiClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiClusterAnnotationView.m; sourceTree = "<group>"; };
+		0AAA290616757C3400BF6383 /* WifiClusterMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterMapView.h; sourceTree = "<group>"; };
+		0AAA290716757C3500BF6383 /* WifiClusterMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiClusterMapView.m; sourceTree = "<group>"; };
+		0AAA290A16757CA400BF6383 /* WifiClusterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterManager.h; sourceTree = "<group>"; };
+		0AAA290B16757CA400BF6383 /* WifiClusterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiClusterManager.m; sourceTree = "<group>"; };
+		0AAA290E16757D4400BF6383 /* WifiClusterBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiClusterBlock.m; sourceTree = "<group>"; };
+		0AAA2914167588FE00BF6383 /* WifiClusterBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterBlock.h; sourceTree = "<group>"; };
+		0AAA291516758A0B00BF6383 /* WifiAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiAnnotationsCollection.h; sourceTree = "<group>"; };
+		0AAA291616758A0B00BF6383 /* WifiAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiAnnotationsCollection.m; sourceTree = "<group>"; };
+		0AAA291816758C3E00BF6383 /* WifiClusterMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterMap.h; sourceTree = "<group>"; };
+		0AAA291A16758DB500BF6383 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = "<group>"; };
+		0AAA291B16758DB500BF6383 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = "<group>"; };
+		0AAA291C16758DB500BF6383 /* pinpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinpoint.png; sourceTree = "<group>"; };
+		0AAA291D16758DB500BF6383 /* pinpoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinpoint@2x.png"; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
 		0AD7BC8B16632D0B006745F7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -330,6 +354,7 @@
 				0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */,
 				0A4DBABC166040BF00CD17F3 /* PopoverViewController.h */,
 				0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */,
+				0AAA290916757C4500BF6383 /* WifiClusterMap */,
 				0A65F1E115ED6EB200E58FC5 /* Supporting Files */,
 			);
 			path = "NYC Wi-Fi";
@@ -352,6 +377,10 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0AAA291A16758DB500BF6383 /* cluster.png */,
+				0AAA291B16758DB500BF6383 /* cluster@2x.png */,
+				0AAA291C16758DB500BF6383 /* pinpoint.png */,
+				0AAA291D16758DB500BF6383 /* pinpoint@2x.png */,
 				0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */,
 				0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */,
 				0A4DBAD01661541E00CD17F3 /* orange-pin.png */,
@@ -381,6 +410,24 @@
 				0AA37CD915F1D54D00659109 /* ButtonMenu.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		0AAA290916757C4500BF6383 /* WifiClusterMap */ = {
+			isa = PBXGroup;
+			children = (
+				0AAA291816758C3E00BF6383 /* WifiClusterMap.h */,
+				0AAA291516758A0B00BF6383 /* WifiAnnotationsCollection.h */,
+				0AAA291616758A0B00BF6383 /* WifiAnnotationsCollection.m */,
+				0AAA2914167588FE00BF6383 /* WifiClusterBlock.h */,
+				0AAA290E16757D4400BF6383 /* WifiClusterBlock.m */,
+				0AAA290A16757CA400BF6383 /* WifiClusterManager.h */,
+				0AAA290B16757CA400BF6383 /* WifiClusterManager.m */,
+				0AAA2902167136B800BF6383 /* WifiClusterAnnotationView.h */,
+				0AAA2903167136B900BF6383 /* WifiClusterAnnotationView.m */,
+				0AAA290616757C3400BF6383 /* WifiClusterMapView.h */,
+				0AAA290716757C3500BF6383 /* WifiClusterMapView.m */,
+			);
+			name = WifiClusterMap;
 			sourceTree = "<group>";
 		};
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
@@ -475,6 +522,10 @@
 				0A4DBAD11661541E00CD17F3 /* orange-pin.png in Resources */,
 				0A91C257166C1B570027BEB0 /* nyc-wifi-logo-icon.png in Resources */,
 				0A91C25A166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png in Resources */,
+				0AAA291E16758DB500BF6383 /* cluster.png in Resources */,
+				0AAA291F16758DB500BF6383 /* cluster@2x.png in Resources */,
+				0AAA292016758DB500BF6383 /* pinpoint.png in Resources */,
+				0AAA292116758DB500BF6383 /* pinpoint@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +562,11 @@
 				0A4DBA9D1660404800CD17F3 /* WETouchableView.m in Sources */,
 				0A4DBABE166040BF00CD17F3 /* PopoverViewController.m in Sources */,
 				0A4DBAD41661EDB600CD17F3 /* AboutViewController.m in Sources */,
+				0AAA2904167136B900BF6383 /* WifiClusterAnnotationView.m in Sources */,
+				0AAA290816757C3500BF6383 /* WifiClusterMapView.m in Sources */,
+				0AAA290C16757CA400BF6383 /* WifiClusterManager.m in Sources */,
+				0AAA291116757D4400BF6383 /* WifiClusterBlock.m in Sources */,
+				0AAA291716758A0B00BF6383 /* WifiAnnotationsCollection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
