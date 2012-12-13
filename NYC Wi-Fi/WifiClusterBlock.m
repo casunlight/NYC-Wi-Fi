@@ -30,19 +30,17 @@
         double y = [annotationsCollection ySum] / [annotationsCollection count];
         
         CLLocationCoordinate2D location = MKCoordinateForMapPoint(MKMapPointMake(x, y));
-        /* #if !__has_feature(objc_arc)
-        MapLocation *pin = [[[MapLocation alloc] init] autorelease];
-#else
-        MapLocation *pin = [[MapLocation alloc] init];
-#endif
-        pin.coordinate = location;
-        pin.nodes = [annotationsCollection collection]; */
-        NSLog(@"WifiClusterBlock point: %f", location.latitude);
+        //NSLog(@"WifiClusterBlock point: %f", location.latitude);
         MapLocation *pin = [[MapLocation alloc] initWithNodes:[annotationsCollection collection] coordinate:location];
         return pin;
 
     }
     return nil;
+}
+
+- (WifiAnnotationsCollection *)getAnnotationsCollection
+{
+    return annotationsCollection;
 }
 
 - (NSInteger) count

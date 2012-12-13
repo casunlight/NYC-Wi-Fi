@@ -67,20 +67,26 @@
             
             annotationView.canShowCallout = NO;
         } else {
+            
             annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
             
-            if( !annotationView )
+            if (!annotationView)
                 annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                        reuseIdentifier:@"pin"];
+                                                              reuseIdentifier:@"pin"];
+            else
+                annotationView.annotation = annotation;
             
-            if ([pin.location.fee_type isEqualToString:@"Free"]) {
+            if ([pin.location.fee_type isEqualToString:@"Free"])
                 annotationView.image = [UIImage imageNamed:@"green-pin.png"];
-            } else {
+            else
                 annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
-            }
+
+            annotationView.backgroundColor = [UIColor clearColor];
+            UIButton *goToDetail = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            annotationView.rightCalloutAccessoryView = goToDetail;
+            annotationView.draggable = NO;
+            annotationView.highlighted = NO;
             annotationView.canShowCallout = YES;
-            
-            annotationView.calloutOffset = CGPointMake(-6.0, 0.0);
         }
         
         /* annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
@@ -117,41 +123,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSLog(@"Callout tapped. Heading to LocationDetailTVC");
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
 }
-
-/* - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    if (zoomLevel != mapView.region.span.longitudeDelta) {
-        [self filterAnnotations:_fetchedLocations];
-        zoomLevel = mapView.region.span.longitudeDelta;
-    }
-}
-
-- (void)filterAnnotations:(NSArray *)locationsToFilter{
-    float latDelta = _mapView.region.span.latitudeDelta / iphoneScaleFactorLatitude;
-    float longDelta = _mapView.region.span.longitudeDelta / iphoneScaleFactorLongitude;
-    [locationsToFilter makeObjectsPerformSelector:@selector(cleanPlaces)];
-    NSMutableArray *shopsToShow = [[NSMutableArray alloc] initWithCapacity:0];
-    
-    for (int i=0; i<[locationsToFilter count]; i++) {
-        MapLocation *checkingLocation = [locationsToFilter objectAtIndex:i];
-        CLLocationDegrees latitude = [checkingLocation getCoordinate].latitude;
-        CLLocationDegrees longitude = [checkingLocation getCoordinate].longitude;
-        
-        bool found=FALSE;
-        for (LocationInfo *tempPlacemark in shopsToShow) {
-            if (fabs([tempPlacemark getCoordinate].latitude - latitude) < latDelta && fabs([tempPlacemark getCoordinate].longitude - longitude) < longDelta) {
-                [_mapView removeAnnotation:checkingLocation];
-                found = TRUE;
-                [tempPlacemark addPlace:checkingLocation];
-                break;
-            }
-        }
-        if (!found) {
-            [shopsToShow addObject:checkingLocation];
-            [_mapView addAnnotation:checkingLocation];
-        }
-        
-    }
-} */
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
     
@@ -311,7 +282,6 @@ calloutAccessoryControlTapped:(UIControl *)control
         //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
         
         MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
-        //[_mapView addAnnotation:annotation];
         [pins addObject:annotation];
     }
     

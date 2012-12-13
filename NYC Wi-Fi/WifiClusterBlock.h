@@ -13,6 +13,7 @@
 - (void) addAnnotation:(id<MKAnnotation>)annotation;
 - (id<MKAnnotation>) getClusteredAnnotation;
 - (id<MKAnnotation>) getAnnotationForIndex:(NSInteger)index;
+- (WifiAnnotationsCollection *)getAnnotationsCollection;
 - (NSInteger) count;
 
 @end
