@@ -19,12 +19,12 @@
     {
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
         [self addSubview:label];
-        label.textColor = [UIColor whiteColor];
+        label.textColor = [UIColor blackColor];
         label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont boldSystemFontOfSize:11];
+        label.font = [UIFont boldSystemFontOfSize:12];
         label.textAlignment = UITextAlignmentCenter;
-        label.shadowColor = [UIColor blackColor];
-        label.shadowOffset = CGSizeMake(0,-1);
+        label.shadowColor = [UIColor whiteColor];
+        label.shadowOffset = CGSizeMake(0,1);
     }
     return self;
 }

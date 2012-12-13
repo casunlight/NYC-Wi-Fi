@@ -3,7 +3,7 @@
 
 #define BASE_RADIUS .5 // = 1 mile
 #define MINIMUM_LATITUDE_DELTA 0.20
-#define BLOCKS 16
+#define BLOCKS 8
 
 #define MINIMUM_CLUSTER_LEVEL 100000
 
@@ -76,19 +76,12 @@
     NSMutableArray *newPins = [NSMutableArray array];
     for ( WifiClusterBlock *block in clusteredBlocks )
     {
-        if ([block count] >= 7)
+        if ([block count] > 0)
         {
             if( ![WifiClusterManager clusterAlreadyExistsForMapView:mapView andBlockCluster:block] )
             {
               [newPins addObject:[block getClusteredAnnotation]];
             } 
-        } else {
-            //WifiAnnotationsCollection *annotationsCollection = [[WifiAnnotationsCollection init] alloc];
-            //annotationsCollection = [block getAnnotationsCollection];
-            
-            for (MapLocation *pin in [[block getAnnotationsCollection] collection]) {
-                [newPins addObject:pin];
-            }
         }
     }
     return newPins;

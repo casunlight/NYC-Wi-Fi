@@ -61,8 +61,16 @@
             if( !annotationView )
                 annotationView = (WifiClusterAnnotationView *) [[WifiClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cluster"];
             
-            annotationView.image = [UIImage imageNamed:@"cluster.png"];
-            
+            if ([pin nodeCount] > 50) {
+                annotationView.image = [UIImage imageNamed:@"red-cluster.png"];
+            } else if ([pin nodeCount] > 25 && [pin nodeCount] < 50) {
+                annotationView.image = [UIImage imageNamed:@"orange-cluster.png"];
+            } else if ([pin nodeCount] > 10 && [pin nodeCount] < 25) {
+                annotationView.image = [UIImage imageNamed:@"yellow-cluster.png"];
+            } else {
+                annotationView.image = [UIImage imageNamed:@"green-cluster.png"];
+            }
+        
             [(WifiClusterAnnotationView *)annotationView setClusterText:[NSString stringWithFormat:@"%i",[pin nodeCount]]];
             
             annotationView.canShowCallout = NO;
@@ -89,30 +97,27 @@
             annotationView.canShowCallout = YES;
         }
         
-        /* annotationView = (MKPinAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        if (annotationView == nil) {
-            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-        } else {
-            annotationView.annotation = annotation;
-        }
-        
-        //annotationView.pinColor = MKPinAnnotationColorGreen;
-        annotationView.backgroundColor = [UIColor clearColor];
-        UIButton *goToDetail = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        annotationView.rightCalloutAccessoryView = goToDetail;
-        annotationView.draggable = NO;
-        annotationView.highlighted = NO;
-        annotationView.canShowCallout = YES;
-        
-        if ([pin.location.fee_type isEqualToString:@"Free"]) {
-            annotationView.image = [UIImage imageNamed:@"green-pin.png"];
-        } else {
-            annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
-        } */
-        
         return annotationView;
     }
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView
+didSelectAnnotationView:(MKAnnotationView *)view
+{
+    if (![view isKindOfClass:[WifiClusterAnnotationView class]])
+        return;
+    
+    CLLocationCoordinate2D centerCoordinate = [(MapLocation *)view.annotation coordinate];
+    
+    MKCoordinateSpan newSpan =
+    MKCoordinateSpanMake(mapView.region.span.latitudeDelta/2.0,
+                         mapView.region.span.longitudeDelta/2.0);
+    
+    //mapView.region = MKCoordinateRegionMake(centerCoordinate, newSpan);
+    
+    [mapView setRegion:MKCoordinateRegionMake(centerCoordinate, newSpan)
+              animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view
@@ -189,7 +194,7 @@ calloutAccessoryControlTapped:(UIControl *)control
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSError *error = [request error];
         NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *locationImportFailedAlert = [[UIAlertView alloc] initWithTitle:@"Location Load Failed" message:@"NYC Open Data is currently unreachable. Pleaes try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *locationImportFailedAlert = [[UIAlertView alloc] initWithTitle:@"Location Load Failed" message:@"NYC Open Data is currently unreachable. Please try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [locationImportFailedAlert show];
     }];
     
