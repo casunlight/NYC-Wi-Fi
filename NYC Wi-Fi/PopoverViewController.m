@@ -16,7 +16,7 @@
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if ((self = [super initWithStyle:style])) {
-		self.contentSizeForViewInPopover = CGSizeMake(150, 1 * 88 - 1);
+		self.contentSizeForViewInPopover = CGSizeMake(150, 1 * 132 - 1);
     }
     return self;
 }
@@ -49,7 +49,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return 3;
 }
 
 // Customize the appearance of table view cells.
@@ -66,6 +66,8 @@
         cell.textLabel.text = [NSString stringWithFormat:@"About"];
     } else if (indexPath.row == 1) {
         cell.textLabel.text = [NSString stringWithFormat:@"Tell a Friend"];
+    } else if (indexPath.row == 2) {
+        cell.textLabel.text = [NSString stringWithFormat:@"Settings"];
     }
 	cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
@@ -118,6 +120,8 @@
         [self.delegate theAboutButtonOnThePopoverViewControllerWasTapped:self];
     } else if (indexPath.row == 1) {
         [self.delegate theTellAFriendButtonOnThePopoverViewControllerWasTapped:self];
+    } else if (indexPath.row == 2) {
+        [self.delegate theSettingsButtonOnThePopoverViewControllerWasTapped:self];
     }
 }
 

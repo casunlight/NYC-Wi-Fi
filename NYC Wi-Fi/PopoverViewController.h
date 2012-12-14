@@ -14,6 +14,7 @@
 
 - (void)theAboutButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
 - (void)theTellAFriendButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
+- (void)theSettingsButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller;
 
 @end
 

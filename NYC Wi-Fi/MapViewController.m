@@ -85,9 +85,9 @@
                 annotationView.annotation = annotation;
             
             if ([pin.location.fee_type isEqualToString:@"Free"])
-                annotationView.image = [UIImage imageNamed:@"green-pin.png"];
+                annotationView.image = [UIImage imageNamed:@"wifi-pin.png"];
             else
-                annotationView.image = [UIImage imageNamed:@"orange-pin.png"];
+                annotationView.image = [UIImage imageNamed:@"wifi-pin-fee.png"];
 
             annotationView.backgroundColor = [UIColor clearColor];
             UIButton *goToDetail = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -469,6 +469,11 @@ calloutAccessoryControlTapped:(UIControl *)control
                                               otherButtonTitles:nil];
         [mailFailAlert show];
     }
+}
+
+- (void)theSettingsButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
+{
+    [self performSegueWithIdentifier:@"Settings Segue" sender:self];
 }
 
 #pragma mark - fetchedResultsController

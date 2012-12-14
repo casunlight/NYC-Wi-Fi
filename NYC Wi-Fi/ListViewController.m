@@ -296,6 +296,11 @@
     }
 }
 
+- (void)theSettingsButtonOnThePopoverViewControllerWasTapped:(PopoverViewController *)controller
+{
+    [self performSegueWithIdentifier:@"Settings Segue" sender:self];
+}
+
 #pragma mark - fetchedResultsController
 
 - (NSFetchedResultsController *)fetchedResultsController {
