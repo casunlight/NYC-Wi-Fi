@@ -138,21 +138,32 @@ calloutAccessoryControlTapped:(UIControl *)control
     BOOL free = [defaults boolForKey:@"free"];
     BOOL fee = [defaults boolForKey:@"fee"];
     
+    BOOL zoomToFit = NO;
+    
+    NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:2];
+    NSPredicate *predicate = [[NSPredicate alloc] init];
+    
     if (free && !fee) {
-        NSLog(@"Predicate set to free");
-        _filterPredicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
-        [_fetchedResultsController.fetchRequest setPredicate:_filterPredicate];
+        //NSLog(@"Predicate set to free");
+        predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
+        [predicates addObject:predicate];
     } else if (!free && fee) {
-        NSLog(@"Predicate set to fee");
-        _filterPredicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
-        [_fetchedResultsController.fetchRequest setPredicate:_filterPredicate];
-    } else {
-        [_fetchedResultsController.fetchRequest setPredicate:nil];
+        //NSLog(@"Predicate set to fee");
+        predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
+        [predicates addObject:predicate];
     }
     
     if ([zipCode integerValue] > 0) {
-        NSLog(@"Setting zipCode predicate");
-        //_filterPredicate = [NSPredicate predicateWithFormat:@"zip == %d", [zipCode integerValue]];
+        NSLog(@"Setting zipCode predicate: %i", [zipCode integerValue]);
+        predicate = [NSPredicate predicateWithFormat:@"details.zip == %d", [zipCode integerValue]];
+        [predicates addObject:predicate];
+        zoomToFit = YES;
+    }
+    
+    if (predicates.count > 0) {
+        [_fetchedResultsController.fetchRequest setPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]];
+    } else {
+        [_fetchedResultsController.fetchRequest setPredicate:nil];
     }
     
 	[self reloadMap];
@@ -165,22 +176,45 @@ calloutAccessoryControlTapped:(UIControl *)control
 		// Execute the request
 		NSError *error;
 		BOOL success = [_fetchedResultsController performFetch:&error];
-		if (!success) {
+		if (!success)
 			NSLog(@"No locations found");
-		} else {
+		else
 			[self plotMapLocations];
-            
-            /* // Remove any old annotations
-             [_mapView removeAnnotations:[_mapView annotations]];
-             
-             // Add the annotations
-             for (MapLocation *location in [_fetchedResultsController fetchedObjects]) {
-             [_mapView addAnnotation:location];
-             } */
-		}
 	}
+}
+
+-(void)zoomToFitMapAnnotations
+{
+    if([_mapView.annotations count] == 0)
+        return;
     
-    [_mapView setRegion:_mapView.region animated:TRUE];
+    NSLog(@"zoomToFitMapAnnotations");
+    
+    CLLocationCoordinate2D topLeftCoord;
+    topLeftCoord.latitude = -90;
+    topLeftCoord.longitude = 180;
+    
+    CLLocationCoordinate2D bottomRightCoord;
+    bottomRightCoord.latitude = 90;
+    bottomRightCoord.longitude = -180;
+    
+    for (MapLocation *annotation in _mapView.annotations)
+    {
+        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
+        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
+        
+        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
+        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
+    }
+    
+    MKCoordinateRegion region;
+    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1; // Add a little extra space on the sides
+    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1; // Add a little extra space on the sides
+    
+    region = [_mapView regionThatFits:region];
+    [_mapView setRegion:region animated:YES];
 }
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
@@ -257,7 +291,21 @@ calloutAccessoryControlTapped:(UIControl *)control
     hud.labelText = @"Downloading locations...";
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)setMapRegion
+{
+    NSNumber *zipCode = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"currentZipCode"]];
+    
+    if ([zipCode integerValue] > 0) {
+        NSLog(@"zoomToFit");
+        [self zoomToFitMapAnnotations];
+    } else {
+        NSLog(@"setStandardRegion");
+        [self setStandardRegion];
+        //[_mapView setRegion:_mapView.region animated:TRUE];
+    }
+}
+
+- (void)setStandardRegion
 {
     CLLocationCoordinate2D zoomLocation;
     zoomLocation.latitude = kCenterPointLatitude;
@@ -266,9 +314,13 @@ calloutAccessoryControlTapped:(UIControl *)control
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, kSpanDeltaLatitude*METERS_PER_MILE, kSpanDeltaLongitude*METERS_PER_MILE);
     
     MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
-    
-    _mapView.delegate = self;
     [_mapView setRegion:adjustedRegion animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _mapView.delegate = self;
+    [self setStandardRegion];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -299,6 +351,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [self plotMapLocations];
+    [self setMapRegion];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -347,6 +400,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     [_mapView addAnnotations:pins];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    [self setMapRegion];
 }
 
 /* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation
