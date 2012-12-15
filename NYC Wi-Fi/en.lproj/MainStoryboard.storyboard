@@ -379,6 +379,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="myf-FA-JOz" kind="modal" identifier="About Segue" modalTransitionStyle="coverVertical" id="ddN-Gg-9dO"/>
+                        <segue destination="eRS-dE-GLl" kind="modal" identifier="Settings Segue" modalTransitionStyle="coverVertical" id="jOz-PP-RhF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y63-UF-g9y" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -450,7 +451,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="Kka-8I-JhI">
+                                                <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" id="Kka-8I-JhI">
                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="152"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <connections>
@@ -578,7 +579,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dk1-N4-j45"/>
+        <segue reference="3jB-eV-F8J"/>
         <segue reference="kod-LG-W6i"/>
+        <segue reference="dk1-N4-j45"/>
     </inferredMetricsTieBreakers>
 </document>

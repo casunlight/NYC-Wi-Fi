@@ -35,6 +35,7 @@
 @synthesize mapView = _mapView;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
 @synthesize popoverController, locationManager;
@@ -127,6 +128,59 @@ calloutAccessoryControlTapped:(UIControl *)control
     self.selectedLocation = annotationView.location;
     NSLog(@"Callout tapped. Heading to LocationDetailTVC");
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
+}
+
+- (void)setupFilterPredicate
+{
+    NSLog(@"Set up the filter predicate");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
+    BOOL free = [defaults boolForKey:@"free"];
+    BOOL fee = [defaults boolForKey:@"fee"];
+    
+    if (free && !fee) {
+        NSLog(@"Predicate set to free");
+        _filterPredicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
+        [_fetchedResultsController.fetchRequest setPredicate:_filterPredicate];
+    } else if (!free && fee) {
+        NSLog(@"Predicate set to fee");
+        _filterPredicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
+        [_fetchedResultsController.fetchRequest setPredicate:_filterPredicate];
+    } else {
+        [_fetchedResultsController.fetchRequest setPredicate:nil];
+    }
+    
+    if ([zipCode integerValue] > 0) {
+        NSLog(@"Setting zipCode predicate");
+        //_filterPredicate = [NSPredicate predicateWithFormat:@"zip == %d", [zipCode integerValue]];
+    }
+    
+	[self reloadMap];
+}
+
+- (void)reloadMap
+{
+    if (_fetchedResultsController)
+	{
+		// Execute the request
+		NSError *error;
+		BOOL success = [_fetchedResultsController performFetch:&error];
+		if (!success) {
+			NSLog(@"No locations found");
+		} else {
+			[self plotMapLocations];
+            
+            /* // Remove any old annotations
+             [_mapView removeAnnotations:[_mapView annotations]];
+             
+             // Add the annotations
+             for (MapLocation *location in [_fetchedResultsController fetchedObjects]) {
+             [_mapView addAnnotation:location];
+             } */
+		}
+	}
+    
+    [_mapView setRegion:_mapView.region animated:TRUE];
 }
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
@@ -274,6 +328,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     /* for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
     } */
+    [_mapView removeAnnotations:[_mapView annotations]];
     
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
     NSMutableArray *pins = [NSMutableArray array];
@@ -343,17 +398,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self dismissModalViewControllerAnimated:YES];
 }
 
-/* - (NSArray*)loadMapLocations
-{
-    NSArray *location1 = [[NSArray alloc] initWithObjects:@"Juan Valdez - Midtown", @"140 East 57 St, 10022", @"40.761236", @"-73.968805", nil];
-    NSArray *location2 = [[NSArray alloc] initWithObjects:@"Whole Foods Cafe Tribeca", @"270 Greenwich St, 10007", @"40.715794", @"-74.011484", nil];
-    NSArray *location3 = [[NSArray alloc] initWithObjects:@"New York Film Academy Cafe", @"51 Astor Pl, 10003", @"40.730153", @"-73.990799", nil];
-    NSArray *location4 = [[NSArray alloc] initWithObjects:@"MANGIA - Chelsea", @"22 West 23rd St, 10023", @"40.742022", @"-73.990756", nil];
-    NSArray *location5 = [[NSArray alloc] initWithObjects:@"Orchard House Cafe", @"1064 1st Ave, 10022", @"40.759155", @"-73.962432", nil];
-    
-    return [[NSArray alloc] initWithObjects:location1, location2, location3, location4, location5, nil];
-} */
-
 - (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
 	
 	WEPopoverContainerViewProperties *props = [WEPopoverContainerViewProperties alloc];
@@ -394,13 +438,14 @@ calloutAccessoryControlTapped:(UIControl *)control
     if ([segue.identifier isEqualToString:@"Location Detail Segue"])
 	{
         LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
-        //locationDetailTVC.delegate = self;
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
-        
         NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
-        //NSLog(@"%@", self.selectedLocation);
         locationDetailTVC.selectedLocation = self.selectedLocation;
-	}
+	} else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
+        SettingsTVC *settingsTVC = segue.destinationViewController;
+        settingsTVC.delegate = self;
+        NSLog(@"Segue to Settings");
+    }
     /* else
     { NSLog(@"Unidentified Segue Attempted!"); } */
 }
@@ -457,7 +502,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
-        [mailViewController setSubject:@"NYC Wi-Fi App."];
+        [mailViewController setSubject:@"NYC Wi-Fi App"];
         [mailViewController setMessageBody:@"Check out this handy new app to help you find wi-fi in New York City!" isHTML:YES];
       
         [self presentModalViewController:mailViewController animated:YES];
@@ -476,6 +521,15 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self performSegueWithIdentifier:@"Settings Segue" sender:self];
 }
 
+#pragma mark -
+#pragma mark PopoverViewControllerDelegate implementation
+
+- (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
+{
+    NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
+    [self setupFilterPredicate];
+}
+
 #pragma mark - fetchedResultsController
 
 - (NSFetchedResultsController *)fetchedResultsController {
@@ -489,6 +543,8 @@ calloutAccessoryControlTapped:(UIControl *)control
                                    entityForName:@"LocationInfo" inManagedObjectContext:_managedObjectContext];
     [fetchRequest setEntity:entity];
     
+    [self setupFilterPredicate];
+    
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     
@@ -497,7 +553,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSFetchedResultsController *theFetchedResultsController =
     [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                         managedObjectContext:_managedObjectContext sectionNameKeyPath:nil
-                                                   cacheName:@"Root"];
+                                                   cacheName:nil];
+                                                   //cacheName:@"Root"];
     self.fetchedResultsController = theFetchedResultsController;
     _fetchedResultsController.delegate = self;
     

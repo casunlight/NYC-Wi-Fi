@@ -25,9 +25,18 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    /* if ([[NSUserDefaults standardUserDefaults] boolForKey:@"currentZipCode"] != nil) {
-        
-    } */
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
+    BOOL free = [defaults boolForKey:@"free"];
+    BOOL fee = [defaults boolForKey:@"fee"];
+    
+    if (zipCode) {
+        if ([zipCode integerValue] > 0)
+            currentZipCode.text = [zipCode stringValue];
+    }
+    
+    [freeSwitch setOn:free animated:NO];
+    [feeSwitch setOn:fee animated:NO];
 }
 
 - (void)viewDidLoad
@@ -37,12 +46,6 @@
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTouched)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,18 +125,23 @@
     
     // Create strings and integer to store the text info
     NSNumber *zipCode = [NSNumber numberWithInteger:[[currentZipCode text] integerValue]];
-    BOOL free  = freeSwitch.on;
-    BOOL fee = feeSwitch.on;
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:[zipCode integerValue] forKey:@"currentZipCode"];
-    [defaults setBool:free forKey:@"free"];
-    [defaults setBool:fee forKey:@"fee"];
+    [defaults setBool:freeSwitch.on forKey:@"free"];
+    [defaults setBool:feeSwitch.on forKey:@"fee"];
     [defaults synchronize];
+    
     NSLog(@"Settings saved");
     
-    [self dismissModalViewControllerAnimated:YES];
+    if (!freeSwitch.on && !feeSwitch.on) {
+        UIAlertView *selectLocationType = [[UIAlertView alloc] initWithTitle:@"Select Location Type" message:@"At least one location type needs to be switched on!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [selectLocationType show];
+    } else {
+        [self.delegate theDoneButtonOnTheSettingsTVCWasTapped:self];
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 - (void)viewDidUnload {

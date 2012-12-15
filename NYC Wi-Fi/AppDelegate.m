@@ -26,6 +26,13 @@
     ListViewController *listViewController = [[listViewControllerNav viewControllers] objectAtIndex:0];
     listViewController.managedObjectContext = self.managedObjectContext;
     
+    NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithBool:YES], @"free",
+                                          [NSNumber numberWithBool:YES], @"fee",
+                                          [NSNumber numberWithInt:0], @"currentZipCode",
+                                          nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
+    
     return YES;
 }
 							

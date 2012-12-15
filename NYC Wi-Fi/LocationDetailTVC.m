@@ -32,7 +32,7 @@
         
         annotationView.enabled = YES;
         annotationView.canShowCallout = NO;
-        annotationView.image = [UIImage imageNamed:@"green-pin.png"];
+        annotationView.image = [UIImage imageNamed:@"wifi-pin.png"];
         
         return annotationView;
     }
@@ -238,9 +238,9 @@
     _locationType.textLabel.text = self.selectedLocation.fee_type;
     //_locationType.imageView.contentMode = UIViewContentModeLeft;
     if ([self.selectedLocation.fee_type isEqualToString:@"Free"]) {
-        _locationType.imageView.image = [UIImage imageNamed:@"green-pin.png"];
+        _locationType.imageView.image = [UIImage imageNamed:@"wifi-pin.png"];
     } else {
-        _locationType.imageView.image = [UIImage imageNamed:@"orange-pin.png"];
+        _locationType.imageView.image = [UIImage imageNamed:@"wifi-pin-fee.png"];
     }
 }
 
