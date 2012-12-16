@@ -130,43 +130,49 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
 }
 
+/* - (void)zoomIfZipCodeIsSet
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
+    
+    if ([zipCode integerValue] > 0) {
+        NSLog(@"Zooming to zipCode predicate: %i", [zipCode integerValue]);
+    }
+} */
+
 - (void)setupFilterPredicate
 {
     NSLog(@"Set up the filter predicate");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
+    //NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
     BOOL free = [defaults boolForKey:@"free"];
     BOOL fee = [defaults boolForKey:@"fee"];
-    
-    BOOL zoomToFit = NO;
     
     NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:2];
     NSPredicate *predicate = [[NSPredicate alloc] init];
     
     if (free && !fee) {
-        //NSLog(@"Predicate set to free");
+        NSLog(@"Predicate set to free");
         predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
         [predicates addObject:predicate];
     } else if (!free && fee) {
-        //NSLog(@"Predicate set to fee");
+        NSLog(@"Predicate set to fee");
         predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
         [predicates addObject:predicate];
     }
     
-    if ([zipCode integerValue] > 0) {
+    /* if ([zipCode integerValue] > 0) {
         NSLog(@"Setting zipCode predicate: %i", [zipCode integerValue]);
         predicate = [NSPredicate predicateWithFormat:@"details.zip == %d", [zipCode integerValue]];
         [predicates addObject:predicate];
-        zoomToFit = YES;
-    }
+    } */
     
     if (predicates.count > 0) {
         [_fetchedResultsController.fetchRequest setPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]];
     } else {
+        NSLog(@"Showing all locations");
         [_fetchedResultsController.fetchRequest setPredicate:nil];
     }
-    
-	[self reloadMap];
 }
 
 - (void)reloadMap
@@ -180,10 +186,11 @@ calloutAccessoryControlTapped:(UIControl *)control
 			NSLog(@"No locations found");
 		else
 			[self plotMapLocations];
+            [self setStandardRegion];
 	}
 }
 
--(void)zoomToFitMapAnnotations
+/* - (void)zoomToFitMapAnnotations
 {
     if([_mapView.annotations count] == 0)
         return;
@@ -215,7 +222,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
-}
+} */
 
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
     
@@ -243,7 +250,6 @@ calloutAccessoryControlTapped:(UIControl *)control
         locationDetails.longitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"longitude"] doubleValue]];
         locationDetails.city = [mapLocation valueWithPath:@"city"];
         locationDetails.zip = [NSNumber numberWithInteger:[[mapLocation valueWithPath:@"zip"] integerValue]];
-        //NSLog(@"%i", [locationDetails.zip integerValue]);
         locationDetails.phone = [mapLocation valueWithPath:@"phone"];
         locationDetails.url = [mapLocation valueWithPath:@"url"];
         locationDetails.info = locationInfo;
@@ -291,7 +297,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     hud.labelText = @"Downloading locations...";
 }
 
-- (void)setMapRegion
+/* - (void)setMapRegion
 {
     NSNumber *zipCode = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"currentZipCode"]];
     
@@ -303,7 +309,7 @@ calloutAccessoryControlTapped:(UIControl *)control
         [self setStandardRegion];
         //[_mapView setRegion:_mapView.region animated:TRUE];
     }
-}
+} */
 
 - (void)setStandardRegion
 {
@@ -351,7 +357,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
     
     [self plotMapLocations];
-    [self setMapRegion];
+    //[self setMapRegion];
+    [self setStandardRegion];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -400,8 +407,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     [_mapView addAnnotations:pins];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-    [self setMapRegion];
 }
 
 /* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation
@@ -582,7 +587,10 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
 {
     NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
     [self setupFilterPredicate];
+    [self reloadMap];
 }
 
 #pragma mark - fetchedResultsController

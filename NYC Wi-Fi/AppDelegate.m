@@ -29,7 +29,7 @@
     NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithBool:YES], @"free",
                                           [NSNumber numberWithBool:YES], @"fee",
-                                          [NSNumber numberWithInt:0], @"currentZipCode",
+                                          //[NSNumber numberWithInt:0], @"currentZipCode",
                                           nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     

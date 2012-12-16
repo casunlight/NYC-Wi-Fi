@@ -17,15 +17,15 @@
 @end
 
 @interface SettingsTVC : UITableViewController {
-    IBOutlet UITextField *currentZipCode;
+    //IBOutlet UITextField *currentZipCode;
     IBOutlet UISwitch *freeSwitch;
     IBOutlet UISwitch *feeSwitch;
 }
 
 @property (nonatomic, weak) id <SettingsTVCDelegate> delegate;
 
-- (IBAction)textFieldReturn:(id)sender;
-- (void)backgroundTouched;
+//- (IBAction)textFieldReturn:(id)sender;
+//- (void)backgroundTouched;
 - (IBAction)doneButton:(UIBarButtonItem *)sender;
 
 @end

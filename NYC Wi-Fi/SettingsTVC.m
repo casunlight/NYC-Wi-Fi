@@ -26,14 +26,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
+    //NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
     BOOL free = [defaults boolForKey:@"free"];
     BOOL fee = [defaults boolForKey:@"fee"];
     
-    if (zipCode) {
+    /* if (zipCode) {
         if ([zipCode integerValue] > 0)
             currentZipCode.text = [zipCode stringValue];
-    }
+    } */
     
     [freeSwitch setOn:free animated:NO];
     [feeSwitch setOn:fee animated:NO];
@@ -43,9 +43,9 @@
 {
     [super viewDidLoad];
     
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTouched)];
+    /* UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTouched)];
     gestureRecognizer.cancelsTouchesInView = NO;
-    [self.tableView addGestureRecognizer:gestureRecognizer];
+    [self.tableView addGestureRecognizer:gestureRecognizer]; */
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,29 +106,29 @@
      */
 }
 
-- (IBAction)textFieldReturn:(id)sender
+/* - (IBAction)textFieldReturn:(id)sender
 {
     [sender resignFirstResponder];
     //[self.view endEditing:YES];
-}
+} */
 
-- (void)backgroundTouched
+/* - (void)backgroundTouched
 {
     [currentZipCode resignFirstResponder];
-}
+} */
 
 - (IBAction)doneButton:(UIBarButtonItem *)sender {
     // Hide the keyboard
-    [currentZipCode resignFirstResponder];
+    //[currentZipCode resignFirstResponder];
     [freeSwitch resignFirstResponder];
     [feeSwitch resignFirstResponder];
     
     // Create strings and integer to store the text info
-    NSNumber *zipCode = [NSNumber numberWithInteger:[[currentZipCode text] integerValue]];
+    //NSNumber *zipCode = [NSNumber numberWithInteger:[[currentZipCode text] integerValue]];
     
     // Store the data
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:[zipCode integerValue] forKey:@"currentZipCode"];
+    //[defaults setInteger:[zipCode integerValue] forKey:@"currentZipCode"];
     [defaults setBool:freeSwitch.on forKey:@"free"];
     [defaults setBool:feeSwitch.on forKey:@"fee"];
     [defaults synchronize];
@@ -145,7 +145,7 @@
 }
 
 - (void)viewDidUnload {
-    currentZipCode = nil;
+    //currentZipCode = nil;
     freeSwitch = nil;
     feeSwitch = nil;
     [super viewDidUnload];
