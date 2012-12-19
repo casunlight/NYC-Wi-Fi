@@ -93,8 +93,6 @@
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AD5272B16821DB400B4BD02 /* nyc-nav-bar-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */; };
 		0AD5272C16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */; };
-		0AD527301682234000B4BD02 /* zoom-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272E1682234000B4BD02 /* zoom-search.png */; };
-		0AD527311682234000B4BD02 /* zoom-search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272F1682234000B4BD02 /* zoom-search@2x.png */; };
 		0AD52733168226E800B4BD02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD52732168226E800B4BD02 /* Default@2x.png */; };
 		0AD52735168226EE00B4BD02 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD52734168226EE00B4BD02 /* Default.png */; };
 		0AD5273A1682516600B4BD02 /* tab-clipboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD527361682516600B4BD02 /* tab-clipboard.png */; };
@@ -239,8 +237,6 @@
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
 		0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo.png"; sourceTree = "<group>"; };
 		0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo@2x.png"; sourceTree = "<group>"; };
-		0AD5272E1682234000B4BD02 /* zoom-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-search.png"; sourceTree = "<group>"; };
-		0AD5272F1682234000B4BD02 /* zoom-search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zoom-search@2x.png"; sourceTree = "<group>"; };
 		0AD52732168226E800B4BD02 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		0AD52734168226EE00B4BD02 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		0AD527361682516600B4BD02 /* tab-clipboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-clipboard.png"; sourceTree = "<group>"; };
@@ -447,8 +443,6 @@
 				0AD52734168226EE00B4BD02 /* Default.png */,
 				0AD52732168226E800B4BD02 /* Default@2x.png */,
 				0A83BBA31646D2AF00319860 /* Default-568h@2x.png */,
-				0AD5272E1682234000B4BD02 /* zoom-search.png */,
-				0AD5272F1682234000B4BD02 /* zoom-search@2x.png */,
 				0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */,
 				0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */,
 				0A0721061679A2080047EB6D /* orange-cluster.png */,
@@ -627,8 +621,6 @@
 				0A072113167A76E60047EB6D /* wifi-pin@2x.png in Resources */,
 				0AD5272B16821DB400B4BD02 /* nyc-nav-bar-logo.png in Resources */,
 				0AD5272C16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png in Resources */,
-				0AD527301682234000B4BD02 /* zoom-search.png in Resources */,
-				0AD527311682234000B4BD02 /* zoom-search@2x.png in Resources */,
 				0AD52733168226E800B4BD02 /* Default@2x.png in Resources */,
 				0AD52735168226EE00B4BD02 /* Default.png in Resources */,
 				0AD5273A1682516600B4BD02 /* tab-clipboard.png in Resources */,
