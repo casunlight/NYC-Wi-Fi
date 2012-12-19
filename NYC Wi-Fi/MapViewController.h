@@ -21,7 +21,7 @@
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, SettingsTVCDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, SettingsTVCDelegate> {
     BOOL _doneInitialZoom;
     //CLLocationDegrees zoomLevel;
     CLLocationManager *locationManager;
@@ -41,6 +41,7 @@
 //- (void)filterAnnotations:(NSArray *)placesToFilter;
 - (void)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
-- (IBAction)showUserLocation:(UIBarButtonItem *)sender;
+- (void)searchLocations;
+- (void)showUserLocation;
 
 @end

@@ -24,7 +24,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }

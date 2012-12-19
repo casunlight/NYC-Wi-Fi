@@ -324,7 +324,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
+{    
     _mapView.delegate = self;
     [self setStandardRegion];
 }
@@ -365,6 +365,27 @@ calloutAccessoryControlTapped:(UIControl *)control
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     popoverClass = [WEPopoverController class];
+    
+    // Create the search, fixed-space (optional), and locate buttons.
+    UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                     target:self
+                                     action:@selector(searchLocations)];
+    
+    //    // Optional: if you want to add space between the refresh & profile buttons
+    //    UIBarButtonItem *fixedSpaceBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    fixedSpaceBarButtonItem.width = 12;
+    
+    //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+    
+    UIBarButtonItem *locateMeButtonItem = [[UIBarButtonItem alloc]
+                                           initWithImage:[UIImage imageNamed:@"locate-me-pin.png"]
+                                           style:UIBarButtonItemStyleBordered
+                                           target:self
+                                           action:@selector(showUserLocation)];
+    
+    self.navigationItem.rightBarButtonItems = @[locateMeButtonItem, /* fixedSpaceBarButtonItem, */ searchBarButtonItem];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
 - (void)viewDidUnload
@@ -531,7 +552,40 @@ calloutAccessoryControlTapped:(UIControl *)control
 	}
 }
 
-- (IBAction)showUserLocation:(UIBarButtonItem *)sender {
+- (void)searchLocations {
+    UIAlertView *searchLocationsAlert = [[UIAlertView alloc] initWithTitle:@"Enter an address or zip code"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Search", nil];
+    [searchLocationsAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [searchLocationsAlert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Search"])
+    {
+        UITextField *searchText = [alertView textFieldAtIndex:0];
+        NSLog(@"Search: %@", searchText.text);
+    }
+}
+
+/* - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    NSString *inputText = [[alertView textFieldAtIndex:0] text];
+    if( [inputText length] >= 10 )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+} */
+
+- (void)showUserLocation {
     _mapView.showsUserLocation = YES;
     [self.locationManager startUpdatingLocation];
 }

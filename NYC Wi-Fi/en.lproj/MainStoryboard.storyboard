@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="icu-aL-buk">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller - NYC Wi-Fi-->
+        <!--Map View Controller-->
         <scene sceneID="fwj-eW-VbH">
             <objects>
                 <viewController storyboardIdentifier="MapView" id="Fz6-DD-M11" customClass="MapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bd8-E2-sTu">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="Ii1-ZB-cUL" customClass="WifiClusterMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="415"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="459"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="Fz6-DD-M11" id="4fN-YF-Akg"/>
@@ -23,15 +22,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="NYC Wi-Fi" id="R4K-4k-vjg">
-                        <barButtonItem key="leftBarButtonItem" image="ButtonMenu.png" id="M47-F4-PP5">
+                    <navigationItem key="navigationItem" id="R4K-4k-vjg">
+                        <barButtonItem key="leftBarButtonItem" image="menu-button.png" id="M47-F4-PP5">
                             <connections>
                                 <action selector="showPopover:" destination="Fz6-DD-M11" id="VZc-pp-2dc"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="o8j-nJ-WTW">
-                            <connections>
-                                <action selector="showUserLocation:" destination="Fz6-DD-M11" id="mhv-k9-zAZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -159,20 +153,21 @@
                         <sections>
                             <tableViewSection id="h1x-LO-wlJ">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Ku9-2f-Moy" rowHeight="92" style="IBUITableViewCellStyleDefault" id="G2b-ui-Me7">
-                                        <rect key="frame" x="0.0" y="54" width="320" height="94"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="107" id="G2b-ui-Me7">
+                                        <rect key="frame" x="0.0" y="54" width="320" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="91"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="NYC Wi-Fi is a free app designed to help you easily" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ku9-2f-Moy">
-                                                    <rect key="frame" x="10" y="0.0" width="280" height="91"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                                    <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
+                                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" id="pDG-fu-yHq">
+                                                    <rect key="frame" x="5" y="0.0" width="290" height="100"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <string key="text">NYC Wi-Fi is a free app that organizes      Wi-Fi location data provided by NYC Open Data. We hope you enjoy this app and find it useful. Please do not hestitate to send us feedback. Thanks!</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -181,25 +176,18 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Created By" id="KL7-cU-LH6">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rrb-V1-COS" detailTextLabel="bAI-XR-c6d" style="IBUITableViewCellStyleSubtitle" id="SBL-iN-9xY">
-                                        <rect key="frame" x="0.0" y="194" width="320" height="46"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="rrb-V1-COS" style="IBUITableViewCellStyleDefault" id="SBL-iN-9xY">
+                                        <rect key="frame" x="0.0" y="209" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Kevin Wolkober" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rrb-V1-COS">
-                                                    <rect key="frame" x="10" y="2" width="137" height="22"/>
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="http://www.kevinwolkober.com/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bAI-XR-c6d">
-                                                    <rect key="frame" x="10" y="24" width="193" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
                                             </subviews>
@@ -211,7 +199,7 @@
                             <tableViewSection headerTitle="Logo Design By" id="UxD-5C-V3a">
                                 <cells>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Hu7-7s-LRg" style="IBUITableViewCellStyleDefault" id="jYp-N7-dKg">
-                                        <rect key="frame" x="0.0" y="286" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="301" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -233,7 +221,7 @@
                             <tableViewSection headerTitle="Quality Assurance" id="snM-fq-WWt">
                                 <cells>
                                     <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LUq-kz-sKc" style="IBUITableViewCellStyleDefault" id="fgl-wP-62Z">
-                                        <rect key="frame" x="0.0" y="378" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="393" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -241,6 +229,46 @@
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Yichen Tu and Yishan Tu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LUq-kz-sKc">
                                                     <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="N4f-9r-UJR">
+                                <cells>
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="jBo-GO-ySa" style="IBUITableViewCellStyleDefault" id="MAV-KO-yTA">
+                                        <rect key="frame" x="0.0" y="459" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Visit NYC Open Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jBo-GO-ySa">
+                                                    <rect key="frame" x="10" y="0.0" width="260" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="osD-mD-ZZy" style="IBUITableViewCellStyleDefault" id="3hP-Nb-4h7">
+                                        <rect key="frame" x="0.0" y="504" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Visit the NYC Wi-Fi home page" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="osD-mD-ZZy">
+                                                    <rect key="frame" x="10" y="0.0" width="260" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -267,9 +295,10 @@
         <scene sceneID="M6O-cR-Gtq">
             <objects>
                 <navigationController definesPresentationContext="YES" id="dWC-kU-ndh" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="tab-pin.png" id="241-3i-ygX"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="t6W-Ag-Lz6">
+                    <tabBarItem key="tabBarItem" title="Map" image="tab-map.png" id="241-3i-ygX"/>
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="t6W-Ag-Lz6">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.30463047450000003" green="0.55947764600000005" blue="0.85683736310000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="Fz6-DD-M11" kind="relationship" relationship="rootViewController" id="02e-Z7-mNm"/>
@@ -342,13 +371,12 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="NYC Wi-Fi" id="hOJ-VO-zYa">
+                    <navigationItem key="navigationItem" id="hOJ-VO-zYa">
                         <barButtonItem key="leftBarButtonItem" image="ButtonMenu.png" id="CRd-JV-5vi">
                             <connections>
                                 <action selector="showPopover:" destination="54D-ba-TnM" id="lXw-xF-gfU"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="location-arrow.png" id="cgo-G4-SmU"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -365,7 +393,7 @@
             <objects>
                 <tableViewController id="zp5-Bt-SbM" customClass="LocationDetailTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7rD-w9-cO8">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
@@ -485,9 +513,10 @@
         <scene sceneID="6cy-uZ-FDN">
             <objects>
                 <navigationController definesPresentationContext="YES" id="8yM-AW-g4R" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="List" image="tab-notepad.png" id="MX6-SA-7UI"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LS3-lL-5ev">
+                    <tabBarItem key="tabBarItem" title="List" image="tab-clipboard.png" id="MX6-SA-7UI"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="LS3-lL-5ev">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.30463047450000003" green="0.55947764600000005" blue="0.85683736310000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="54D-ba-TnM" kind="relationship" relationship="rootViewController" id="6Ek-1h-Hf6"/>
@@ -500,18 +529,62 @@
     </scenes>
     <resources>
         <image name="ButtonMenu.png" width="22" height="17"/>
-        <image name="location-arrow.png" width="22" height="17"/>
-        <image name="tab-notepad.png" width="22" height="28"/>
-        <image name="tab-pin.png" width="10" height="20"/>
+        <image name="menu-button.png" width="16" height="17"/>
+        <image name="tab-clipboard.png" width="18" height="25"/>
+        <image name="tab-map.png" width="24" height="25"/>
     </resources>
+    <classes>
+        <class className="AboutViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="ListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="LocationDetailTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationDetailTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="callLocationPhoneNumberAction:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="locationAddress" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationMap" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="locationName" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationPhone" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationType" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationWebsite" candidateClass="UITableViewCell"/>
+            </relationships>
+        </class>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mapView" candidateClass="WifiClusterMapView"/>
+            </relationships>
+        </class>
+        <class className="SettingsTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="feeSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="freeSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="WifiClusterMapView" superclassName="MKMapView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WifiClusterMapView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3jB-eV-F8J"/>
-        <segue reference="kod-LG-W6i"/>
         <segue reference="dk1-N4-j45"/>
+        <segue reference="kod-LG-W6i"/>
+        <segue reference="3jB-eV-F8J"/>
     </inferredMetricsTieBreakers>
 </document>

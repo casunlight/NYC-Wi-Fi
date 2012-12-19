@@ -19,10 +19,16 @@
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     
     UINavigationController *mapViewControllerNav = [[tabBarController viewControllers] objectAtIndex:0];
+    mapViewControllerNav.navigationBar.translucent = YES;
+    mapViewControllerNav.navigationBar.opaque = YES;
+    //mapViewControllerNav.navigationBar.tintColor = [UIColor clearColor];
+    //mapViewControllerNav.navigationBar.backgroundColor = [UIColor clearColor];
     MapViewController *mapViewController = [[mapViewControllerNav viewControllers] objectAtIndex:0];
     mapViewController.managedObjectContext = self.managedObjectContext;
     
     UINavigationController *listViewControllerNav = [[tabBarController viewControllers] objectAtIndex:1];
+    listViewControllerNav.navigationBar.translucent = YES;
+    listViewControllerNav.navigationBar.opaque = YES;
     ListViewController *listViewController = [[listViewControllerNav viewControllers] objectAtIndex:0];
     listViewController.managedObjectContext = self.managedObjectContext;
     

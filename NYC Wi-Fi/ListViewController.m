@@ -66,6 +66,14 @@
     }
     
     popoverClass = [WEPopoverController class];
+    
+    UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
+                                            initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                            target:self
+                                            action:@selector(searchLocations)];
+    
+    self.navigationItem.rightBarButtonItems = @[searchBarButtonItem];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
 - (void)viewDidUnload
