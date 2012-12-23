@@ -16,7 +16,9 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize selectedLocation = _selectedLocation;
-@synthesize popoverController, sections, sectionTitles;
+@synthesize searchBar = _searchBar;
+@synthesize filteredTableData = _filteredTableData;
+@synthesize popoverController, sections, sectionTitles, isFiltered;
 
 - (void)listLocations
 {
@@ -27,11 +29,6 @@
     //NSLog(@"%@", _fetchedLocations);
     
     //[MBProgressHUD hideHUDForView:self.view animated:YES];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    //NSLog(@"%@", @"Appeared!");
 }
 
 - (void)viewDidLoad
@@ -67,13 +64,22 @@
     
     popoverClass = [WEPopoverController class];
     
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
+    _searchBar.placeholder = @"Search location name";
+    _searchBar.delegate = self;
+    _searchBar.tintColor = [UIColor colorWithRed:78.0/255.0f green:143.0/255.0f blue:218.0/255.0f alpha:1.0f];
+    _searchBar.translucent = YES;
+    //_searchBar.opaque = YES;
+    [_searchBar sizeToFit];
+    self.tableView.tableHeaderView = _searchBar;
+    
     UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
                                             initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                             target:self
                                             action:@selector(searchLocations)];
     
     self.navigationItem.rightBarButtonItems = @[searchBarButtonItem];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
+    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
 - (void)viewDidUnload
@@ -81,6 +87,32 @@
     [super viewDidUnload];
     [self.popoverController dismissPopoverAnimated:NO];
 	self.popoverController = nil;
+}
+
+- (void)searchLocations
+{
+    if ([_searchBar isFirstResponder]) {
+        _searchBar.showsCancelButton = NO;
+        [_searchBar resignFirstResponder];
+    } else {
+        [self.tableView scrollRectToVisible:[[self.tableView tableHeaderView] bounds] animated:NO];
+        _searchBar.showsCancelButton = YES;
+        [_searchBar becomeFirstResponder];
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar resignFirstResponder];
+    _searchBar.showsCancelButton = NO;
+}
+
+// called when cancel button pressed
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar resignFirstResponder];
+    _searchBar.showsCancelButton = NO;
+    //_searchBar.text = @"";
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -105,21 +137,37 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.sections count];
+    if (self.isFiltered)
+        return 1;
+    else
+        return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.sections objectAtIndex:section] count];
+    //return [[self.sections objectAtIndex:section] count];
+    int rowCount;
+    if (self.isFiltered)
+        rowCount = _filteredTableData.count;
+    else
+        rowCount = [[self.sections objectAtIndex:section] count];
+    
+    return rowCount;
 }
 
-- (NSArray *) sectionIndexTitlesForTableView:(UITableView *)tableView
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return self.sectionTitles;
+    if (self.isFiltered)
+        return nil;
+    else
+        return self.sectionTitles;
 }
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
-    return [self.sectionTitles objectAtIndex:section];
+    if (self.isFiltered)
+        return nil;
+    else
+        return [self.sectionTitles objectAtIndex:section];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -137,13 +185,41 @@
     
     // Configure the cell...
     //LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
-    LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    //LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    LocationInfo *location;
+    
+    if(isFiltered)
+        location = [_filteredTableData objectAtIndex:indexPath.row];
+    else
+        location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.text = location.name;
     cell.detailTextLabel.text = location.address;
     //NSLog(@"!!!%@", cell.detailTextLabel.text);
     //NSLog(@"!!!!!!!%@", location.address);
     
     return cell;
+}
+
+#pragma mark - Table view delegate
+
+-(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
+{
+    _searchBar.showsCancelButton = YES;
+    if (text.length == 0) {
+        isFiltered = FALSE;
+    } else {
+        isFiltered = true;
+        _filteredTableData = [[NSMutableArray alloc] init];
+        
+        for (LocationInfo* location in _fetchedLocations) {
+            NSRange nameRange = [location.name rangeOfString:text options:NSCaseInsensitiveSearch];
+            if (nameRange.location != NSNotFound) {
+                [_filteredTableData addObject:location];
+            }
+        }
+    }
+    
+    [self.tableView reloadData];
 }
 
 /*
@@ -225,14 +301,21 @@
     if ([segue.identifier isEqualToString:@"Location Detail Segue"])
 	{
         //NSLog(@"Setting ListViewController as a delegate of LocationDetailViewController");
-        
+        [_searchBar resignFirstResponder];
         LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
         //locationDetailTVC.delegate = self;
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         //self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        
+        if (isFiltered) {
+            self.selectedLocation = [_filteredTableData objectAtIndex:indexPath.row];
+        } else {
+            self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        }
+        
+        //self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
         //NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         //NSLog(@"%@", self.selectedLocation);

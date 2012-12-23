@@ -27,8 +27,8 @@
     mapViewController.managedObjectContext = self.managedObjectContext;
     
     UINavigationController *listViewControllerNav = [[tabBarController viewControllers] objectAtIndex:1];
-    listViewControllerNav.navigationBar.translucent = YES;
-    listViewControllerNav.navigationBar.opaque = YES;
+    //listViewControllerNav.navigationBar.translucent = YES;
+    //listViewControllerNav.navigationBar.opaque = YES;
     ListViewController *listViewController = [[listViewControllerNav viewControllers] objectAtIndex:0];
     listViewController.managedObjectContext = self.managedObjectContext;
     

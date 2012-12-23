@@ -385,7 +385,7 @@ calloutAccessoryControlTapped:(UIControl *)control
                                            action:@selector(showUserLocation)];
     
     self.navigationItem.rightBarButtonItems = @[locateMeButtonItem, /* fixedSpaceBarButtonItem, */ searchBarButtonItem];
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
+    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
 - (void)viewDidUnload
@@ -567,9 +567,65 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Search"])
     {
-        UITextField *searchText = [alertView textFieldAtIndex:0];
-        NSLog(@"Search: %@", searchText.text);
+        UITextField *addressTextField = [alertView textFieldAtIndex:0];
+        NSString *address = addressTextField.text;
+        
+        if ([addressTextField.text rangeOfString:@"New York"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"NY"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"NYC"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"Brooklyn"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"Queens"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"Bronx"].location == NSNotFound &&
+            [addressTextField.text rangeOfString:@"Staten"].location == NSNotFound) {
+            address = [NSString stringWithFormat:@"%@, New York, NY", address];
+        }
+        
+        [self geolocateAddressAndZoomOnMap:address];
     }
+}
+
+- (void)geolocateAddressAndZoomOnMap:(NSString *)address
+{
+    CLGeocoder *coder = [[CLGeocoder alloc] init];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Searching for address...";
+    [coder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error){
+        if (!error) {
+            if (placemarks.count > 0) {
+                CLPlacemark *placemark = [placemarks objectAtIndex:0];
+                double latitude = placemark.region.center.latitude;
+                double longitude = placemark.region.center.longitude;
+                [self zoomMapAndCenterAtLatitude:latitude andLongitude:longitude];
+                //NSLog(@"%@", placemarks);
+            } else {
+                UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
+                                                                              message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"
+                                                                             delegate:nil
+                                                                    cancelButtonTitle:@"OK"
+                                                                    otherButtonTitles:nil];
+                [errorFindingAddress show];
+            }
+        } else {
+            UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Whoops"
+                                                                          message:@"Either the address you entered was invalid or there was an internet hiccup. Please enter a valid address and try again."
+                                                                         delegate:nil
+                                                                cancelButtonTitle:@"OK"
+                                                                otherButtonTitles:nil];
+            [errorFindingAddress show];
+            NSLog(@"%@", error);
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+
+- (void) zoomMapAndCenterAtLatitude:(double)latitude andLongitude:(double)longitude
+{
+    MKCoordinateRegion region;
+    region.center.latitude = latitude;
+    region.center.longitude = longitude;
+    region.span = MKCoordinateSpanMake(0.008, 0.008);
+    region = [_mapView regionThatFits:region];
+    [_mapView setRegion:region animated:YES];
 }
 
 /* - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView

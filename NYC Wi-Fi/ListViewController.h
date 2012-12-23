@@ -24,7 +24,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }
@@ -36,6 +36,9 @@
 @property (strong, nonatomic) NSMutableArray *sections;
 @property (strong, nonatomic) NSMutableArray *sectionTitles;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
+@property (nonatomic, retain) UISearchBar *searchBar;
+@property (nonatomic, assign) bool isFiltered;
+@property (strong, nonatomic) NSMutableArray* filteredTableData;
 @property (nonatomic, retain) WEPopoverController *popoverController;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
 

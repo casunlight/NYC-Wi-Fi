@@ -103,6 +103,7 @@
 		0AD527411682551A00B4BD02 /* locate-me-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5273F1682551A00B4BD02 /* locate-me-pin@2x.png */; };
 		0AD5274416825A1400B4BD02 /* menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274216825A1400B4BD02 /* menu-button.png */; };
 		0AD5274516825A1400B4BD02 /* menu-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274316825A1400B4BD02 /* menu-button@2x.png */; };
+		0AD5274716829D9B00B4BD02 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274616829D9B00B4BD02 /* menu.png */; };
 		0AD7BC8C16632D0B006745F7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7BC8B16632D0B006745F7 /* MessageUI.framework */; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
@@ -247,6 +248,7 @@
 		0AD5273F1682551A00B4BD02 /* locate-me-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locate-me-pin@2x.png"; sourceTree = "<group>"; };
 		0AD5274216825A1400B4BD02 /* menu-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button.png"; sourceTree = "<group>"; };
 		0AD5274316825A1400B4BD02 /* menu-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button@2x.png"; sourceTree = "<group>"; };
+		0AD5274616829D9B00B4BD02 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		0AD7BC8B16632D0B006745F7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -432,6 +434,7 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0AD5274616829D9B00B4BD02 /* menu.png */,
 				0AD5274216825A1400B4BD02 /* menu-button.png */,
 				0AD5274316825A1400B4BD02 /* menu-button@2x.png */,
 				0AD5273E1682551A00B4BD02 /* locate-me-pin.png */,
@@ -631,6 +634,7 @@
 				0AD527411682551A00B4BD02 /* locate-me-pin@2x.png in Resources */,
 				0AD5274416825A1400B4BD02 /* menu-button.png in Resources */,
 				0AD5274516825A1400B4BD02 /* menu-button@2x.png in Resources */,
+				0AD5274716829D9B00B4BD02 /* menu.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

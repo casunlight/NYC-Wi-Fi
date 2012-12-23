@@ -42,6 +42,7 @@
 - (void)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
 - (void)searchLocations;
+- (void)geolocateAddressAndZoomOnMap:(NSString *)address;
 - (void)showUserLocation;
 
 @end
