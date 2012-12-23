@@ -73,6 +73,11 @@
     [_searchBar sizeToFit];
     self.tableView.tableHeaderView = _searchBar;
     
+    //Hide searchBar initially
+    CGRect newBounds = self.tableView.bounds;
+    newBounds.origin.y = newBounds.origin.y + _searchBar.bounds.size.height;
+    self.tableView.bounds = newBounds;
+    
     UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
                                             initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                             target:self
@@ -95,7 +100,7 @@
         _searchBar.showsCancelButton = NO;
         [_searchBar resignFirstResponder];
     } else {
-        [self.tableView scrollRectToVisible:[[self.tableView tableHeaderView] bounds] animated:NO];
+        [self.tableView scrollRectToVisible:[[self.tableView tableHeaderView] bounds] animated:YES];
         _searchBar.showsCancelButton = YES;
         [_searchBar becomeFirstResponder];
     }
