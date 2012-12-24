@@ -38,6 +38,7 @@
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize searchBar = _searchBar;
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
 
@@ -366,6 +367,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     popoverClass = [WEPopoverController class];
     
+    _searchBar.hidden = YES;
+    
     // Create the search, fixed-space (optional), and locate buttons.
     UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
                                      initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
@@ -393,6 +396,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self setMapView:nil];
     [self.popoverController dismissPopoverAnimated:NO];
 	self.popoverController = nil;
+    [self setSearchBar:nil];
     [super viewDidUnload];
 }
 
@@ -553,13 +557,13 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)searchLocations {
-    UIAlertView *searchLocationsAlert = [[UIAlertView alloc] initWithTitle:@"Enter an address or zip code"
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Cancel"
-                                                  otherButtonTitles:@"Search", nil];
-    [searchLocationsAlert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    [searchLocationsAlert show];
+    if (_searchBar.hidden) {
+        _searchBar.hidden = NO;
+        [_searchBar becomeFirstResponder];
+    } else {
+        _searchBar.hidden = YES;
+        [_searchBar resignFirstResponder];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -582,6 +586,33 @@ calloutAccessoryControlTapped:(UIControl *)control
         
         [self geolocateAddressAndZoomOnMap:address];
     }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    _searchBar.hidden = YES;
+    [_searchBar resignFirstResponder];
+    NSString *address = searchBar.text;
+    _searchBar.text = @"";
+    
+    if ([address rangeOfString:@"New York"].location == NSNotFound &&
+        [address rangeOfString:@"NY"].location == NSNotFound &&
+        [address rangeOfString:@"NYC"].location == NSNotFound &&
+        [address rangeOfString:@"Brooklyn"].location == NSNotFound &&
+        [address rangeOfString:@"Queens"].location == NSNotFound &&
+        [address rangeOfString:@"Bronx"].location == NSNotFound &&
+        [address rangeOfString:@"Staten"].location == NSNotFound) {
+        address = [NSString stringWithFormat:@"%@, New York, NY", address];
+    }
+    
+    [self geolocateAddressAndZoomOnMap:address];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    _searchBar.hidden = YES;
+    [_searchBar resignFirstResponder];
+    _searchBar.text = @"";
 }
 
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address
@@ -693,6 +724,13 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 #pragma mark -
 #pragma mark PopoverViewControllerDelegate implementation
+
+- (void)theDoneButtonOnTheAboutViewControllerWasTapped:(AboutViewController *)controller
+{
+    NSLog(@"theDoneButtonOnTheAboutViewControllerWasTapped");
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
+}
 
 - (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
 {

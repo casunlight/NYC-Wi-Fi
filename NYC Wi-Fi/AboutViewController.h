@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class AboutViewController;
+
+@protocol AboutViewControllerDelegate
+
+- (void)theDoneButtonOnTheAboutViewControllerWasTapped:(AboutViewController *)controller;
+
+@end
+
 @interface AboutViewController : UITableViewController
+
+@property (nonatomic, weak) id <AboutViewControllerDelegate> delegate;
+
+- (IBAction)doneButton:(UIBarButtonItem *)sender;
 
 @end

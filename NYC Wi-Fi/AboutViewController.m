@@ -93,6 +93,7 @@
 }
 
 - (IBAction)doneButton:(UIBarButtonItem *)sender {
+    [self.delegate theDoneButtonOnTheAboutViewControllerWasTapped:self];
     [self dismissModalViewControllerAnimated:YES];
 }
 

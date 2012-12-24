@@ -16,12 +16,13 @@
 #import "ListViewController.h"
 #import "WEPopoverController.h"
 #import "PopoverViewController.h"
+#import "AboutViewController.h"
 #import "SettingsTVC.h"
 #import "WifiClusterMapView.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, SettingsTVCDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate> {
     BOOL _doneInitialZoom;
     //CLLocationDegrees zoomLevel;
     CLLocationManager *locationManager;
@@ -38,6 +39,7 @@
 @property (nonatomic, retain) NSPredicate *filterPredicate;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 //- (void)filterAnnotations:(NSArray *)placesToFilter;
 - (void)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;

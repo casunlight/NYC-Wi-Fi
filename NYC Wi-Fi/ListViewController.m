@@ -464,6 +464,23 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 }
 
 #pragma mark -
+#pragma mark PopoverViewControllerDelegate implementation
+
+- (void)theDoneButtonOnTheAboutViewControllerWasTapped:(AboutViewController *)controller
+{
+    NSLog(@"theDoneButtonOnTheAboutViewControllerWasTapped");
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
+}
+
+- (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
+{
+    NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
+}
+
+#pragma mark -
 #pragma mark WEPopoverControllerDelegate implementation
 
 - (void)popoverControllerDidDismissPopover:(WEPopoverController *)thePopoverController {

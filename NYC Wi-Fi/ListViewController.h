@@ -15,6 +15,8 @@
 #import "LocationDetailTVC.h"
 #import "WEPopoverController.h"
 #import "PopoverViewController.h"
+#import "AboutViewController.h"
+#import "SettingsTVC.h"
 
 @class ListViewController;
 
@@ -24,7 +26,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }
