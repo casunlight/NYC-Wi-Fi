@@ -54,7 +54,6 @@
 		0A556F9115F2C42600C5638C /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F8315F2C42600C5638C /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F9215F2C42600C5638C /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F8715F2C42600C5638C /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A556F9315F2C42600C5638C /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F8915F2C42600C5638C /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		0A556F9715F2C45000C5638C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556F9615F2C45000C5638C /* MBProgressHUD.m */; };
 		0A556F9915F2C47800C5638C /* wifi-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A556F9815F2C47800C5638C /* wifi-pin.png */; };
 		0A556F9B15F2C4B200C5638C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A556F9A15F2C4B200C5638C /* CFNetwork.framework */; };
 		0A556F9D15F2C4BA00C5638C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A556F9C15F2C4BA00C5638C /* SystemConfiguration.framework */; };
@@ -92,6 +91,7 @@
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */; };
+		0AD472D51688BF7A006BD2D3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD472D41688BF7A006BD2D3 /* MBProgressHUD.m */; };
 		0AD5272B16821DB400B4BD02 /* nyc-nav-bar-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */; };
 		0AD5272C16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */; };
 		0AD52733168226E800B4BD02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD52732168226E800B4BD02 /* Default@2x.png */; };
@@ -185,8 +185,6 @@
 		0A556F8815F2C42600C5638C /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
 		0A556F8915F2C42600C5638C /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
 		0A556F8A15F2C42600C5638C /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
-		0A556F9515F2C45000C5638C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		0A556F9615F2C45000C5638C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		0A556F9815F2C47800C5638C /* wifi-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-pin.png"; sourceTree = "<group>"; };
 		0A556F9A15F2C4B200C5638C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		0A556F9C15F2C4BA00C5638C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -239,6 +237,8 @@
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
 		0AD472CF1687C71B006BD2D3 /* LocationInfo+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LocationInfo+Extensions.h"; sourceTree = "<group>"; };
 		0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LocationInfo+Extensions.m"; sourceTree = "<group>"; };
+		0AD472D31688BF7A006BD2D3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		0AD472D41688BF7A006BD2D3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo.png"; sourceTree = "<group>"; };
 		0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo@2x.png"; sourceTree = "<group>"; };
 		0AD52732168226E800B4BD02 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
@@ -344,8 +344,8 @@
 		0A556F9415F2C44700C5638C /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				0A556F9515F2C45000C5638C /* MBProgressHUD.h */,
-				0A556F9615F2C45000C5638C /* MBProgressHUD.m */,
+				0AD472D31688BF7A006BD2D3 /* MBProgressHUD.h */,
+				0AD472D41688BF7A006BD2D3 /* MBProgressHUD.m */,
 			);
 			name = MBProgressHUD;
 			sourceTree = "<group>";
@@ -663,7 +663,6 @@
 				0A556F9115F2C42600C5638C /* ASIHTTPRequest.m in Sources */,
 				0A556F9215F2C42600C5638C /* ASIInputStream.m in Sources */,
 				0A556F9315F2C42600C5638C /* ASINetworkQueue.m in Sources */,
-				0A556F9715F2C45000C5638C /* MBProgressHUD.m in Sources */,
 				0A556FA715F41F9C00C5638C /* SMXMLDocument.m in Sources */,
 				0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */,
 				0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */,
@@ -683,6 +682,7 @@
 				0AAA291716758A0B00BF6383 /* WifiAnnotationsCollection.m in Sources */,
 				0A072119167A99A10047EB6D /* SettingsTVC.m in Sources */,
 				0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */,
+				0AD472D51688BF7A006BD2D3 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

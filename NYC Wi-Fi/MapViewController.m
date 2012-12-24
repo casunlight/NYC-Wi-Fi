@@ -13,7 +13,6 @@
 #import "LocationDetails.h"
 #import "ASIHTTPRequest.h"
 #import "SMXMLDocument.h"
-#import "MBProgressHUD.h"
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
 #import "WifiClusterAnnotationView.h"
@@ -141,7 +140,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
 } */
 
-- (void)setupFilterPredicate
+- (NSPredicate *)setupFilterPredicate
 {
     NSLog(@"Set up the filter predicate");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -169,11 +168,10 @@ calloutAccessoryControlTapped:(UIControl *)control
     } */
     
     if (predicates.count > 0) {
-        [_fetchedResultsController.fetchRequest setPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]];
-    } else {
-        NSLog(@"Showing all locations");
-        [_fetchedResultsController.fetchRequest setPredicate:nil];
+        return [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
     }
+    
+    return nil;
 }
 
 - (void)reloadMap
@@ -228,11 +226,16 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)importCoreDataDefaultLocations:(NSString *)responseString {
     
     NSLog(@"Importing Core Data Default Values for Locations...");
+    hud.labelText = @"Importing locations...";
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
     
     NSData* xmlData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
     SMXMLElement *mapLocations = [document.root childNamed:@"row"];
+    
+    float progress = 0.0f;
+    float progressStep = 1.0f / [mapLocations childrenNamed:@"row"].count;
     
     for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
         LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
@@ -257,6 +260,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         locationInfo.details = locationDetails;
         
         [self.managedObjectContext save:nil];
+        progress += progressStep;
+        hud.progress = progress;
     }
     
     NSLog(@"Importing Core Data Default Values for Locations Completed!");
@@ -280,10 +285,10 @@ calloutAccessoryControlTapped:(UIControl *)control
     __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
     [request setCompletionBlock:^{
+        //[MBProgressHUD hideHUDForView:self.view animated:YES];
         NSString *responseString = [request responseString];
         //NSLog(@"Response: %@", responseString);
         [self importCoreDataDefaultLocations:responseString];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     [request setFailedBlock:^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -294,8 +299,9 @@ calloutAccessoryControlTapped:(UIControl *)control
     }];
     
     [request startAsynchronous];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Downloading locations...";
+    //MBProgressHUD *importHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //importHud.labelText = @"Downloading locations...";
+    //importHud.detailsLabelText = @"One time only";
 }
 
 /* - (void)setMapRegion
@@ -349,6 +355,13 @@ calloutAccessoryControlTapped:(UIControl *)control
 		exit(-1);  // Fail
 	}
     
+    /* hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    hud.labelText = @"Importing locations...";
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    [self.navigationController.view addSubview:hud];
+    hud.delegate = self;
+    [hud showWhileExecuting:@selector(importCoreDataDefaultLocations) onTarget:self withObject:nil animated:YES]; */
+    
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
         [self loadLocationsFromXML];
@@ -356,6 +369,14 @@ calloutAccessoryControlTapped:(UIControl *)control
     else {
         NSLog(@"There's stuff in the database so skipping the import of default data");
     }
+    
+    /* hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.labelText = @"Loading locations...";
+    //hud.detailsLabelText = @"Just relax";
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    [self.view addSubview:hud];
+    hud.delegate = self;
+    [hud showWhileExecuting:@selector(plotMapLocations) onTarget:self withObject:nil animated:YES]; */
     
     [self plotMapLocations];
     //[self setMapRegion];
@@ -406,9 +427,9 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)plotMapLocations
-{    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading locations...";
+{
+    float progress = 0.0;
+    float progressStep = 1.0 / _fetchedLocations.count;
     
     /* for (id<MKAnnotation> annotation in _mapView.annotations) {
         [_mapView removeAnnotation:annotation];
@@ -428,10 +449,12 @@ calloutAccessoryControlTapped:(UIControl *)control
         
         MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
         [pins addObject:annotation];
+        
+        progress += progressStep;
+        //hud.progress = progress;
     }
     
     [_mapView addAnnotations:pins];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 /* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation
@@ -618,8 +641,8 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address
 {
     CLGeocoder *coder = [[CLGeocoder alloc] init];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Searching for address...";
+    MBProgressHUD *geolocateHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    geolocateHud.labelText = @"Searching for address...";
     [coder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error){
         if (!error) {
             if (placemarks.count > 0) {
@@ -737,7 +760,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
     [self.popoverController dismissPopoverAnimated:YES];
     self.popoverController = nil;
-    [self setupFilterPredicate];
+    [_fetchedResultsController.fetchRequest setPredicate:[self setupFilterPredicate]];
     [self reloadMap];
 }
 
@@ -753,8 +776,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:@"LocationInfo" inManagedObjectContext:_managedObjectContext];
     [fetchRequest setEntity:entity];
-    
-    [self setupFilterPredicate];
+    [fetchRequest setPredicate:[self setupFilterPredicate]];
     
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];

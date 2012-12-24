@@ -19,15 +19,17 @@
 #import "AboutViewController.h"
 #import "SettingsTVC.h"
 #import "WifiClusterMapView.h"
+#import "MBProgressHUD.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate, MBProgressHUDDelegate> {
     BOOL _doneInitialZoom;
     //CLLocationDegrees zoomLevel;
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
     Class popoverClass;
+    MBProgressHUD *hud;
     //WifiClusterMapView *_mapView;
 }
 
@@ -41,7 +43,7 @@
 @property (nonatomic, retain) WEPopoverController *popoverController;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 //- (void)filterAnnotations:(NSArray *)placesToFilter;
-- (void)setupFilterPredicate;
+- (NSPredicate *)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
 - (void)searchLocations;
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address;
