@@ -21,6 +21,8 @@
 @synthesize filteredTableData = _filteredTableData;
 @synthesize popoverController, sections, sectionTitles;
 
+static NSString *LocationCellIdentifier = @"ListViewCell";
+
 - (void)listLocations
 {
     //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -47,32 +49,10 @@
         [self listLocations];
     }
     
-    self.sections = [[NSMutableArray alloc] init];
-    self.sectionTitles = [[NSMutableArray alloc] init];
-    
-    for (LocationInfo *location in _fetchedLocations) {
-        NSMutableArray *section = [self.sections lastObject];
-        
-        if (!section || ![[[[section lastObject] name] substringToIndex:1] isEqualToString:[location.name substringToIndex:1]]) {
-            // Create a new section on change of first character
-            
-            [self.sections addObject:[[NSMutableArray alloc] init]];
-            [self.sectionTitles addObject:[location.name substringToIndex:1]];
-        }
-        
-        [[self.sections lastObject] addObject:location];
-    }
-    
     popoverClass = [WEPopoverController class];
     
-    /* _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
-    _searchBar.placeholder = @"Search location name";
-    _searchBar.delegate = self;
-    _searchBar.tintColor = [UIColor colorWithRed:78.0/255.0f green:143.0/255.0f blue:218.0/255.0f alpha:1.0f];
-    _searchBar.translucent = YES;
-    //_searchBar.opaque = YES;
+    _searchBar.showsScopeBar = NO;
     [_searchBar sizeToFit];
-    self.tableView.tableHeaderView = _searchBar; */
     
     //Hide searchBar initially
     CGRect newBounds = self.tableView.bounds;
@@ -97,29 +77,9 @@
 
 - (void)searchLocations
 {
-    [_searchBar becomeFirstResponder];
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    //[_searchBar becomeFirstResponder];
 }
-
-/* - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [_searchBar resignFirstResponder];
-    _searchBar.showsCancelButton = NO;
-} */
-
-// called when cancel button pressed
-/* - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    CGRect newBounds = self.tableView.bounds;
-    newBounds.origin.y = newBounds.origin.y + 44.0f;
-    self.tableView.bounds = newBounds;
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
-    CGRect newBounds = self.tableView.bounds;
-    newBounds.origin.y = newBounds.origin.y + 44.0f;
-    self.tableView.bounds = newBounds;
-} */
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
@@ -275,6 +235,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([cell.reuseIdentifier isEqualToString:LocationCellIdentifier])
+    {
+        [self performSegueWithIdentifier:@"Location Detail Segue" sender:cell];
+    }
+}
+
 /* #pragma mark - Table view delegate
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
@@ -297,7 +266,7 @@
     [self.tableView reloadData];
 } */
 
-/* #pragma mark Content Filtering
+#pragma mark Content Filtering
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
@@ -317,31 +286,8 @@
     }
     
     _filteredTableData = [NSMutableArray arrayWithArray:tempArray];
-} */
-
-
-/* #pragma mark - UISearchDisplayController Delegate Methods
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    // Tells the table data source to reload when text changes
-    [self filterContentForSearchText:searchString scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
 }
 
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
-    // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-} */
 
 #pragma mark -
 #pragma mark === UISearchDisplayDelegate ===
@@ -370,19 +316,25 @@
 {
     if (self.managedObjectContext)
     {
-        NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
+        NSMutableArray *predicates = [[NSMutableArray alloc] initWithCapacity:2];
+        NSString *predicateFormat = @"%K CONTAINS[c] %@";
         NSString *searchAttribute = @"name";
         
-        if (scopeOption == searchScopeCapital)
-        {
-            searchAttribute = @"capital";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
+        [predicates addObject:predicate];
+        
+        if (scopeOption == searchScopeFree) {
+            predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
+            [predicates addObject:predicate];
+        } else if (scopeOption == searchScopeFeeBased) {
+            predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
+            [predicates addObject:predicate];
         }
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
-        [self.searchFetchRequest setPredicate:predicate];
+        [self.searchFetchRequest setPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]];
         
         NSError *error = nil;
-        _filteredTableData = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
+        _filteredTableData = (NSMutableArray *)[self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
         
         if (error) {
             NSLog(@"searchFetchRequest failed: %@",[error localizedDescription]);
@@ -390,44 +342,23 @@
     }
 }
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
- }
- */
+/* - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+	searchBar.showsScopeBar = YES;
+	[searchBar sizeToFit];
+    
+	//[searchBar setShowsCancelButton:YES animated:YES];
+    
+	return YES;
+}
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
-    // Delete the row from the data source
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
- }
- */
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+	searchBar.showsScopeBar = NO;
+	[searchBar sizeToFit];
+    
+	//[searchBar setShowsCancelButton:NO animated:YES];
+    
+	return YES;
+} */
 
 - (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
 	

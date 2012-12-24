@@ -413,7 +413,7 @@
             </objects>
             <point key="canvasLocation" x="1524" y="-67"/>
         </scene>
-        <!--Location DetailTVC-->
+        <!--Location DetailTVC - Location-->
         <scene sceneID="rgQ-4l-mHj">
             <objects>
                 <tableViewController id="zp5-Bt-SbM" customClass="LocationDetailTVC" sceneMemberID="viewController">
@@ -522,7 +522,7 @@
                             <outlet property="delegate" destination="zp5-Bt-SbM" id="B5P-sC-s5I"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="jyD-9T-ohl"/>
+                    <navigationItem key="navigationItem" title="Location" id="jyD-9T-ohl"/>
                     <connections>
                         <outlet property="locationAddress" destination="2s7-di-SxT" id="LQw-j7-0bN"/>
                         <outlet property="locationMap" destination="Kka-8I-JhI" id="1GH-kk-dWz"/>
@@ -560,6 +560,9 @@
     <classes>
         <class className="AboutViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
+            </relationships>
         </class>
         <class className="ListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>

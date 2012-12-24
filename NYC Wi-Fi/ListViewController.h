@@ -44,8 +44,9 @@
 
 typedef enum
 {
-    searchScopeLocation = 0,
-    searchScopeCapital = 1
+    searchScopeAll = 0,
+    searchScopeFree = 1,
+    searchScopeFeeBased = 2
     
 } NYCWiFiSearchScope;
 
