@@ -24,7 +24,7 @@
 
 @end */
 
-@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface ListViewController : UITableViewController<NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate> {
     WEPopoverController *popoverController;
     Class popoverClass;
 }
@@ -32,14 +32,21 @@
 //@property (nonatomic, weak) id <ListViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSFetchRequest *searchFetchRequest;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) NSMutableArray *sections;
 @property (strong, nonatomic) NSMutableArray *sectionTitles;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
-@property (nonatomic, retain) UISearchBar *searchBar;
-@property (nonatomic, assign) bool isFiltered;
-@property (strong, nonatomic) NSMutableArray* filteredTableData;
+@property (strong, nonatomic) NSMutableArray *filteredTableData;
 @property (nonatomic, retain) WEPopoverController *popoverController;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;
+@property IBOutlet UISearchBar *searchBar;
+
+typedef enum
+{
+    searchScopeLocation = 0,
+    searchScopeCapital = 1
+    
+} NYCWiFiSearchScope;
 
 @end

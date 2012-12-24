@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
+#import "LocationInfo+Extensions.h"
 
 @implementation ListViewController
 @synthesize fetchedLocations = _fetchedLocations;
@@ -18,7 +19,7 @@
 @synthesize selectedLocation = _selectedLocation;
 @synthesize searchBar = _searchBar;
 @synthesize filteredTableData = _filteredTableData;
-@synthesize popoverController, sections, sectionTitles, isFiltered;
+@synthesize popoverController, sections, sectionTitles;
 
 - (void)listLocations
 {
@@ -64,14 +65,14 @@
     
     popoverClass = [WEPopoverController class];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
+    /* _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 0)];
     _searchBar.placeholder = @"Search location name";
     _searchBar.delegate = self;
     _searchBar.tintColor = [UIColor colorWithRed:78.0/255.0f green:143.0/255.0f blue:218.0/255.0f alpha:1.0f];
     _searchBar.translucent = YES;
     //_searchBar.opaque = YES;
     [_searchBar sizeToFit];
-    self.tableView.tableHeaderView = _searchBar;
+    self.tableView.tableHeaderView = _searchBar; */
     
     //Hide searchBar initially
     CGRect newBounds = self.tableView.bounds;
@@ -96,29 +97,29 @@
 
 - (void)searchLocations
 {
-    if ([_searchBar isFirstResponder]) {
-        _searchBar.showsCancelButton = NO;
-        [_searchBar resignFirstResponder];
-    } else {
-        [self.tableView scrollRectToVisible:[[self.tableView tableHeaderView] bounds] animated:YES];
-        _searchBar.showsCancelButton = YES;
-        [_searchBar becomeFirstResponder];
-    }
+    [_searchBar becomeFirstResponder];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+/* - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [_searchBar resignFirstResponder];
     _searchBar.showsCancelButton = NO;
-}
+} */
 
 // called when cancel button pressed
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+/* - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [_searchBar resignFirstResponder];
-    _searchBar.showsCancelButton = NO;
-    //_searchBar.text = @"";
+    CGRect newBounds = self.tableView.bounds;
+    newBounds.origin.y = newBounds.origin.y + 44.0f;
+    self.tableView.bounds = newBounds;
 }
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    CGRect newBounds = self.tableView.bounds;
+    newBounds.origin.y = newBounds.origin.y + 44.0f;
+    self.tableView.bounds = newBounds;
+} */
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
@@ -138,41 +139,104 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (NSFetchRequest *)searchFetchRequest
+{
+    if (_searchFetchRequest != nil)
+    {
+        return _searchFetchRequest;
+    }
+    
+    _searchFetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"LocationInfo" inManagedObjectContext:self.managedObjectContext];
+    [_searchFetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [_searchFetchRequest setSortDescriptors:sortDescriptors];
+    
+    return _searchFetchRequest;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.isFiltered)
+    /* if (tableView == self.searchDisplayController.searchResultsTableView)
         return 1;
     else
-        return [self.sections count];
+        return [self.sections count]; */
+    
+    if (tableView == self.tableView)
+        return [[self.fetchedResultsController sections] count];
+    else
+        return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //return [[self.sections objectAtIndex:section] count];
-    int rowCount;
-    if (self.isFiltered)
-        rowCount = _filteredTableData.count;
+    /* if (tableView == self.searchDisplayController.searchResultsTableView)
+        return _filteredTableData.count;
     else
-        rowCount = [[self.sections objectAtIndex:section] count];
+        return [[self.sections objectAtIndex:section] count]; */
     
-    return rowCount;
+    if (tableView == self.tableView) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+        return [sectionInfo numberOfObjects];
+    } else {
+        return [_filteredTableData count];
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    if (self.isFiltered)
+    /* if (tableView == self.searchDisplayController.searchResultsTableView)
         return nil;
     else
-        return self.sectionTitles;
+        return self.sectionTitles; */
+    
+    if (tableView == self.tableView) {
+        NSMutableArray *index = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
+        NSArray *initials = [self.fetchedResultsController sectionIndexTitles];
+        [index addObjectsFromArray:initials];
+        return index;
+    } else {
+        return nil;
+    }
 }
 
-- (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
-    if (self.isFiltered)
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    if (tableView == self.tableView) {
+        if (index > 0) {
+            // The index is offset by one to allow for the extra search icon inserted at the front
+            // of the index
+            
+            return [self.fetchedResultsController sectionForSectionIndexTitle:title atIndex:index-1];
+        } else {
+            // The first entry in the index is for the search icon so we return section not found
+            // and force the table to scroll to the top.
+            
+            self.tableView.contentOffset = CGPointZero;
+            return NSNotFound;
+        }
+    } else {
+        return 0;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    /* if (tableView == self.searchDisplayController.searchResultsTableView)
         return nil;
     else
-        return [self.sectionTitles objectAtIndex:section];
+        return [self.sectionTitles objectAtIndex:section]; */
+    
+    if (tableView == self.tableView) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+        return [sectionInfo name];
+    } else {
+        return nil;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -193,10 +257,16 @@
     //LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     LocationInfo *location;
     
-    if(isFiltered)
+    /* if (tableView == self.searchDisplayController.searchResultsTableView)
         location = [_filteredTableData objectAtIndex:indexPath.row];
     else
-        location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]; */
+    
+    if (tableView == self.tableView)
+        location = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    else
+        location = [_filteredTableData objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = location.name;
     cell.detailTextLabel.text = location.address;
     //NSLog(@"!!!%@", cell.detailTextLabel.text);
@@ -205,7 +275,7 @@
     return cell;
 }
 
-#pragma mark - Table view delegate
+/* #pragma mark - Table view delegate
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
@@ -225,6 +295,99 @@
     }
     
     [self.tableView reloadData];
+} */
+
+/* #pragma mark Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+	// Update the filtered array based on the search text and scope.
+	
+    // Remove all objects from the filtered search array
+	[_filteredTableData removeAllObjects];
+    
+	// Filter the array using NSPredicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    NSArray *tempArray = [_fetchedLocations filteredArrayUsingPredicate:predicate];
+    
+    if(![scope isEqualToString:@"All"]) {
+        // Further filter the array with the scope
+        NSPredicate *scopePredicate = [NSPredicate predicateWithFormat:@"SELF.fee_type contains[c] %@",scope];
+        tempArray = [tempArray filteredArrayUsingPredicate:scopePredicate];
+    }
+    
+    _filteredTableData = [NSMutableArray arrayWithArray:tempArray];
+} */
+
+
+/* #pragma mark - UISearchDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    // Tells the table data source to reload when text changes
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    // Tells the table data source to reload when scope bar selection changes
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+} */
+
+#pragma mark -
+#pragma mark === UISearchDisplayDelegate ===
+#pragma mark -
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    NYCWiFiSearchScope scopeKey = controller.searchBar.selectedScopeButtonIndex;
+    [self searchForText:searchString scope:scopeKey];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    NSString *searchString = controller.searchBar.text;
+    [self searchForText:searchString scope:searchOption];
+    return YES;
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+{
+    tableView.rowHeight = 64;
+}
+
+- (void)searchForText:(NSString *)searchText scope:(NYCWiFiSearchScope)scopeOption
+{
+    if (self.managedObjectContext)
+    {
+        NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
+        NSString *searchAttribute = @"name";
+        
+        if (scopeOption == searchScopeCapital)
+        {
+            searchAttribute = @"capital";
+        }
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
+        [self.searchFetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        _filteredTableData = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
+        
+        if (error) {
+            NSLog(@"searchFetchRequest failed: %@",[error localizedDescription]);
+        }
+    }
 }
 
 /*
@@ -311,13 +474,24 @@
         //locationDetailTVC.delegate = self;
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
         
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         //self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
         
-        if (isFiltered) {
+        /* if(sender == self.searchDisplayController.searchResultsTableView) {
+            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             self.selectedLocation = [_filteredTableData objectAtIndex:indexPath.row];
         } else {
             self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        } */
+        
+        if (self.searchDisplayController.isActive) {
+            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForCell:sender];
+            self.selectedLocation = [_filteredTableData objectAtIndex:indexPath.row];
+        }
+        else
+        {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+            self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
         }
         
         //self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -328,6 +502,12 @@
 	}
     else
     { NSLog(@"Unidentified Segue Attempted!"); }
+}
+
+- (void)didReceiveMemoryWarning
+{
+    self.searchFetchRequest = nil;
+    [super didReceiveMemoryWarning];
 }
 
 #pragma mark -
@@ -416,7 +596,7 @@
     
     NSFetchedResultsController *theFetchedResultsController =
     [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                        managedObjectContext:_managedObjectContext sectionNameKeyPath:nil
+                                        managedObjectContext:_managedObjectContext sectionNameKeyPath:@"sectionTitle"
                                                    cacheName:@"Root"];
     
     self.fetchedResultsController = theFetchedResultsController;

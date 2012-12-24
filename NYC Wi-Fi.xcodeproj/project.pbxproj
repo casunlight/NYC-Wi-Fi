@@ -91,6 +91,7 @@
 		0AAA292116758DB500BF6383 /* pinpoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291D16758DB500BF6383 /* pinpoint@2x.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
+		0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */; };
 		0AD5272B16821DB400B4BD02 /* nyc-nav-bar-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */; };
 		0AD5272C16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */; };
 		0AD52733168226E800B4BD02 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD52732168226E800B4BD02 /* Default@2x.png */; };
@@ -236,6 +237,8 @@
 		0AAA291D16758DB500BF6383 /* pinpoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinpoint@2x.png"; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
+		0AD472CF1687C71B006BD2D3 /* LocationInfo+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LocationInfo+Extensions.h"; sourceTree = "<group>"; };
+		0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LocationInfo+Extensions.m"; sourceTree = "<group>"; };
 		0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo.png"; sourceTree = "<group>"; };
 		0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nyc-nav-bar-logo@2x.png"; sourceTree = "<group>"; };
 		0AD52732168226E800B4BD02 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				0A2279FD160E6CA700E37FDE /* LocationInfo.m */,
 				0A2279F9160E6CA600E37FDE /* LocationDetails.h */,
 				0A2279FA160E6CA700E37FDE /* LocationDetails.m */,
+				0AD472CF1687C71B006BD2D3 /* LocationInfo+Extensions.h */,
+				0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -677,6 +682,7 @@
 				0AAA291116757D4400BF6383 /* WifiClusterBlock.m in Sources */,
 				0AAA291716758A0B00BF6383 /* WifiAnnotationsCollection.m in Sources */,
 				0A072119167A99A10047EB6D /* SettingsTVC.m in Sources */,
+				0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
