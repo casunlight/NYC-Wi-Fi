@@ -69,10 +69,7 @@
     _locationWebsite.detailTextLabel.text = self.selectedLocation.details.url;
     
     // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.clearsSelectionOnViewWillAppear = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,76 +93,62 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 1)
-        return 100;
-    else
+    if (section == 1) {
+        int sectionWidth = 0;
+    
+        if (_selectedLocation.details.phone.length > 0) {
+            sectionWidth += 55;
+        }
+        if (_selectedLocation.details.url.length > 0) {
+            sectionWidth += 55;
+        }
+        
+        return sectionWidth;
+    } else {
         return [super tableView:tableView heightForFooterInSection:section];
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    NSLog(@"viewForFooterInSection: %i", section);
+    //NSLog(@"viewForFooterInSection: %i", section);
+    
     if (section == 1) {
-        CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.width, 44.0)];
-        footerView.autoresizesSubviews = YES;
-        footerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        footerView.userInteractionEnabled = YES;
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 100)];
+        int buttonVerticalPlacementAdjustment = 0;
         
-        footerView.hidden = NO;
-        footerView.multipleTouchEnabled = NO;
-        footerView.opaque = NO;
-        footerView.contentMode = UIViewContentModeScaleToFill;
-        
-        // Add the button
-        UIButton *callLocationPhoneButton = [UIButton buttonWithType:(UIButtonTypeRoundedRect)];
-        [callLocationPhoneButton setFrame:CGRectMake(20, 300, 100, 44)];
-        [callLocationPhoneButton setTitle:[NSString stringWithFormat:@"Call %@", _selectedLocation.details.phone] forState:UIControlStateNormal];
-        [callLocationPhoneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        callLocationPhoneButton.backgroundColor = [UIColor clearColor];
-        [callLocationPhoneButton addTarget:self action:@selector(callLocationPhoneNumberAction:) forControlEvents:UIControlEventTouchDown];
-        [footerView addSubview:callLocationPhoneButton];
-        
-        return footerView;
-        
-        /* CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenRect.size.width, 44.0)];
-        footerView.autoresizesSubviews = YES;
-        footerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        footerView.userInteractionEnabled = YES;
-        
-        footerView.hidden = NO;
-        footerView.multipleTouchEnabled = NO;
-        footerView.opaque = NO;
-        footerView.contentMode = UIViewContentModeScaleToFill;
-        
-        // Add the label
-        UILabel*    footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(150.0, -5.0, 120.0, 45.0)];
-        footerLabel.backgroundColor = [UIColor clearColor];
-        footerLabel.opaque = NO;
-        footerLabel.text = @"Sharing";
-        footerLabel.textColor = [UIColor blueColor];
-        footerLabel.highlightedTextColor = [UIColor yellowColor];
-        footerLabel.font = [UIFont boldSystemFontOfSize:17];
-        footerLabel.shadowColor = [UIColor whiteColor];
-        footerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-        [footerView addSubview: footerLabel];
-        
-        // Add the switch
-        UISwitch* footerSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(215.0, 5, 80.0, 45.0)];
-        [footerView addSubview: footerSwitch];
-        
-        // Return the footerView
-        return footerView; */
+        if (_selectedLocation.details.phone.length > 0) {
+            UIButton *callLocationPhoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            callLocationPhoneButton.frame = CGRectMake(10, 10, tableView.frame.size.width - 20, 40);
+            [callLocationPhoneButton addTarget:self
+                       action:@selector(callLocationPhoneNumber)
+             forControlEvents:UIControlEventTouchUpInside];
+            [callLocationPhoneButton setTitle:[NSString stringWithFormat:@"Call %@", _selectedLocation.details.phone] forState:UIControlStateNormal];
+            callLocationPhoneButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            [view addSubview:callLocationPhoneButton];
+            buttonVerticalPlacementAdjustment = 50;
+        }
+        if (_selectedLocation.details.url.length > 0) {
+            UIButton *moreInfoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            moreInfoButton.frame = CGRectMake(10, 10 + buttonVerticalPlacementAdjustment, tableView.frame.size.width - 20, 40);
+            [moreInfoButton addTarget:self
+                                        action:@selector(launchWebsiteInSafari)
+                              forControlEvents:UIControlEventTouchUpInside];
+            [moreInfoButton setTitle:@"More Information" forState:UIControlStateNormal];
+            moreInfoButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+            
+            [view addSubview:moreInfoButton];
+        }
+        return view;
     }
     
     return nil;
 }
 
-- (IBAction) callLocationPhoneNumberAction:(UIButton *)sender
+/* - (IBAction) callLocationPhoneNumberAction:(UIButton *)sender
 {    
     [self callLocationPhoneNumber];
-}
+} */
 
 /* - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

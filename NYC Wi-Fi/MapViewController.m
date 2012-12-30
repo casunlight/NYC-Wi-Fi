@@ -316,7 +316,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)viewWillAppear:(BOOL)animated
 {    
     _mapView.delegate = self;
-    [self setStandardRegion];
+    //[self setStandardRegion];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
