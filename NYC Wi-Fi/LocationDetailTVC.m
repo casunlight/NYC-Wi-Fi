@@ -120,10 +120,11 @@
         if (_selectedLocation.details.phone.length > 0) {
             UIButton *callLocationPhoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             callLocationPhoneButton.frame = CGRectMake(10, 10, tableView.frame.size.width - 20, 40);
+            callLocationPhoneButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
             [callLocationPhoneButton addTarget:self
                        action:@selector(callLocationPhoneNumber)
              forControlEvents:UIControlEventTouchUpInside];
-            [callLocationPhoneButton setTitle:[NSString stringWithFormat:@"Call %@", _selectedLocation.details.phone] forState:UIControlStateNormal];
+            [callLocationPhoneButton setTitle:[NSString stringWithFormat:@"Call location at %@", _selectedLocation.details.phone] forState:UIControlStateNormal];
             callLocationPhoneButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
             [view addSubview:callLocationPhoneButton];
             buttonVerticalPlacementAdjustment = 50;
@@ -131,10 +132,11 @@
         if (_selectedLocation.details.url.length > 0) {
             UIButton *moreInfoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             moreInfoButton.frame = CGRectMake(10, 10 + buttonVerticalPlacementAdjustment, tableView.frame.size.width - 20, 40);
+            moreInfoButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
             [moreInfoButton addTarget:self
                                         action:@selector(launchWebsiteInSafari)
                               forControlEvents:UIControlEventTouchUpInside];
-            [moreInfoButton setTitle:@"More Information" forState:UIControlStateNormal];
+            [moreInfoButton setTitle:[NSString stringWithFormat:@"Visit %@", _selectedLocation.details.url] forState:UIControlStateNormal];
             moreInfoButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
             
             [view addSubview:moreInfoButton];
