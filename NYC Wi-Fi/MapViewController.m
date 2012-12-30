@@ -11,7 +11,6 @@
 #import "MapLocation.h"
 #import "LocationInfo.h"
 #import "LocationDetails.h"
-#import "ASIHTTPRequest.h"
 #import "SMXMLDocument.h"
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
@@ -27,12 +26,12 @@
 #define iphoneScaleFactorLatitude   9.0
 #define iphoneScaleFactorLongitude  11.0
 
-#define nycOpenDataWifiLocationsXMLAddress  @"https://data.cityofnewyork.us/api/views/ehc4-fktp/rows.xml"
-#define localLocationsXMLAddress  @"http://127.0.0.1/ios/nycwifi/rows.xml"
+//#define nycOpenDataWifiLocationsXMLAddress  @"https://data.cityofnewyork.us/api/views/ehc4-fktp/rows.xml"
 
 @implementation MapViewController
 @synthesize mapView = _mapView;
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize backgroundMOC = _backgroundMOC;
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
@@ -223,48 +222,58 @@ calloutAccessoryControlTapped:(UIControl *)control
     [_mapView setRegion:region animated:YES];
 } */
 
-- (void)importCoreDataDefaultLocations:(NSString *)responseString {
+//- (void)importCoreDataDefaultLocations:(NSString *)responseString {
+- (void)importCoreDataDefaultLocations {
     
     NSLog(@"Importing Core Data Default Values for Locations...");
-    hud.labelText = @"Importing locations...";
+    hud.labelText = @"Initializing location database...";
+    hud.detailsLabelText = @"One time only. Please sit tight.";
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     
-    NSData* xmlData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *xmlPath = [[NSBundle mainBundle] pathForResource:@"import" ofType:@"xml"];
+    NSData *xmlData = [NSData dataWithContentsOfFile:xmlPath];
     NSError *error;
     SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
-    SMXMLElement *mapLocations = [document.root childNamed:@"row"];
+    __block SMXMLElement *mapLocations = [document.root childNamed:@"row"];
+    __block float progress = 0.0f;
+    __block float progressStep = 1.0f / [[document.root childNamed:@"row"] childrenNamed:@"row"].count;
     
-    float progress = 0.0f;
-    float progressStep = 1.0f / [mapLocations childrenNamed:@"row"].count;
-    
-    for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
-        LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
-                                                                   inManagedObjectContext:self.managedObjectContext];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        _backgroundMOC = [[NSManagedObjectContext alloc] init];
+        [_backgroundMOC setPersistentStoreCoordinator:[self.managedObjectContext persistentStoreCoordinator]];
         
-        locationInfo.name = [mapLocation valueWithPath:@"name"];
-        locationInfo.address = [mapLocation valueWithPath:@"address"];
-        locationInfo.fee_type = [self setupLocationType:locationInfo.name:[mapLocation valueWithPath:@"type"]];
-        
-        LocationDetails *locationDetails = [NSEntityDescription
-                                            insertNewObjectForEntityForName:@"LocationDetails"
-                                            inManagedObjectContext:self.managedObjectContext];
-        
-        SMXMLElement *shape = [mapLocation childNamed:@"shape"];
-        locationDetails.latitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"latitude"] doubleValue]];
-        locationDetails.longitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"longitude"] doubleValue]];
-        locationDetails.city = [mapLocation valueWithPath:@"city"];
-        locationDetails.zip = [NSNumber numberWithInteger:[[mapLocation valueWithPath:@"zip"] integerValue]];
-        locationDetails.phone = [mapLocation valueWithPath:@"phone"];
-        locationDetails.url = [mapLocation valueWithPath:@"url"];
-        locationDetails.info = locationInfo;
-        locationInfo.details = locationDetails;
-        
-        [self.managedObjectContext save:nil];
-        progress += progressStep;
-        hud.progress = progress;
-    }
-    
-    NSLog(@"Importing Core Data Default Values for Locations Completed!");
+        for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
+            LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
+                                                                       inManagedObjectContext:_backgroundMOC];
+            
+            locationInfo.name = [mapLocation valueWithPath:@"name"];
+            locationInfo.address = [mapLocation valueWithPath:@"address"];
+            locationInfo.fee_type = [self setupLocationType:locationInfo.name:[mapLocation valueWithPath:@"type"]];
+            
+            LocationDetails *locationDetails = [NSEntityDescription
+                                                insertNewObjectForEntityForName:@"LocationDetails"
+                                                inManagedObjectContext:_backgroundMOC];
+            
+            SMXMLElement *shape = [mapLocation childNamed:@"shape"];
+            locationDetails.latitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"latitude"] doubleValue]];
+            locationDetails.longitude = [NSNumber numberWithDouble:[[shape attributeNamed:@"longitude"] doubleValue]];
+            locationDetails.city = [mapLocation valueWithPath:@"city"];
+            locationDetails.zip = [NSNumber numberWithInteger:[[mapLocation valueWithPath:@"zip"] integerValue]];
+            locationDetails.phone = [mapLocation valueWithPath:@"phone"];
+            locationDetails.url = [mapLocation valueWithPath:@"url"];
+            locationDetails.info = locationInfo;
+            locationInfo.details = locationDetails;
+            
+            [_backgroundMOC save:nil];
+            progress += progressStep;
+            hud.progress = progress;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Importing Core Data Default Values for Locations Completed!");
+            hud.detailsLabelText = nil;
+            [self reloadMap];
+        });
+    });
 }
 
 - (NSString *)setupLocationType:(NSString *)locationName:(NSString *)locationType
@@ -276,32 +285,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     } else {
         return locationType;
     }
-}
-
-- (void)loadLocationsFromXML
-{
-    NSURL *url = [NSURL URLWithString:nycOpenDataWifiLocationsXMLAddress];
-    
-    __unsafe_unretained __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    [request setDelegate:self];
-    [request setCompletionBlock:^{
-        //[MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSString *responseString = [request responseString];
-        //NSLog(@"Response: %@", responseString);
-        [self importCoreDataDefaultLocations:responseString];
-    }];
-    [request setFailedBlock:^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSError *error = [request error];
-        NSLog(@"Error: %@", error.localizedDescription);
-        UIAlertView *locationImportFailedAlert = [[UIAlertView alloc] initWithTitle:@"Location Load Failed" message:@"NYC Open Data is currently unreachable. Please try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [locationImportFailedAlert show];
-    }];
-    
-    [request startAsynchronous];
-    //MBProgressHUD *importHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //importHud.labelText = @"Downloading locations...";
-    //importHud.detailsLabelText = @"One time only";
 }
 
 /* - (void)setMapRegion
@@ -355,32 +338,18 @@ calloutAccessoryControlTapped:(UIControl *)control
 		exit(-1);  // Fail
 	}
     
-    /* hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    hud.labelText = @"Importing locations...";
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
-    [self.navigationController.view addSubview:hud];
-    hud.delegate = self;
-    [hud showWhileExecuting:@selector(importCoreDataDefaultLocations) onTarget:self withObject:nil animated:YES]; */
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
-        [self loadLocationsFromXML];
+        [self importCoreDataDefaultLocations];
     }
     else {
         NSLog(@"There's stuff in the database so skipping the import of default data");
+        [self plotMapLocations];
+        [self setStandardRegion];
     }
     
-    /* hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.labelText = @"Loading locations...";
-    //hud.detailsLabelText = @"Just relax";
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
-    [self.view addSubview:hud];
-    hud.delegate = self;
-    [hud showWhileExecuting:@selector(plotMapLocations) onTarget:self withObject:nil animated:YES]; */
-    
-    [self plotMapLocations];
-    //[self setMapRegion];
-    [self setStandardRegion];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -428,33 +397,37 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)plotMapLocations
 {
-    float progress = 0.0;
-    float progressStep = 1.0 / _fetchedLocations.count;
-    
-    /* for (id<MKAnnotation> annotation in _mapView.annotations) {
-        [_mapView removeAnnotation:annotation];
-    } */
     [_mapView removeAnnotations:[_mapView annotations]];
     
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
-    NSMutableArray *pins = [NSMutableArray array];
+    __block NSMutableArray *pins = [NSMutableArray array];
     
-    for (LocationInfo *location in _fetchedLocations) {
-        LocationDetails *locationDetails = location.details;
-        
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = locationDetails.latitude.doubleValue;
-        coordinate.longitude = locationDetails.longitude.doubleValue;
-        //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
-        
-        MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
-        [pins addObject:annotation];
-        
-        progress += progressStep;
-        //hud.progress = progress;
-    }
+    hud.labelText = @"Loading locations...";
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.progress = 0.0f;
+    __block float progress = 0.0;
+    __block float progressStep = 1.0 / _fetchedLocations.count;
     
-    [_mapView addAnnotations:pins];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        for (LocationInfo *location in _fetchedLocations) {
+            LocationDetails *locationDetails = location.details;
+            
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = locationDetails.latitude.doubleValue;
+            coordinate.longitude = locationDetails.longitude.doubleValue;
+            //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
+            
+            MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
+            [pins addObject:annotation];
+            
+            progress += progressStep;
+            hud.progress = progress;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_mapView addAnnotations:pins];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
 }
 
 /* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation

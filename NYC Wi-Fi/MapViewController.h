@@ -35,6 +35,7 @@
 
 @property (strong, nonatomic) IBOutlet WifiClusterMapView *mapView;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSManagedObjectContext *backgroundMOC;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
