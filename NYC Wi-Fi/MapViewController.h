@@ -19,6 +19,7 @@
 #import "AboutViewController.h"
 #import "SettingsTVC.h"
 #import "WifiClusterMapView.h"
+#import "SearchMapPin.h"
 #import "MBProgressHUD.h"
 
 #define METERS_PER_MILE 1609.344
@@ -38,6 +39,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *backgroundMOC;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
+@property (strong, nonatomic) SearchMapPin *lastSearchedAnnotation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSPredicate *filterPredicate;
 @property (nonatomic, retain) CLLocationManager *locationManager;

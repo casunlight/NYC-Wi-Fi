@@ -21,6 +21,7 @@
 
 @synthesize minimumClusterLevel;
 @synthesize blocks;
+@synthesize lastSearchedAnnotation;
 @synthesize delegate;
 
 
@@ -202,7 +203,10 @@
     NSArray *add = [WifiClusterManager clusterAnnotationsForMapView:self forAnnotations:annotationsCopy blocks:self.blocks minClusterLevel:self.minimumClusterLevel];
     //NSLog(@"count:: %i",[add count]);
     [super addAnnotations:add];
-    
+    if (self.lastSearchedAnnotation != nil) {
+        [self addAnnotation:self.lastSearchedAnnotation];
+    }
+
     if( [delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)] )
     {
         [delegate mapView:mapView regionDidChangeAnimated:animated];

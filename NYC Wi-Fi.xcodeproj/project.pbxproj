@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A002BBA168F597500109769 /* import.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0A002BB9168F597500109769 /* import.xml */; };
+		0A002C0416925AB800109769 /* SearchMapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C0316925AB800109769 /* SearchMapPin.m */; };
 		0A0720FF1679A0C70047EB6D /* green-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720F91679A0C70047EB6D /* green-cluster.png */; };
 		0A0721001679A0C70047EB6D /* green-cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */; };
 		0A0721011679A0C70047EB6D /* red-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FB1679A0C70047EB6D /* red-cluster.png */; };
@@ -107,6 +108,8 @@
 
 /* Begin PBXFileReference section */
 		0A002BB9168F597500109769 /* import.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = import.xml; sourceTree = "<group>"; };
+		0A002C0216925AB800109769 /* SearchMapPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchMapPin.h; sourceTree = "<group>"; };
+		0A002C0316925AB800109769 /* SearchMapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchMapPin.m; sourceTree = "<group>"; };
 		0A0720F91679A0C70047EB6D /* green-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster.png"; sourceTree = "<group>"; };
 		0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster@2x.png"; sourceTree = "<group>"; };
 		0A0720FB1679A0C70047EB6D /* red-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-cluster.png"; sourceTree = "<group>"; };
@@ -348,6 +351,8 @@
 				0A9679F115F7FEDB00EB60B6 /* ListViewController.m */,
 				0AFFD5FD15F140770023C83C /* MapLocation.h */,
 				0AFFD5FE15F140770023C83C /* MapLocation.m */,
+				0A002C0216925AB800109769 /* SearchMapPin.h */,
+				0A002C0316925AB800109769 /* SearchMapPin.m */,
 				0A5B3A311645971300E11B4A /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
 				0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */,
@@ -617,6 +622,7 @@
 				0A072119167A99A10047EB6D /* SettingsTVC.m in Sources */,
 				0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */,
 				0AD472D51688BF7A006BD2D3 /* MBProgressHUD.m in Sources */,
+				0A002C0416925AB800109769 /* SearchMapPin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

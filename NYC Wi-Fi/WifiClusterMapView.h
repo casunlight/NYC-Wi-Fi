@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "SearchMapPin.h"
 
 @interface WifiClusterMapView : MKMapView <MKMapViewDelegate> {
     
@@ -15,6 +16,8 @@
 @property (nonatomic,assign) NSUInteger blocks;
 /// The maximum level when clustering is active in the Mapview. default value is 100000, maximum is 419430
 @property (nonatomic,assign) NSUInteger minimumClusterLevel;
+
+@property (strong, nonatomic) SearchMapPin *lastSearchedAnnotation;
 
 /** Specifies the receiver‚Äôs delegate object. */
 @property(nonatomic,assign) id<MKMapViewDelegate> delegate;

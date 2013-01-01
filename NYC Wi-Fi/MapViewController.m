@@ -7,7 +7,6 @@
 //
 
 #import "MapViewController.h"
-//#import "ListViewController.h"
 #import "MapLocation.h"
 #import "LocationInfo.h"
 #import "LocationDetails.h"
@@ -36,6 +35,7 @@
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize lastSearchedAnnotation = _lastSearchedAnnotation;
 @synthesize searchBar = _searchBar;
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
@@ -98,12 +98,31 @@
         }
         
         return annotationView;
+    } else if ([annotation isKindOfClass:[SearchMapPin class]]) {
+        //NSLog(@"SearchMapPin");
+        MKPinAnnotationView *annotationView =
+        (MKPinAnnotationView *)[_mapView dequeueReusableAnnotationViewWithIdentifier:@"search"];
+        
+        if (annotationView == nil) {
+            annotationView = [[MKPinAnnotationView alloc]
+                              initWithAnnotation:annotation
+                              reuseIdentifier:@"search"];
+        } else {
+            annotationView.annotation = annotation;
+        }
+        
+        annotationView.enabled = YES;
+        annotationView.draggable = NO;
+        annotationView.highlighted = NO;
+        annotationView.animatesDrop = YES;
+        annotationView.canShowCallout = YES;
+        
+        return annotationView;
     }
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView
-didSelectAnnotationView:(MKAnnotationView *)view
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     if (![view isKindOfClass:[WifiClusterAnnotationView class]])
         return;
@@ -562,28 +581,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if([title isEqualToString:@"Search"])
-    {
-        UITextField *addressTextField = [alertView textFieldAtIndex:0];
-        NSString *address = addressTextField.text;
-        
-        if ([addressTextField.text rangeOfString:@"New York"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"NY"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"NYC"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"Brooklyn"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"Queens"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"Bronx"].location == NSNotFound &&
-            [addressTextField.text rangeOfString:@"Staten"].location == NSNotFound) {
-            address = [NSString stringWithFormat:@"%@, New York, NY", address];
-        }
-        
-        [self geolocateAddressAndZoomOnMap:address];
-    }
-}
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     _searchBar.hidden = YES;
@@ -613,17 +610,27 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address
 {
+    if (_mapView.lastSearchedAnnotation != nil) {
+        NSLog(@"Remove lastSearchedAnnotation");
+        [_mapView removeAnnotation:_mapView.lastSearchedAnnotation];
+        //_lastSearchedAnnotation = nil;
+        _mapView.lastSearchedAnnotation = nil;
+    }
+    
     CLGeocoder *coder = [[CLGeocoder alloc] init];
-    MBProgressHUD *geolocateHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    geolocateHud.labelText = @"Searching for address...";
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Searching for address...";
     [coder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error){
         if (!error) {
             if (placemarks.count > 0) {
                 CLPlacemark *placemark = [placemarks objectAtIndex:0];
-                double latitude = placemark.region.center.latitude;
-                double longitude = placemark.region.center.longitude;
-                [self zoomMapAndCenterAtLatitude:latitude andLongitude:longitude];
-                //NSLog(@"%@", placemarks);
+                CLLocationCoordinate2D coordinate;
+                coordinate.latitude = placemark.region.center.latitude;
+                coordinate.longitude = placemark.region.center.longitude;
+                
+                _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:address coordinate:coordinate];
+                //[_mapView addAnnotation:_lastSearchedAnnotation];
+                [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
                                                                               message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"
@@ -653,6 +660,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     region.span = MKCoordinateSpanMake(0.008, 0.008);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
+    //[_mapView setCenterCoordinate:_mapView.region.center animated:NO];
+    //[_mapView selectAnnotation:_lastSearchedAnnotation animated:YES];
 }
 
 /* - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView

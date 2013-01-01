@@ -136,7 +136,7 @@
             [moreInfoButton addTarget:self
                                         action:@selector(launchWebsiteInSafari)
                               forControlEvents:UIControlEventTouchUpInside];
-            [moreInfoButton setTitle:[NSString stringWithFormat:@"Visit %@", _selectedLocation.details.url] forState:UIControlStateNormal];
+            [moreInfoButton setTitle:[NSString stringWithFormat:@"Visit %@ website", _locationName.textLabel.text] forState:UIControlStateNormal];
             moreInfoButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
             
             [view addSubview:moreInfoButton];
