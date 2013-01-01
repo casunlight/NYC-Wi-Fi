@@ -96,6 +96,8 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
         default:
             break;
     }
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -429,7 +431,15 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
         //NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         //NSLog(@"%@", self.selectedLocation);
         locationDetailTVC.selectedLocation = self.selectedLocation;
-	}
+	} else if ([segue.identifier isEqualToString:@"About Segue"]) {
+        AboutViewController *aboutViewController = segue.destinationViewController;
+        aboutViewController.delegate = self;
+        NSLog(@"Segue to About");
+    } else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
+        SettingsTVC *settingsTVC = segue.destinationViewController;
+        settingsTVC.delegate = self;
+        NSLog(@"Segue to Settings");
+    }
     else
     { NSLog(@"Unidentified Segue Attempted!"); }
 }

@@ -14,6 +14,7 @@
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
 #import "WifiClusterAnnotationView.h"
+#import "Reachability.h"
 //#import "CLLocation+Geocodereverse.h"
 
 //mapview starting points
@@ -35,7 +36,6 @@
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
-@synthesize lastSearchedAnnotation = _lastSearchedAnnotation;
 @synthesize searchBar = _searchBar;
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
@@ -495,6 +495,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         default:
             break;
     }
+    [self.popoverController dismissPopoverAnimated:YES];
+    self.popoverController = nil;
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -541,7 +543,11 @@ calloutAccessoryControlTapped:(UIControl *)control
         //locationDetailTVC.managedObjectContext = self.managedObjectContext;
         NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         locationDetailTVC.selectedLocation = self.selectedLocation;
-	} else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
+	} else if ([segue.identifier isEqualToString:@"About Segue"]) {
+        AboutViewController *aboutViewController = segue.destinationViewController;
+        aboutViewController.delegate = self;
+        NSLog(@"Segue to About");
+    } else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
         SettingsTVC *settingsTVC = segue.destinationViewController;
         settingsTVC.delegate = self;
         NSLog(@"Segue to Settings");
@@ -572,12 +578,23 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)searchLocations {
-    if (_searchBar.hidden) {
-        _searchBar.hidden = NO;
-        [_searchBar becomeFirstResponder];
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        UIAlertView *notReachable = [[UIAlertView alloc] initWithTitle:@"Internet Connection Required"
+                                                                      message:@"Please connect your device to the Internet and try your search again."
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+        [notReachable show];
     } else {
-        _searchBar.hidden = YES;
-        [_searchBar resignFirstResponder];
+        if (_searchBar.hidden) {
+            _searchBar.hidden = NO;
+            [_searchBar becomeFirstResponder];
+        } else {
+            _searchBar.hidden = YES;
+            [_searchBar resignFirstResponder];
+        }
     }
 }
 
@@ -613,7 +630,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     if (_mapView.lastSearchedAnnotation != nil) {
         NSLog(@"Remove lastSearchedAnnotation");
         [_mapView removeAnnotation:_mapView.lastSearchedAnnotation];
-        //_lastSearchedAnnotation = nil;
         _mapView.lastSearchedAnnotation = nil;
     }
     
@@ -629,7 +645,6 @@ calloutAccessoryControlTapped:(UIControl *)control
                 coordinate.longitude = placemark.region.center.longitude;
                 
                 _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:address coordinate:coordinate];
-                //[_mapView addAnnotation:_lastSearchedAnnotation];
                 [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
@@ -660,8 +675,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     region.span = MKCoordinateSpanMake(0.008, 0.008);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
-    //[_mapView setCenterCoordinate:_mapView.region.center animated:NO];
-    //[_mapView selectAnnotation:_lastSearchedAnnotation animated:YES];
 }
 
 /* - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView

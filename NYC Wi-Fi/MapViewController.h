@@ -39,7 +39,6 @@
 @property (strong, nonatomic) NSManagedObjectContext *backgroundMOC;
 @property (strong, nonatomic) NSArray *fetchedLocations;
 @property (strong, nonatomic) LocationInfo *selectedLocation;
-@property (strong, nonatomic) SearchMapPin *lastSearchedAnnotation;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSPredicate *filterPredicate;
 @property (nonatomic, retain) CLLocationManager *locationManager;
