@@ -603,15 +603,16 @@ calloutAccessoryControlTapped:(UIControl *)control
     _searchBar.hidden = YES;
     [_searchBar resignFirstResponder];
     NSString *address = searchBar.text;
+    NSString *addressLower = [address lowercaseString];
     _searchBar.text = @"";
     
-    if ([address rangeOfString:@"New York"].location == NSNotFound &&
-        [address rangeOfString:@"NY"].location == NSNotFound &&
-        [address rangeOfString:@"NYC"].location == NSNotFound &&
-        [address rangeOfString:@"Brooklyn"].location == NSNotFound &&
-        [address rangeOfString:@"Queens"].location == NSNotFound &&
-        [address rangeOfString:@"Bronx"].location == NSNotFound &&
-        [address rangeOfString:@"Staten"].location == NSNotFound) {
+    if ([addressLower rangeOfString:@"new york"].location == NSNotFound &&
+        [addressLower rangeOfString:@"ny"].location == NSNotFound &&
+        [addressLower rangeOfString:@"nyc"].location == NSNotFound &&
+        [addressLower rangeOfString:@"brooklyn"].location == NSNotFound &&
+        [addressLower rangeOfString:@"queens"].location == NSNotFound &&
+        [addressLower rangeOfString:@"bronx"].location == NSNotFound &&
+        [addressLower rangeOfString:@"staten"].location == NSNotFound) {
         address = [NSString stringWithFormat:@"%@, New York, NY", address];
     }
     
@@ -638,7 +639,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     hud.labelText = @"Searching for address...";
     [coder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error){
         if (!error) {
-            if (placemarks.count > 0) {
+            if (placemarks.count == 1) {
                 CLPlacemark *placemark = [placemarks objectAtIndex:0];
                 CLLocationCoordinate2D coordinate;
                 coordinate.latitude = placemark.region.center.latitude;
@@ -646,6 +647,8 @@ calloutAccessoryControlTapped:(UIControl *)control
                 
                 _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:address coordinate:coordinate];
                 [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
+            } else if (placemarks.count > 1) {
+                // TODO: Handle multiple location return
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
                                                                               message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"

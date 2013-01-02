@@ -10,6 +10,7 @@
 		0A002BBA168F597500109769 /* import.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0A002BB9168F597500109769 /* import.xml */; };
 		0A002C0416925AB800109769 /* SearchMapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C0316925AB800109769 /* SearchMapPin.m */; };
 		0A002C0916928B9D00109769 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C0816928B9D00109769 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0A002C151693541B00109769 /* SBTableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C141693541B00109769 /* SBTableAlert.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A0720FF1679A0C70047EB6D /* green-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720F91679A0C70047EB6D /* green-cluster.png */; };
 		0A0721001679A0C70047EB6D /* green-cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */; };
 		0A0721011679A0C70047EB6D /* red-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FB1679A0C70047EB6D /* red-cluster.png */; };
@@ -113,6 +114,8 @@
 		0A002C0316925AB800109769 /* SearchMapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchMapPin.m; sourceTree = "<group>"; };
 		0A002C0716928B9D00109769 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0A002C0816928B9D00109769 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		0A002C131693541B00109769 /* SBTableAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBTableAlert.h; sourceTree = "<group>"; };
+		0A002C141693541B00109769 /* SBTableAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBTableAlert.m; sourceTree = "<group>"; };
 		0A0720F91679A0C70047EB6D /* green-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster.png"; sourceTree = "<group>"; };
 		0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster@2x.png"; sourceTree = "<group>"; };
 		0A0720FB1679A0C70047EB6D /* red-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-cluster.png"; sourceTree = "<group>"; };
@@ -267,6 +270,15 @@
 				0A002C0816928B9D00109769 /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		0A002C121693540800109769 /* SBTableAlert */ = {
+			isa = PBXGroup;
+			children = (
+				0A002C131693541B00109769 /* SBTableAlert.h */,
+				0A002C141693541B00109769 /* SBTableAlert.m */,
+			);
+			name = SBTableAlert;
 			sourceTree = "<group>";
 		};
 		0A22800A1603C8FA00189106 /* Model */ = {
@@ -481,6 +493,7 @@
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0A002C121693540800109769 /* SBTableAlert */,
 				0A002C0616928B8A00109769 /* Reachability */,
 				0A4DBA901660400F00CD17F3 /* Popover */,
 				0A556FA415F41F6300C5638C /* SMXMLDocument */,
@@ -637,6 +650,7 @@
 				0AD472D51688BF7A006BD2D3 /* MBProgressHUD.m in Sources */,
 				0A002C0416925AB800109769 /* SearchMapPin.m in Sources */,
 				0A002C0916928B9D00109769 /* Reachability.m in Sources */,
+				0A002C151693541B00109769 /* SBTableAlert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -147,25 +147,6 @@
     return nil;
 }
 
-/* - (IBAction) callLocationPhoneNumberAction:(UIButton *)sender
-{    
-    [self callLocationPhoneNumber];
-} */
-
-/* - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    //if (cell.textLabel.text == @"More Information" && cell.detailTextLabel.text == @"") {
-    if (indexPath.row == 0) {
-        //NSLog(@"%@", cell.textLabel.text);
-        //cell.textLabel.text = nil;
-        return 0.0;
-    } else {
-        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-    }
-} */
-
 - (void)plotMapLocation
 {
     for (id<MKAnnotation> annotation in _locationMap.annotations) {
