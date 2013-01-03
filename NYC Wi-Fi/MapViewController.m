@@ -36,7 +36,9 @@
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize searchBarButtonItem = _searchBarButtonItem;
 @synthesize searchBar = _searchBar;
+@synthesize addressesToSelectFrom = _addressesToSelectFrom;
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
 
@@ -114,7 +116,7 @@
         annotationView.enabled = YES;
         annotationView.draggable = NO;
         annotationView.highlighted = NO;
-        annotationView.animatesDrop = YES;
+        //annotationView.animatesDrop = YES;
         annotationView.canShowCallout = YES;
         
         return annotationView;
@@ -379,7 +381,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     _searchBar.hidden = YES;
     
     // Create the search, fixed-space (optional), and locate buttons.
-    UIBarButtonItem *searchBarButtonItem = [[UIBarButtonItem alloc]
+    _searchBarButtonItem = [[UIBarButtonItem alloc]
                                      initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                      target:self
                                      action:@selector(searchLocations)];
@@ -396,7 +398,7 @@ calloutAccessoryControlTapped:(UIControl *)control
                                            target:self
                                            action:@selector(showUserLocation)];
     
-    self.navigationItem.rightBarButtonItems = @[locateMeButtonItem, /* fixedSpaceBarButtonItem, */ searchBarButtonItem];
+    self.navigationItem.rightBarButtonItems = @[locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
     //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
@@ -413,6 +415,11 @@ calloutAccessoryControlTapped:(UIControl *)control
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
+
+/* - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    if (self.popoverController)
+        [self.popoverController dismissPopoverAnimated:YES];
+} */
 
 - (void)plotMapLocations
 {
@@ -551,6 +558,11 @@ calloutAccessoryControlTapped:(UIControl *)control
         SettingsTVC *settingsTVC = segue.destinationViewController;
         settingsTVC.delegate = self;
         NSLog(@"Segue to Settings");
+    } else if ([segue.identifier isEqualToString:@"Address Select Segue"]) {
+        AddressSelectTVC *addressSelectTVC = segue.destinationViewController;
+        addressSelectTVC.delegate = self;
+        addressSelectTVC.addresses = _addressesToSelectFrom;
+        NSLog(@"Segue to Address Select");
     }
     /* else
     { NSLog(@"Unidentified Segue Attempted!"); } */
@@ -601,6 +613,8 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     _searchBar.hidden = YES;
+    _searchBar.userInteractionEnabled = NO;
+    _searchBarButtonItem.enabled = NO;
     [_searchBar resignFirstResponder];
     NSString *address = searchBar.text;
     NSString *addressLower = [address lowercaseString];
@@ -644,11 +658,14 @@ calloutAccessoryControlTapped:(UIControl *)control
                 CLLocationCoordinate2D coordinate;
                 coordinate.latitude = placemark.region.center.latitude;
                 coordinate.longitude = placemark.region.center.longitude;
+                NSString *validAddress = [NSString stringWithFormat:@"%@ %@, %@, %@ %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode];
                 
-                _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:address coordinate:coordinate];
+                _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:validAddress
+ coordinate:coordinate];
                 [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
             } else if (placemarks.count > 1) {
-                // TODO: Handle multiple location return
+                _addressesToSelectFrom = placemarks;
+                [self performSegueWithIdentifier:@"Address Select Segue" sender:self];
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
                                                                               message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"
@@ -666,11 +683,13 @@ calloutAccessoryControlTapped:(UIControl *)control
             [errorFindingAddress show];
             NSLog(@"%@", error);
         }
+        _searchBar.userInteractionEnabled = YES;
+        _searchBarButtonItem.enabled = YES;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
-- (void) zoomMapAndCenterAtLatitude:(double)latitude andLongitude:(double)longitude
+- (void)zoomMapAndCenterAtLatitude:(double)latitude andLongitude:(double)longitude
 {
     MKCoordinateRegion region;
     region.center.latitude = latitude;
@@ -678,20 +697,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     region.span = MKCoordinateSpanMake(0.008, 0.008);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
+    //[_mapView setCenterCoordinate:_mapView.region.center animated:NO];
 }
-
-/* - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
-{
-    NSString *inputText = [[alertView textFieldAtIndex:0] text];
-    if( [inputText length] >= 10 )
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
-} */
 
 - (void)showUserLocation {
     _mapView.showsUserLocation = YES;
@@ -760,6 +767,21 @@ calloutAccessoryControlTapped:(UIControl *)control
     self.popoverController = nil;
     [_fetchedResultsController.fetchRequest setPredicate:[self setupFilterPredicate]];
     [self reloadMap];
+}
+
+#pragma mark -
+#pragma mark AddressSelectTVCDelegate implementation
+
+- (void)theSelectButtonOnTheAddressSelectTVCWasTapped:(AddressSelectTVC *)controller withAddress:(CLPlacemark *)placemark
+{
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = placemark.region.center.latitude;
+    coordinate.longitude = placemark.region.center.longitude;
+    NSLog(@"%@", placemark.subThoroughfare);
+    NSString *validAddress = [NSString stringWithFormat:@"%@ %@, %@, %@ %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode];
+    
+    _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:validAddress coordinate:coordinate];
+    [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
 }
 
 #pragma mark - fetchedResultsController

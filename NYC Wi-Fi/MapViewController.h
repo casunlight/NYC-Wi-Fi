@@ -18,20 +18,19 @@
 #import "PopoverViewController.h"
 #import "AboutViewController.h"
 #import "SettingsTVC.h"
+#import "AddressSelectTVC.h"
 #import "WifiClusterMapView.h"
 #import "SearchMapPin.h"
 #import "MBProgressHUD.h"
 
 #define METERS_PER_MILE 1609.344
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate, MBProgressHUDDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, UITableViewDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, CLLocationManagerDelegate, PopoverViewControllerDelegate, MFMailComposeViewControllerDelegate, AboutViewControllerDelegate, SettingsTVCDelegate, AddressSelectTVCDelegate, MBProgressHUDDelegate> {
     BOOL _doneInitialZoom;
-    //CLLocationDegrees zoomLevel;
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
     Class popoverClass;
     MBProgressHUD *hud;
-    //WifiClusterMapView *_mapView;
 }
 
 @property (strong, nonatomic) IBOutlet WifiClusterMapView *mapView;
@@ -43,7 +42,9 @@
 @property (nonatomic, retain) NSPredicate *filterPredicate;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
+@property (strong, nonatomic) UIBarButtonItem *searchBarButtonItem;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) NSArray *addressesToSelectFrom;
 //- (void)filterAnnotations:(NSArray *)placesToFilter;
 - (NSPredicate *)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;

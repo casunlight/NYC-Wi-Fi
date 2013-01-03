@@ -10,7 +10,6 @@
 		0A002BBA168F597500109769 /* import.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0A002BB9168F597500109769 /* import.xml */; };
 		0A002C0416925AB800109769 /* SearchMapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C0316925AB800109769 /* SearchMapPin.m */; };
 		0A002C0916928B9D00109769 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C0816928B9D00109769 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		0A002C151693541B00109769 /* SBTableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A002C141693541B00109769 /* SBTableAlert.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A0720FF1679A0C70047EB6D /* green-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720F91679A0C70047EB6D /* green-cluster.png */; };
 		0A0721001679A0C70047EB6D /* green-cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */; };
 		0A0721011679A0C70047EB6D /* red-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FB1679A0C70047EB6D /* red-cluster.png */; };
@@ -56,6 +55,7 @@
 		0A556FA115F2C4D700C5638C /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A556FA015F2C4D700C5638C /* libz.1.1.3.dylib */; };
 		0A556FA315F3D24B00C5638C /* command.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A556FA215F3D24B00C5638C /* command.json */; };
 		0A556FA715F41F9C00C5638C /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556FA615F41F9C00C5638C /* SMXMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0A62DF54169520C300E39E27 /* AddressSelectTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A62DF53169520C300E39E27 /* AddressSelectTVC.m */; };
 		0A65F1DB15ED6EB200E58FC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DA15ED6EB200E58FC5 /* UIKit.framework */; };
 		0A65F1DD15ED6EB200E58FC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DC15ED6EB200E58FC5 /* Foundation.framework */; };
 		0A65F1DF15ED6EB200E58FC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DE15ED6EB200E58FC5 /* CoreGraphics.framework */; };
@@ -114,8 +114,6 @@
 		0A002C0316925AB800109769 /* SearchMapPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchMapPin.m; sourceTree = "<group>"; };
 		0A002C0716928B9D00109769 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0A002C0816928B9D00109769 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		0A002C131693541B00109769 /* SBTableAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBTableAlert.h; sourceTree = "<group>"; };
-		0A002C141693541B00109769 /* SBTableAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBTableAlert.m; sourceTree = "<group>"; };
 		0A0720F91679A0C70047EB6D /* green-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster.png"; sourceTree = "<group>"; };
 		0A0720FA1679A0C70047EB6D /* green-cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-cluster@2x.png"; sourceTree = "<group>"; };
 		0A0720FB1679A0C70047EB6D /* red-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-cluster.png"; sourceTree = "<group>"; };
@@ -174,6 +172,8 @@
 		0A556FA515F41F8D00C5638C /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
 		0A556FA615F41F9C00C5638C /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
 		0A5B3A311645971300E11B4A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		0A62DF52169520C300E39E27 /* AddressSelectTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectTVC.h; sourceTree = "<group>"; };
+		0A62DF53169520C300E39E27 /* AddressSelectTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectTVC.m; sourceTree = "<group>"; };
 		0A65F1D615ED6EB200E58FC5 /* NYC Wi-Fi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NYC Wi-Fi.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A65F1DA15ED6EB200E58FC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0A65F1DC15ED6EB200E58FC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -270,15 +270,6 @@
 				0A002C0816928B9D00109769 /* Reachability.m */,
 			);
 			name = Reachability;
-			sourceTree = "<group>";
-		};
-		0A002C121693540800109769 /* SBTableAlert */ = {
-			isa = PBXGroup;
-			children = (
-				0A002C131693541B00109769 /* SBTableAlert.h */,
-				0A002C141693541B00109769 /* SBTableAlert.m */,
-			);
-			name = SBTableAlert;
 			sourceTree = "<group>";
 		};
 		0A22800A1603C8FA00189106 /* Model */ = {
@@ -379,6 +370,8 @@
 				0A002C0316925AB800109769 /* SearchMapPin.m */,
 				0A5B3A311645971300E11B4A /* MapViewController.h */,
 				0A65F1F015ED6EB200E58FC5 /* MapViewController.m */,
+				0A62DF52169520C300E39E27 /* AddressSelectTVC.h */,
+				0A62DF53169520C300E39E27 /* AddressSelectTVC.m */,
 				0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */,
 				0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */,
 				0A4DBAD21661EDB300CD17F3 /* AboutViewController.h */,
@@ -493,7 +486,6 @@
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				0A002C121693540800109769 /* SBTableAlert */,
 				0A002C0616928B8A00109769 /* Reachability */,
 				0A4DBA901660400F00CD17F3 /* Popover */,
 				0A556FA415F41F6300C5638C /* SMXMLDocument */,
@@ -650,7 +642,7 @@
 				0AD472D51688BF7A006BD2D3 /* MBProgressHUD.m in Sources */,
 				0A002C0416925AB800109769 /* SearchMapPin.m in Sources */,
 				0A002C0916928B9D00109769 /* Reachability.m in Sources */,
-				0A002C151693541B00109769 /* SBTableAlert.m in Sources */,
+				0A62DF54169520C300E39E27 /* AddressSelectTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

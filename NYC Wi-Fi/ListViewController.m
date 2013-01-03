@@ -206,6 +206,11 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+/* - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    if (self.popoverController)
+        [self.popoverController dismissPopoverAnimated:YES];
+} */
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LocationCellIdentifier];
