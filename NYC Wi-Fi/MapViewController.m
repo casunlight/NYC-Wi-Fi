@@ -393,7 +393,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
     
     UIBarButtonItem *locateMeButtonItem = [[UIBarButtonItem alloc]
-                                           initWithImage:[UIImage imageNamed:@"locate-me-pin.png"]
+                                           initWithImage:[UIImage imageNamed:@"locate-me-arrow.png"]
                                            style:UIBarButtonItemStyleBordered
                                            target:self
                                            action:@selector(showUserLocation)];

@@ -18,8 +18,6 @@
 		0A0721041679A0C70047EB6D /* yellow-cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0720FE1679A0C70047EB6D /* yellow-cluster@2x.png */; };
 		0A0721081679A2080047EB6D /* orange-cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0721061679A2080047EB6D /* orange-cluster.png */; };
 		0A0721091679A2080047EB6D /* orange-cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A0721071679A2080047EB6D /* orange-cluster@2x.png */; };
-		0A07210C167A47D60047EB6D /* wifi-icon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A07210A167A47D60047EB6D /* wifi-icon-green.png */; };
-		0A07210D167A47D60047EB6D /* wifi-icon-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A07210B167A47D60047EB6D /* wifi-icon-orange.png */; };
 		0A072110167A76CE0047EB6D /* wifi-pin-fee.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A07210E167A76CE0047EB6D /* wifi-pin-fee.png */; };
 		0A072111167A76CE0047EB6D /* wifi-pin-fee@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A07210F167A76CE0047EB6D /* wifi-pin-fee@2x.png */; };
 		0A072113167A76E60047EB6D /* wifi-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A072112167A76E60047EB6D /* wifi-pin@2x.png */; };
@@ -46,7 +44,6 @@
 		0A4DBABA166040B400CD17F3 /* popoverBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4DBAAB166040B400CD17F3 /* popoverBg@2x.png */; };
 		0A4DBABB166040B400CD17F3 /* popoverBgSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4DBAAC166040B400CD17F3 /* popoverBgSimple.png */; };
 		0A4DBABE166040BF00CD17F3 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */; };
-		0A4DBAD11661541E00CD17F3 /* orange-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A4DBAD01661541E00CD17F3 /* orange-pin.png */; };
 		0A4DBAD41661EDB600CD17F3 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */; };
 		0A556F9915F2C47800C5638C /* wifi-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A556F9815F2C47800C5638C /* wifi-pin.png */; };
 		0A556F9B15F2C4B200C5638C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A556F9A15F2C4B200C5638C /* CFNetwork.framework */; };
@@ -56,6 +53,8 @@
 		0A556FA315F3D24B00C5638C /* command.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A556FA215F3D24B00C5638C /* command.json */; };
 		0A556FA715F41F9C00C5638C /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A556FA615F41F9C00C5638C /* SMXMLDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0A62DF54169520C300E39E27 /* AddressSelectTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A62DF53169520C300E39E27 /* AddressSelectTVC.m */; };
+		0A62DF581696A06B00E39E27 /* locate-me-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A62DF561696A06B00E39E27 /* locate-me-arrow.png */; };
+		0A62DF591696A06B00E39E27 /* locate-me-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A62DF571696A06B00E39E27 /* locate-me-arrow@2x.png */; };
 		0A65F1DB15ED6EB200E58FC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DA15ED6EB200E58FC5 /* UIKit.framework */; };
 		0A65F1DD15ED6EB200E58FC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DC15ED6EB200E58FC5 /* Foundation.framework */; };
 		0A65F1DF15ED6EB200E58FC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A65F1DE15ED6EB200E58FC5 /* CoreGraphics.framework */; };
@@ -68,21 +67,12 @@
 		0A91C257166C1B570027BEB0 /* nyc-wifi-logo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */; };
 		0A91C25A166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */; };
 		0A9679F215F7FEDB00EB60B6 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9679F115F7FEDB00EB60B6 /* ListViewController.m */; };
-		0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C3165818FF009EAF5E /* tab-notepad.png */; };
-		0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C4165818FF009EAF5E /* tab-pin.png */; };
 		0A9DE5C916584CD2009EAF5E /* LocationDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */; };
-		0A9E08D8165CA06100DFF08C /* green-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08D7165CA06100DFF08C /* green-pin.png */; };
-		0A9E08DB165D4AD400DFF08C /* yellow-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9E08DA165D4AD400DFF08C /* yellow-pin.png */; };
-		0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA37CD915F1D54D00659109 /* ButtonMenu.png */; };
 		0AAA2904167136B900BF6383 /* WifiClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA2903167136B900BF6383 /* WifiClusterAnnotationView.m */; };
 		0AAA290816757C3500BF6383 /* WifiClusterMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290716757C3500BF6383 /* WifiClusterMapView.m */; };
 		0AAA290C16757CA400BF6383 /* WifiClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290B16757CA400BF6383 /* WifiClusterManager.m */; };
 		0AAA291116757D4400BF6383 /* WifiClusterBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA290E16757D4400BF6383 /* WifiClusterBlock.m */; };
 		0AAA291716758A0B00BF6383 /* WifiAnnotationsCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAA291616758A0B00BF6383 /* WifiAnnotationsCollection.m */; };
-		0AAA291E16758DB500BF6383 /* cluster.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291A16758DB500BF6383 /* cluster.png */; };
-		0AAA291F16758DB500BF6383 /* cluster@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291B16758DB500BF6383 /* cluster@2x.png */; };
-		0AAA292016758DB500BF6383 /* pinpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291C16758DB500BF6383 /* pinpoint.png */; };
-		0AAA292116758DB500BF6383 /* pinpoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAA291D16758DB500BF6383 /* pinpoint@2x.png */; };
 		0AAC8FAE15FEA50E003B85F7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */; };
 		0AAC8FB115FEA53D003B85F7 /* nycwifi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */; };
 		0AD472D21687C77C006BD2D3 /* LocationInfo+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD472D11687C77C006BD2D3 /* LocationInfo+Extensions.m */; };
@@ -95,17 +85,11 @@
 		0AD5273B1682516600B4BD02 /* tab-clipboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD527371682516600B4BD02 /* tab-clipboard@2x.png */; };
 		0AD5273C1682516600B4BD02 /* tab-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD527381682516600B4BD02 /* tab-map.png */; };
 		0AD5273D1682516600B4BD02 /* tab-map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD527391682516600B4BD02 /* tab-map@2x.png */; };
-		0AD527401682551A00B4BD02 /* locate-me-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5273E1682551A00B4BD02 /* locate-me-pin.png */; };
-		0AD527411682551A00B4BD02 /* locate-me-pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5273F1682551A00B4BD02 /* locate-me-pin@2x.png */; };
-		0AD5274416825A1400B4BD02 /* menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274216825A1400B4BD02 /* menu-button.png */; };
-		0AD5274516825A1400B4BD02 /* menu-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274316825A1400B4BD02 /* menu-button@2x.png */; };
 		0AD5274716829D9B00B4BD02 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274616829D9B00B4BD02 /* menu.png */; };
 		0AD7BC8C16632D0B006745F7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7BC8B16632D0B006745F7 /* MessageUI.framework */; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
 		0AFFD5FF15F140770023C83C /* MapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFD5FE15F140770023C83C /* MapLocation.m */; };
-		0AFFF9501645A3E7001E3D6F /* location-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AFFF94F1645A3E7001E3D6F /* location-button.png */; };
-		0AFFF9531645A80B001E3D6F /* location-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AFFF9521645A80B001E3D6F /* location-arrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,8 +106,6 @@
 		0A0720FE1679A0C70047EB6D /* yellow-cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-cluster@2x.png"; sourceTree = "<group>"; };
 		0A0721061679A2080047EB6D /* orange-cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-cluster.png"; sourceTree = "<group>"; };
 		0A0721071679A2080047EB6D /* orange-cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-cluster@2x.png"; sourceTree = "<group>"; };
-		0A07210A167A47D60047EB6D /* wifi-icon-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-icon-green.png"; sourceTree = "<group>"; };
-		0A07210B167A47D60047EB6D /* wifi-icon-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-icon-orange.png"; sourceTree = "<group>"; };
 		0A07210E167A76CE0047EB6D /* wifi-pin-fee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-pin-fee.png"; sourceTree = "<group>"; };
 		0A07210F167A76CE0047EB6D /* wifi-pin-fee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-pin-fee@2x.png"; sourceTree = "<group>"; };
 		0A072112167A76E60047EB6D /* wifi-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-pin@2x.png"; sourceTree = "<group>"; };
@@ -160,7 +142,6 @@
 		0A4DBAAC166040B400CD17F3 /* popoverBgSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBgSimple.png; sourceTree = "<group>"; };
 		0A4DBABC166040BF00CD17F3 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
 		0A4DBABD166040BF00CD17F3 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
-		0A4DBAD01661541E00CD17F3 /* orange-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-pin.png"; sourceTree = "<group>"; };
 		0A4DBAD21661EDB300CD17F3 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		0A4DBAD31661EDB500CD17F3 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		0A556F9815F2C47800C5638C /* wifi-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wifi-pin.png"; sourceTree = "<group>"; };
@@ -174,6 +155,8 @@
 		0A5B3A311645971300E11B4A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		0A62DF52169520C300E39E27 /* AddressSelectTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSelectTVC.h; sourceTree = "<group>"; };
 		0A62DF53169520C300E39E27 /* AddressSelectTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSelectTVC.m; sourceTree = "<group>"; };
+		0A62DF561696A06B00E39E27 /* locate-me-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locate-me-arrow.png"; sourceTree = "<group>"; };
+		0A62DF571696A06B00E39E27 /* locate-me-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locate-me-arrow@2x.png"; sourceTree = "<group>"; };
 		0A65F1D615ED6EB200E58FC5 /* NYC Wi-Fi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NYC Wi-Fi.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A65F1DA15ED6EB200E58FC5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0A65F1DC15ED6EB200E58FC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,13 +174,8 @@
 		0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "nyc-wifi-logo-icon-retina.png"; path = "../nyc-wifi-logo-icon-retina.png"; sourceTree = "<group>"; };
 		0A9679F015F7FEDA00EB60B6 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		0A9679F115F7FEDB00EB60B6 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		0A9DE5C3165818FF009EAF5E /* tab-notepad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-notepad.png"; sourceTree = "<group>"; };
-		0A9DE5C4165818FF009EAF5E /* tab-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-pin.png"; sourceTree = "<group>"; };
 		0A9DE5C716584CD2009EAF5E /* LocationDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailTVC.h; sourceTree = "<group>"; };
 		0A9DE5C816584CD2009EAF5E /* LocationDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailTVC.m; sourceTree = "<group>"; };
-		0A9E08D7165CA06100DFF08C /* green-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-pin.png"; sourceTree = "<group>"; };
-		0A9E08DA165D4AD400DFF08C /* yellow-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellow-pin.png"; sourceTree = "<group>"; };
-		0AA37CD915F1D54D00659109 /* ButtonMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMenu.png; sourceTree = "<group>"; };
 		0AAA2902167136B800BF6383 /* WifiClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterAnnotationView.h; sourceTree = "<group>"; };
 		0AAA2903167136B900BF6383 /* WifiClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiClusterAnnotationView.m; sourceTree = "<group>"; };
 		0AAA290616757C3400BF6383 /* WifiClusterMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterMapView.h; sourceTree = "<group>"; };
@@ -209,10 +187,6 @@
 		0AAA291516758A0B00BF6383 /* WifiAnnotationsCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiAnnotationsCollection.h; sourceTree = "<group>"; };
 		0AAA291616758A0B00BF6383 /* WifiAnnotationsCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WifiAnnotationsCollection.m; sourceTree = "<group>"; };
 		0AAA291816758C3E00BF6383 /* WifiClusterMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WifiClusterMap.h; sourceTree = "<group>"; };
-		0AAA291A16758DB500BF6383 /* cluster.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cluster.png; sourceTree = "<group>"; };
-		0AAA291B16758DB500BF6383 /* cluster@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cluster@2x.png"; sourceTree = "<group>"; };
-		0AAA291C16758DB500BF6383 /* pinpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinpoint.png; sourceTree = "<group>"; };
-		0AAA291D16758DB500BF6383 /* pinpoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinpoint@2x.png"; sourceTree = "<group>"; };
 		0AAC8FAD15FEA50E003B85F7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0AAC8FB015FEA53D003B85F7 /* nycwifi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = nycwifi.xcdatamodel; sourceTree = "<group>"; };
 		0AD472CF1687C71B006BD2D3 /* LocationInfo+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LocationInfo+Extensions.h"; sourceTree = "<group>"; };
@@ -227,18 +201,12 @@
 		0AD527371682516600B4BD02 /* tab-clipboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-clipboard@2x.png"; sourceTree = "<group>"; };
 		0AD527381682516600B4BD02 /* tab-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-map.png"; sourceTree = "<group>"; };
 		0AD527391682516600B4BD02 /* tab-map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-map@2x.png"; sourceTree = "<group>"; };
-		0AD5273E1682551A00B4BD02 /* locate-me-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locate-me-pin.png"; sourceTree = "<group>"; };
-		0AD5273F1682551A00B4BD02 /* locate-me-pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locate-me-pin@2x.png"; sourceTree = "<group>"; };
-		0AD5274216825A1400B4BD02 /* menu-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button.png"; sourceTree = "<group>"; };
-		0AD5274316825A1400B4BD02 /* menu-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-button@2x.png"; sourceTree = "<group>"; };
 		0AD5274616829D9B00B4BD02 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		0AD7BC8B16632D0B006745F7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AFFD5FD15F140770023C83C /* MapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocation.h; sourceTree = "<group>"; };
 		0AFFD5FE15F140770023C83C /* MapLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocation.m; sourceTree = "<group>"; };
-		0AFFF94F1645A3E7001E3D6F /* location-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-button.png"; sourceTree = "<group>"; };
-		0AFFF9521645A80B001E3D6F /* location-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-arrow.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,11 +372,9 @@
 		0AA37CD715F1D53C00659109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A62DF561696A06B00E39E27 /* locate-me-arrow.png */,
+				0A62DF571696A06B00E39E27 /* locate-me-arrow@2x.png */,
 				0AD5274616829D9B00B4BD02 /* menu.png */,
-				0AD5274216825A1400B4BD02 /* menu-button.png */,
-				0AD5274316825A1400B4BD02 /* menu-button@2x.png */,
-				0AD5273E1682551A00B4BD02 /* locate-me-pin.png */,
-				0AD5273F1682551A00B4BD02 /* locate-me-pin@2x.png */,
 				0AD527361682516600B4BD02 /* tab-clipboard.png */,
 				0AD527371682516600B4BD02 /* tab-clipboard@2x.png */,
 				0AD527381682516600B4BD02 /* tab-map.png */,
@@ -426,13 +392,8 @@
 				0A0720FC1679A0C70047EB6D /* red-cluster@2x.png */,
 				0A0720FD1679A0C70047EB6D /* yellow-cluster.png */,
 				0A0720FE1679A0C70047EB6D /* yellow-cluster@2x.png */,
-				0AAA291A16758DB500BF6383 /* cluster.png */,
-				0AAA291B16758DB500BF6383 /* cluster@2x.png */,
-				0AAA291C16758DB500BF6383 /* pinpoint.png */,
-				0AAA291D16758DB500BF6383 /* pinpoint@2x.png */,
 				0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */,
 				0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */,
-				0A4DBAD01661541E00CD17F3 /* orange-pin.png */,
 				0A4DBA9E166040B400CD17F3 /* popoverArrowDown.png */,
 				0A4DBA9F166040B400CD17F3 /* popoverArrowDown@2x.png */,
 				0A4DBAA0166040B400CD17F3 /* popoverArrowDownSimple.png */,
@@ -448,19 +409,10 @@
 				0A4DBAAA166040B400CD17F3 /* popoverBg.png */,
 				0A4DBAAB166040B400CD17F3 /* popoverBg@2x.png */,
 				0A4DBAAC166040B400CD17F3 /* popoverBgSimple.png */,
-				0A9E08DA165D4AD400DFF08C /* yellow-pin.png */,
-				0A9E08D7165CA06100DFF08C /* green-pin.png */,
-				0A9DE5C3165818FF009EAF5E /* tab-notepad.png */,
-				0A9DE5C4165818FF009EAF5E /* tab-pin.png */,
-				0AFFF9521645A80B001E3D6F /* location-arrow.png */,
-				0AFFF94F1645A3E7001E3D6F /* location-button.png */,
 				0A556F9815F2C47800C5638C /* wifi-pin.png */,
 				0A072112167A76E60047EB6D /* wifi-pin@2x.png */,
 				0A07210E167A76CE0047EB6D /* wifi-pin-fee.png */,
 				0A07210F167A76CE0047EB6D /* wifi-pin-fee@2x.png */,
-				0A07210A167A47D60047EB6D /* wifi-icon-green.png */,
-				0A07210B167A47D60047EB6D /* wifi-icon-orange.png */,
-				0AA37CD915F1D54D00659109 /* ButtonMenu.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -547,16 +499,9 @@
 			files = (
 				0A65F1E515ED6EB200E58FC5 /* InfoPlist.strings in Resources */,
 				0A65F1EE15ED6EB200E58FC5 /* MainStoryboard.storyboard in Resources */,
-				0AA37CDA15F1D54D00659109 /* ButtonMenu.png in Resources */,
 				0A556F9915F2C47800C5638C /* wifi-pin.png in Resources */,
 				0A556FA315F3D24B00C5638C /* command.json in Resources */,
-				0AFFF9501645A3E7001E3D6F /* location-button.png in Resources */,
-				0AFFF9531645A80B001E3D6F /* location-arrow.png in Resources */,
 				0A83BBA41646D2AF00319860 /* Default-568h@2x.png in Resources */,
-				0A9DE5C516581900009EAF5E /* tab-notepad.png in Resources */,
-				0A9DE5C616581900009EAF5E /* tab-pin.png in Resources */,
-				0A9E08D8165CA06100DFF08C /* green-pin.png in Resources */,
-				0A9E08DB165D4AD400DFF08C /* yellow-pin.png in Resources */,
 				0A4DBAAD166040B400CD17F3 /* popoverArrowDown.png in Resources */,
 				0A4DBAAE166040B400CD17F3 /* popoverArrowDown@2x.png in Resources */,
 				0A4DBAAF166040B400CD17F3 /* popoverArrowDownSimple.png in Resources */,
@@ -572,13 +517,8 @@
 				0A4DBAB9166040B400CD17F3 /* popoverBg.png in Resources */,
 				0A4DBABA166040B400CD17F3 /* popoverBg@2x.png in Resources */,
 				0A4DBABB166040B400CD17F3 /* popoverBgSimple.png in Resources */,
-				0A4DBAD11661541E00CD17F3 /* orange-pin.png in Resources */,
 				0A91C257166C1B570027BEB0 /* nyc-wifi-logo-icon.png in Resources */,
 				0A91C25A166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png in Resources */,
-				0AAA291E16758DB500BF6383 /* cluster.png in Resources */,
-				0AAA291F16758DB500BF6383 /* cluster@2x.png in Resources */,
-				0AAA292016758DB500BF6383 /* pinpoint.png in Resources */,
-				0AAA292116758DB500BF6383 /* pinpoint@2x.png in Resources */,
 				0A0720FF1679A0C70047EB6D /* green-cluster.png in Resources */,
 				0A0721001679A0C70047EB6D /* green-cluster@2x.png in Resources */,
 				0A0721011679A0C70047EB6D /* red-cluster.png in Resources */,
@@ -587,8 +527,6 @@
 				0A0721041679A0C70047EB6D /* yellow-cluster@2x.png in Resources */,
 				0A0721081679A2080047EB6D /* orange-cluster.png in Resources */,
 				0A0721091679A2080047EB6D /* orange-cluster@2x.png in Resources */,
-				0A07210C167A47D60047EB6D /* wifi-icon-green.png in Resources */,
-				0A07210D167A47D60047EB6D /* wifi-icon-orange.png in Resources */,
 				0A072110167A76CE0047EB6D /* wifi-pin-fee.png in Resources */,
 				0A072111167A76CE0047EB6D /* wifi-pin-fee@2x.png in Resources */,
 				0A072113167A76E60047EB6D /* wifi-pin@2x.png in Resources */,
@@ -600,12 +538,10 @@
 				0AD5273B1682516600B4BD02 /* tab-clipboard@2x.png in Resources */,
 				0AD5273C1682516600B4BD02 /* tab-map.png in Resources */,
 				0AD5273D1682516600B4BD02 /* tab-map@2x.png in Resources */,
-				0AD527401682551A00B4BD02 /* locate-me-pin.png in Resources */,
-				0AD527411682551A00B4BD02 /* locate-me-pin@2x.png in Resources */,
-				0AD5274416825A1400B4BD02 /* menu-button.png in Resources */,
-				0AD5274516825A1400B4BD02 /* menu-button@2x.png in Resources */,
 				0AD5274716829D9B00B4BD02 /* menu.png in Resources */,
 				0A002BBA168F597500109769 /* import.xml in Resources */,
+				0A62DF581696A06B00E39E27 /* locate-me-arrow.png in Resources */,
+				0A62DF591696A06B00E39E27 /* locate-me-arrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
