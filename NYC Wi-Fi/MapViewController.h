@@ -48,7 +48,6 @@
 @property (strong, nonatomic) UIBarButtonItem *searchBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *locateMeButtonItem;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) NSArray *addressesToSelectFrom;
 //- (void)filterAnnotations:(NSArray *)placesToFilter;
 - (NSPredicate *)setupFilterPredicate;
 - (IBAction)showPopover:(UIBarButtonItem *)sender;

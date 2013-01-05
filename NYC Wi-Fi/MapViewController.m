@@ -39,10 +39,8 @@
 @synthesize searchBarButtonItem = _searchBarButtonItem;
 @synthesize locateMeButtonItem = _locateMeButtonItem;
 @synthesize searchBar = _searchBar;
-@synthesize addressesToSelectFrom = _addressesToSelectFrom;
 @synthesize floatingController = _floatingController;
 @synthesize popoverController, locationManager;
-//@synthesize leftSidebarViewController;
 
 #pragma mark -
 #pragma mark Map view delegate
@@ -103,7 +101,6 @@
         
         return annotationView;
     } else if ([annotation isKindOfClass:[SearchMapPin class]]) {
-        //NSLog(@"SearchMapPin");
         MKPinAnnotationView *annotationView =
         (MKPinAnnotationView *)[_mapView dequeueReusableAnnotationViewWithIdentifier:@"search"];
         
@@ -118,7 +115,6 @@
         annotationView.enabled = YES;
         annotationView.draggable = NO;
         annotationView.highlighted = NO;
-        //annotationView.animatesDrop = YES;
         annotationView.canShowCallout = YES;
         
         return annotationView;
@@ -148,25 +144,12 @@ calloutAccessoryControlTapped:(UIControl *)control
 {
     MapLocation *annotationView = view.annotation;
     self.selectedLocation = annotationView.location;
-    NSLog(@"Callout tapped. Heading to LocationDetailTVC");
     [self performSegueWithIdentifier:@"Location Detail Segue" sender:self];
 }
 
-/* - (void)zoomIfZipCodeIsSet
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
-    
-    if ([zipCode integerValue] > 0) {
-        NSLog(@"Zooming to zipCode predicate: %i", [zipCode integerValue]);
-    }
-} */
-
 - (NSPredicate *)setupFilterPredicate
 {
-    NSLog(@"Set up the filter predicate");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //NSNumber *zipCode = [NSNumber numberWithInteger:[defaults integerForKey:@"currentZipCode"]];
     BOOL free = [defaults boolForKey:@"free"];
     BOOL fee = [defaults boolForKey:@"fee"];
     
@@ -174,20 +157,12 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSPredicate *predicate = [[NSPredicate alloc] init];
     
     if (free && !fee) {
-        NSLog(@"Predicate set to free");
         predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Free'"];
         [predicates addObject:predicate];
     } else if (!free && fee) {
-        NSLog(@"Predicate set to fee");
         predicate = [NSPredicate predicateWithFormat:@"fee_type == 'Fee-based'"];
         [predicates addObject:predicate];
     }
-    
-    /* if ([zipCode integerValue] > 0) {
-        NSLog(@"Setting zipCode predicate: %i", [zipCode integerValue]);
-        predicate = [NSPredicate predicateWithFormat:@"details.zip == %d", [zipCode integerValue]];
-        [predicates addObject:predicate];
-    } */
     
     if (predicates.count > 0) {
         return [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
@@ -245,10 +220,9 @@ calloutAccessoryControlTapped:(UIControl *)control
     [_mapView setRegion:region animated:YES];
 } */
 
-//- (void)importCoreDataDefaultLocations:(NSString *)responseString {
 - (void)importCoreDataDefaultLocations {
     
-    NSLog(@"Importing Core Data Default Values for Locations...");
+    //NSLog(@"Importing Core Data Default Values for Locations...");
     hud.labelText = @"Initializing location database...";
     hud.detailsLabelText = @"One time only. Please sit tight.";
     hud.mode = MBProgressHUDModeAnnularDeterminate;
@@ -310,20 +284,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
 }
 
-/* - (void)setMapRegion
-{
-    NSNumber *zipCode = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"currentZipCode"]];
-    
-    if ([zipCode integerValue] > 0) {
-        NSLog(@"zoomToFit");
-        [self zoomToFitMapAnnotations];
-    } else {
-        NSLog(@"setStandardRegion");
-        [self setStandardRegion];
-        //[_mapView setRegion:_mapView.region animated:TRUE];
-    }
-} */
-
 - (void)setStandardRegion
 {
     CLLocationCoordinate2D zoomLocation;
@@ -339,7 +299,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)viewWillAppear:(BOOL)animated
 {    
     _mapView.delegate = self;
-    //[self setStandardRegion];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -364,11 +323,11 @@ calloutAccessoryControlTapped:(UIControl *)control
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
-        NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
+        //NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
         [self importCoreDataDefaultLocations];
     }
     else {
-        NSLog(@"There's stuff in the database so skipping the import of default data");
+        //NSLog(@"There's stuff in the database so skipping the import of default data");
         [self plotMapLocations];
         [self setStandardRegion];
     }
@@ -443,7 +402,6 @@ calloutAccessoryControlTapped:(UIControl *)control
             CLLocationCoordinate2D coordinate;
             coordinate.latitude = locationDetails.latitude.doubleValue;
             coordinate.longitude = locationDetails.longitude.doubleValue;
-            //NSLog(@"%f, %f", locationDetails.latitude.doubleValue, locationDetails.longitude.doubleValue);
             
             MapLocation *annotation = [[MapLocation alloc] initWithLocation:location coordinate:coordinate];
             [pins addObject:annotation];
@@ -458,21 +416,13 @@ calloutAccessoryControlTapped:(UIControl *)control
     });
 }
 
-/* - (void)mapView:(MKMapView *)myMapView didUpdateToUserLocation:(MKUserLocation *)userLocation
-{
-    NSLog(@"didUpdateToUserLocation");
-    [self zoomToUserLocation:userLocation.location];
-} */
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
-    //NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     [self zoomToUserLocation:newLocation];
     [self.locationManager stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"%@", error.localizedDescription);
+    //NSLog(@"%@", error.localizedDescription);
     UIAlertView *locationUpdateFailed = [[UIAlertView alloc] initWithTitle:@"Location Unavailable" message:@"Please try again and ensure Location Services are enabled for NYC Wi-Fi." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [locationUpdateFailed show];
 }
@@ -549,31 +499,25 @@ calloutAccessoryControlTapped:(UIControl *)control
     if ([segue.identifier isEqualToString:@"Location Detail Segue"])
 	{
         LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
-        //locationDetailTVC.managedObjectContext = self.managedObjectContext;
-        NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         locationDetailTVC.selectedLocation = self.selectedLocation;
 	} else if ([segue.identifier isEqualToString:@"About Segue"]) {
         AboutViewController *aboutViewController = segue.destinationViewController;
         aboutViewController.delegate = self;
-        NSLog(@"Segue to About");
     } else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
         SettingsTVC *settingsTVC = segue.destinationViewController;
         settingsTVC.delegate = self;
-        NSLog(@"Segue to Settings");
-    } else if ([segue.identifier isEqualToString:@"Address Select Segue"]) {
-        AddressSelectTVC *addressSelectTVC = segue.destinationViewController;
-        addressSelectTVC.delegate = self;
-        addressSelectTVC.addresses = _addressesToSelectFrom;
-        NSLog(@"Segue to Address Select");
     }
-    /* else
-    { NSLog(@"Unidentified Segue Attempted!"); } */
 }
 
 #pragma mark -
 #pragma mark Actions
 
 - (IBAction)showPopover:(UIBarButtonItem *)sender {
+    if (_floatingController) {
+        [_floatingController dismissAnimated:YES];
+        _floatingController = nil;
+    }
+    
 	if (!self.popoverController) {
 		
 		PopoverViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -622,19 +566,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self disableNavigationBarButtonsAndSearchBar];
     [_searchBar resignFirstResponder];
     NSString *address = searchBar.text;
-    NSString *addressLower = [address lowercaseString];
     _searchBar.text = @"";
-    
-    if ([addressLower rangeOfString:@"new york"].location == NSNotFound &&
-        [addressLower rangeOfString:@"ny"].location == NSNotFound &&
-        [addressLower rangeOfString:@"nyc"].location == NSNotFound &&
-        [addressLower rangeOfString:@"brooklyn"].location == NSNotFound &&
-        [addressLower rangeOfString:@"queens"].location == NSNotFound &&
-        [addressLower rangeOfString:@"bronx"].location == NSNotFound &&
-        [addressLower rangeOfString:@"staten"].location == NSNotFound) {
-        address = [NSString stringWithFormat:@"%@, New York, NY", address];
-    }
-    
+    address = [self addNewYorkSuffixIfNecessary:[address lowercaseString]];
     [self geolocateAddressAndZoomOnMap:address];
 }
 
@@ -648,7 +581,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address
 {
     if (_mapView.lastSearchedAnnotation != nil) {
-        NSLog(@"Remove lastSearchedAnnotation");
         [_mapView removeAnnotation:_mapView.lastSearchedAnnotation];
         _mapView.lastSearchedAnnotation = nil;
     }
@@ -657,21 +589,16 @@ calloutAccessoryControlTapped:(UIControl *)control
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Searching for address...";
     [coder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error){
-        if (!error) {
+        if (!error && [self aValidZipCodeIfNumericWithSearchText:address]) {
             if (placemarks.count == 1) {
+                // Only one placemark is returned, so let's zoom in and plot it
                 CLPlacemark *placemark = [placemarks objectAtIndex:0];
-                CLLocationCoordinate2D coordinate;
-                coordinate.latitude = placemark.region.center.latitude;
-                coordinate.longitude = placemark.region.center.longitude;
-                NSString *validAddress = [NSString stringWithFormat:@"%@ %@, %@, %@ %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode];
-                
-                _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:validAddress
- coordinate:coordinate];
-                [self enableNavigationBarButtonsAndSearchBar];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                CLLocationCoordinate2D coordinate = [self getCoordinateWithPlacemark:placemark];
+                _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:[self getFormattedAddressWithPlacemark:placemark]
+                                                                             coordinate:coordinate];
                 [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
             } else if (placemarks.count > 1) {
-                _addressesToSelectFrom = placemarks;
+                // Multiple placemarks returned, so let the user select one and then zoom in and plot it
                 AddressSelectTVC *addressSelectTVC = [[AddressSelectTVC alloc] init];
                 addressSelectTVC.delegate = self;
                 addressSelectTVC.addresses = placemarks;
@@ -682,8 +609,6 @@ calloutAccessoryControlTapped:(UIControl *)control
                 [_floatingController showInView:self.view
                      withContentViewController:addressSelectTVC
                                       animated:YES];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                //[self performSegueWithIdentifier:@"Address Select Segue" sender:self];
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
                                                                               message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"
@@ -694,14 +619,51 @@ calloutAccessoryControlTapped:(UIControl *)control
             }
         } else {
             UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Whoops"
-                                                                          message:@"Either the address you entered was invalid or there was an internet hiccup. Please enter a valid address and try again."
+                                                                          message:@"Either the address you entered was invalid or there was an internet hiccup. Please check your Internet connection, enter a valid address, and try again."
                                                                          delegate:nil
                                                                 cancelButtonTitle:@"OK"
                                                                 otherButtonTitles:nil];
             [errorFindingAddress show];
             NSLog(@"%@", error);
         }
+        [self enableNavigationBarButtonsAndSearchBar];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+}
+
+- (NSString *)addNewYorkSuffixIfNecessary:(NSString *)address
+{
+    if (![self searchTextIsNumeric:address]) {
+        if ([address rangeOfString:@"new york"].location == NSNotFound &&
+            [address rangeOfString:@"ny"].location == NSNotFound &&
+            [address rangeOfString:@"nyc"].location == NSNotFound &&
+            [address rangeOfString:@"brooklyn"].location == NSNotFound &&
+            [address rangeOfString:@"queens"].location == NSNotFound &&
+            [address rangeOfString:@"bronx"].location == NSNotFound &&
+            [address rangeOfString:@"staten"].location == NSNotFound) {
+            return [NSString stringWithFormat:@"%@, New York, NY", address];
+        }
+    }
+    
+    return address;
+}
+
+- (BOOL)aValidZipCodeIfNumericWithSearchText:(NSString *)searchText
+{
+    if ([self searchTextIsNumeric:searchText]) {
+        NSString *zipRegex = @"(^[0-9]{5}(-[0-9]{4})?$)";
+        NSPredicate *zipCheck = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", zipRegex];
+        return [zipCheck evaluateWithObject:searchText];
+    }
+    return YES;
+}
+
+- (BOOL)searchTextIsNumeric:(NSString *)searchText
+{
+    if ([[[NSNumberFormatter alloc] init] numberFromString:searchText])
+        return YES;
+    
+    return NO;
 }
 
 - (void)disableNavigationBarButtonsAndSearchBar
@@ -730,6 +692,11 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)showUserLocation {
+    if (_floatingController) {
+        [_floatingController dismissAnimated:YES];
+        _floatingController = nil;
+    }
+    
     _mapView.showsUserLocation = YES;
     [self.locationManager startUpdatingLocation];
 }
@@ -784,14 +751,12 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)theDoneButtonOnTheAboutViewControllerWasTapped:(AboutViewController *)controller
 {
-    NSLog(@"theDoneButtonOnTheAboutViewControllerWasTapped");
     [self.popoverController dismissPopoverAnimated:YES];
     self.popoverController = nil;
 }
 
 - (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
 {
-    NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
     [self.popoverController dismissPopoverAnimated:YES];
     self.popoverController = nil;
     [_fetchedResultsController.fetchRequest setPredicate:[self setupFilterPredicate]];
@@ -803,17 +768,32 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)theSelectButtonOnTheAddressSelectTVCWasTapped:(AddressSelectTVC *)controller withAddress:(CLPlacemark *)placemark
 {
-    [self enableNavigationBarButtonsAndSearchBar];
     [_floatingController dismissAnimated:YES];
     _floatingController = nil;
+    CLLocationCoordinate2D coordinate = [self getCoordinateWithPlacemark:placemark];
+    _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:[self getFormattedAddressWithPlacemark:placemark]
+                                                                 coordinate:coordinate];
+    [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
+}
+
+- (NSString *)getFormattedAddressWithPlacemark:(CLPlacemark *)placemark
+{
+    if (!placemark.subThoroughfare) {
+        if (placemark.postalCode)
+            return [NSString stringWithFormat:@"%@", placemark.postalCode];
+        else
+            return @"Invalid Address";
+    }
+    
+    return [NSString stringWithFormat:@"%@ %@, %@ %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.postalCode];
+}
+
+- (CLLocationCoordinate2D)getCoordinateWithPlacemark:(CLPlacemark *)placemark
+{
     CLLocationCoordinate2D coordinate;
     coordinate.latitude = placemark.region.center.latitude;
     coordinate.longitude = placemark.region.center.longitude;
-    NSLog(@"%@", placemark.subThoroughfare);
-    NSString *validAddress = [NSString stringWithFormat:@"%@ %@, %@, %@ %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode];
-    
-    _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:validAddress coordinate:coordinate];
-    [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
+    return coordinate;
 }
 
 #pragma mark - fetchedResultsController
