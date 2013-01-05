@@ -37,8 +37,10 @@
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
 @synthesize searchBarButtonItem = _searchBarButtonItem;
+@synthesize locateMeButtonItem = _locateMeButtonItem;
 @synthesize searchBar = _searchBar;
 @synthesize addressesToSelectFrom = _addressesToSelectFrom;
+@synthesize floatingController = _floatingController;
 @synthesize popoverController, locationManager;
 //@synthesize leftSidebarViewController;
 
@@ -392,13 +394,13 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
     
-    UIBarButtonItem *locateMeButtonItem = [[UIBarButtonItem alloc]
+    _locateMeButtonItem = [[UIBarButtonItem alloc]
                                            initWithImage:[UIImage imageNamed:@"locate-me-arrow.png"]
                                            style:UIBarButtonItemStyleBordered
                                            target:self
                                            action:@selector(showUserLocation)];
     
-    self.navigationItem.rightBarButtonItems = @[locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
+    self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
     //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
@@ -590,6 +592,10 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)searchLocations {
+    if (_floatingController) {
+        [_floatingController dismissAnimated:YES];
+        _floatingController = nil;
+    }
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
     if (networkStatus == NotReachable) {
@@ -613,8 +619,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     _searchBar.hidden = YES;
-    _searchBar.userInteractionEnabled = NO;
-    _searchBarButtonItem.enabled = NO;
+    [self disableNavigationBarButtonsAndSearchBar];
     [_searchBar resignFirstResponder];
     NSString *address = searchBar.text;
     NSString *addressLower = [address lowercaseString];
@@ -662,10 +667,23 @@ calloutAccessoryControlTapped:(UIControl *)control
                 
                 _mapView.lastSearchedAnnotation = [[SearchMapPin alloc] initWithAddress:validAddress
  coordinate:coordinate];
+                [self enableNavigationBarButtonsAndSearchBar];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self zoomMapAndCenterAtLatitude:coordinate.latitude andLongitude:coordinate.longitude];
             } else if (placemarks.count > 1) {
                 _addressesToSelectFrom = placemarks;
-                [self performSegueWithIdentifier:@"Address Select Segue" sender:self];
+                AddressSelectTVC *addressSelectTVC = [[AddressSelectTVC alloc] init];
+                addressSelectTVC.delegate = self;
+                addressSelectTVC.addresses = placemarks;
+                
+                _floatingController = [CQMFloatingController sharedFloatingController];
+                [_floatingController setPortraitFrameSize:CGSizeMake(320 - 66, 460 - 190)];
+                [_floatingController setFrameColor:[[UIColor alloc] initWithRed:78.0f/255.0f green:143.0f/255.0f blue:218.0f/255.0f alpha:1]];
+                [_floatingController showInView:self.view
+                     withContentViewController:addressSelectTVC
+                                      animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                //[self performSegueWithIdentifier:@"Address Select Segue" sender:self];
             } else {
                 UIAlertView *errorFindingAddress = [[UIAlertView alloc] initWithTitle:@"Address not found"
                                                                               message:@"No map location could be found for the address or zip code you entered. Please enter another and try again"
@@ -683,10 +701,21 @@ calloutAccessoryControlTapped:(UIControl *)control
             [errorFindingAddress show];
             NSLog(@"%@", error);
         }
-        _searchBar.userInteractionEnabled = YES;
-        _searchBarButtonItem.enabled = YES;
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
+}
+
+- (void)disableNavigationBarButtonsAndSearchBar
+{
+    _searchBar.userInteractionEnabled = NO;
+    _searchBarButtonItem.enabled = NO;
+    _locateMeButtonItem.enabled = NO;
+}
+
+- (void)enableNavigationBarButtonsAndSearchBar
+{
+    _searchBar.userInteractionEnabled = YES;
+    _searchBarButtonItem.enabled = YES;
+    _locateMeButtonItem.enabled = YES;
 }
 
 - (void)zoomMapAndCenterAtLatitude:(double)latitude andLongitude:(double)longitude
@@ -774,6 +803,9 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)theSelectButtonOnTheAddressSelectTVCWasTapped:(AddressSelectTVC *)controller withAddress:(CLPlacemark *)placemark
 {
+    [self enableNavigationBarButtonsAndSearchBar];
+    [_floatingController dismissAnimated:YES];
+    _floatingController = nil;
     CLLocationCoordinate2D coordinate;
     coordinate.latitude = placemark.region.center.latitude;
     coordinate.longitude = placemark.region.center.longitude;

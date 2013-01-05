@@ -21,6 +21,5 @@
 
 @property (strong, nonatomic) NSArray *addresses;
 @property (nonatomic, weak) id <AddressSelectTVCDelegate> delegate;
-- (IBAction)cancelAddressSelect:(UIBarButtonItem *)sender;
 
 @end

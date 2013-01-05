@@ -28,9 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationItem setTitle:@"Did you mean..."];
 
     // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -57,22 +58,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"AddressSelectCell";
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
-    //LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
-    //LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     CLPlacemark *address;
-    
-    /* if (tableView == self.searchDisplayController.searchResultsTableView)
-     location = [_filteredTableData objectAtIndex:indexPath.row];
-     else
-     location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]; */
     
     address = [_addresses objectAtIndex:indexPath.row];
     /* NSLog(@"%@", address);
@@ -91,9 +83,7 @@
     NSLog(@"areasOfInterest %@", address.areasOfInterest); */
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", address.subThoroughfare, address.thoroughfare];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@, %@ %@", address.subLocality, address.locality, address.administrativeArea, address.postalCode];
-    //NSLog(@"!!!%@", cell.detailTextLabel.text);
-    //NSLog(@"!!!!!!!%@", location.address);
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ %@", address.subLocality, address.locality, address.postalCode];
     
     return cell;
 }
@@ -149,11 +139,11 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
     [self.delegate theSelectButtonOnTheAddressSelectTVCWasTapped:self withAddress:[_addresses objectAtIndex:indexPath.row]];
-    [self dismissModalViewControllerAnimated:YES];
+    //[self dismissModalViewControllerAnimated:YES];
 }
 
-- (IBAction)cancelAddressSelect:(UIBarButtonItem *)sender {
+/* - (IBAction)cancelAddressSelect:(UIBarButtonItem *)sender {
     [self dismissModalViewControllerAnimated:YES];
-}
+} */
 
 @end

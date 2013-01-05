@@ -87,6 +87,12 @@
 		0AD5273D1682516600B4BD02 /* tab-map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD527391682516600B4BD02 /* tab-map@2x.png */; };
 		0AD5274716829D9B00B4BD02 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5274616829D9B00B4BD02 /* menu.png */; };
 		0AD7BC8C16632D0B006745F7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7BC8B16632D0B006745F7 /* MessageUI.framework */; };
+		0ADA474A1697E158001CCAA9 /* CQMFloatingContentOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA473F1697E158001CCAA9 /* CQMFloatingContentOverlayView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0ADA474B1697E158001CCAA9 /* CQMFloatingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA47411697E158001CCAA9 /* CQMFloatingController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0ADA474C1697E158001CCAA9 /* CQMFloatingFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA47431697E158001CCAA9 /* CQMFloatingFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0ADA474D1697E158001CCAA9 /* CQMFloatingMaskControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA47451697E158001CCAA9 /* CQMFloatingMaskControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0ADA474E1697E158001CCAA9 /* CQMFloatingNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA47471697E158001CCAA9 /* CQMFloatingNavigationBar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0ADA474F1697E158001CCAA9 /* CQMPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ADA47491697E158001CCAA9 /* CQMPathUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0AEE2C7F15F1660A003C3BE8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */; };
 		0AFFD5F715F133720023C83C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFFD5F615F133720023C83C /* MapKit.framework */; };
 		0AFFD5FF15F140770023C83C /* MapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFFD5FE15F140770023C83C /* MapLocation.m */; };
@@ -203,6 +209,18 @@
 		0AD527391682516600B4BD02 /* tab-map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-map@2x.png"; sourceTree = "<group>"; };
 		0AD5274616829D9B00B4BD02 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		0AD7BC8B16632D0B006745F7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		0ADA473E1697E158001CCAA9 /* CQMFloatingContentOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMFloatingContentOverlayView.h; sourceTree = "<group>"; };
+		0ADA473F1697E158001CCAA9 /* CQMFloatingContentOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMFloatingContentOverlayView.m; sourceTree = "<group>"; };
+		0ADA47401697E158001CCAA9 /* CQMFloatingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMFloatingController.h; sourceTree = "<group>"; };
+		0ADA47411697E158001CCAA9 /* CQMFloatingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMFloatingController.m; sourceTree = "<group>"; };
+		0ADA47421697E158001CCAA9 /* CQMFloatingFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMFloatingFrameView.h; sourceTree = "<group>"; };
+		0ADA47431697E158001CCAA9 /* CQMFloatingFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMFloatingFrameView.m; sourceTree = "<group>"; };
+		0ADA47441697E158001CCAA9 /* CQMFloatingMaskControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMFloatingMaskControl.h; sourceTree = "<group>"; };
+		0ADA47451697E158001CCAA9 /* CQMFloatingMaskControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMFloatingMaskControl.m; sourceTree = "<group>"; };
+		0ADA47461697E158001CCAA9 /* CQMFloatingNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMFloatingNavigationBar.h; sourceTree = "<group>"; };
+		0ADA47471697E158001CCAA9 /* CQMFloatingNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMFloatingNavigationBar.m; sourceTree = "<group>"; };
+		0ADA47481697E158001CCAA9 /* CQMPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQMPathUtilities.h; sourceTree = "<group>"; };
+		0ADA47491697E158001CCAA9 /* CQMPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CQMPathUtilities.m; sourceTree = "<group>"; };
 		0AEE2C7E15F1660A003C3BE8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		0AFFD5F615F133720023C83C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0AFFD5FD15F140770023C83C /* MapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocation.h; sourceTree = "<group>"; };
@@ -435,9 +453,29 @@
 			name = WifiClusterMap;
 			sourceTree = "<group>";
 		};
+		0ADA473C1697E13D001CCAA9 /* CWMFloatingController */ = {
+			isa = PBXGroup;
+			children = (
+				0ADA473E1697E158001CCAA9 /* CQMFloatingContentOverlayView.h */,
+				0ADA473F1697E158001CCAA9 /* CQMFloatingContentOverlayView.m */,
+				0ADA47401697E158001CCAA9 /* CQMFloatingController.h */,
+				0ADA47411697E158001CCAA9 /* CQMFloatingController.m */,
+				0ADA47421697E158001CCAA9 /* CQMFloatingFrameView.h */,
+				0ADA47431697E158001CCAA9 /* CQMFloatingFrameView.m */,
+				0ADA47441697E158001CCAA9 /* CQMFloatingMaskControl.h */,
+				0ADA47451697E158001CCAA9 /* CQMFloatingMaskControl.m */,
+				0ADA47461697E158001CCAA9 /* CQMFloatingNavigationBar.h */,
+				0ADA47471697E158001CCAA9 /* CQMFloatingNavigationBar.m */,
+				0ADA47481697E158001CCAA9 /* CQMPathUtilities.h */,
+				0ADA47491697E158001CCAA9 /* CQMPathUtilities.m */,
+			);
+			name = CWMFloatingController;
+			sourceTree = "<group>";
+		};
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				0ADA473C1697E13D001CCAA9 /* CWMFloatingController */,
 				0A002C0616928B8A00109769 /* Reachability */,
 				0A4DBA901660400F00CD17F3 /* Popover */,
 				0A556FA415F41F6300C5638C /* SMXMLDocument */,
@@ -579,6 +617,12 @@
 				0A002C0416925AB800109769 /* SearchMapPin.m in Sources */,
 				0A002C0916928B9D00109769 /* Reachability.m in Sources */,
 				0A62DF54169520C300E39E27 /* AddressSelectTVC.m in Sources */,
+				0ADA474A1697E158001CCAA9 /* CQMFloatingContentOverlayView.m in Sources */,
+				0ADA474B1697E158001CCAA9 /* CQMFloatingController.m in Sources */,
+				0ADA474C1697E158001CCAA9 /* CQMFloatingFrameView.m in Sources */,
+				0ADA474D1697E158001CCAA9 /* CQMFloatingMaskControl.m in Sources */,
+				0ADA474E1697E158001CCAA9 /* CQMFloatingNavigationBar.m in Sources */,
+				0ADA474F1697E158001CCAA9 /* CQMPathUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

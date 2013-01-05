@@ -22,6 +22,7 @@
 #import "WifiClusterMapView.h"
 #import "SearchMapPin.h"
 #import "MBProgressHUD.h"
+#import "CQMFloatingController.h"
 
 #define METERS_PER_MILE 1609.344
 
@@ -29,6 +30,7 @@
     BOOL _doneInitialZoom;
     CLLocationManager *locationManager;
     WEPopoverController *popoverController;
+    CQMFloatingController *floatingController;
     Class popoverClass;
     MBProgressHUD *hud;
 }
@@ -42,7 +44,9 @@
 @property (nonatomic, retain) NSPredicate *filterPredicate;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
+@property (strong, nonatomic) CQMFloatingController *floatingController;
 @property (strong, nonatomic) UIBarButtonItem *searchBarButtonItem;
+@property (strong, nonatomic) UIBarButtonItem *locateMeButtonItem;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *addressesToSelectFrom;
 //- (void)filterAnnotations:(NSArray *)placesToFilter;

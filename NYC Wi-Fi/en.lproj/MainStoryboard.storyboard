@@ -4,64 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
-        <!--Address SelectTVC-->
-        <scene sceneID="Fad-Bv-Hyi">
-            <objects>
-                <tableViewController id="Nz1-Wa-CKs" customClass="AddressSelectTVC" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="x4X-jK-zIa">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="V6Y-kK-02b">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <items>
-                                <navigationItem title="Did you mean..." id="BdP-dt-iLy">
-                                    <barButtonItem key="leftBarButtonItem" title="Cancel" id="Nxx-Ed-0FB">
-                                        <connections>
-                                            <action selector="cancelAddressSelect:" destination="Nz1-Wa-CKs" id="Iys-rr-ING"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddressSelectCell" textLabel="xEO-xn-cfu" detailTextLabel="4Ug-TA-hPO" style="IBUITableViewCellStyleSubtitle" id="gfY-Bc-gNr">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xEO-xn-cfu">
-                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Ug-TA-hPO">
-                                            <rect key="frame" x="10" y="24" width="47" height="18"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Nz1-Wa-CKs" id="GgI-SM-XY7"/>
-                            <outlet property="delegate" destination="Nz1-Wa-CKs" id="MST-Oi-uFN"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zrs-Jc-auK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1524" y="-1350"/>
-        </scene>
         <!--Map View Controller - NYC Wi-Fi-->
         <scene sceneID="fwj-eW-VbH">
             <objects>
@@ -102,7 +44,6 @@
                         <segue destination="zp5-Bt-SbM" kind="push" identifier="Location Detail Segue" id="kod-LG-W6i"/>
                         <segue destination="myf-FA-JOz" kind="modal" identifier="About Segue" modalTransitionStyle="coverVertical" id="dk1-N4-j45"/>
                         <segue destination="eRS-dE-GLl" kind="modal" identifier="Settings Segue" modalTransitionStyle="coverVertical" id="3jB-eV-F8J"/>
-                        <segue destination="Nz1-Wa-CKs" kind="modal" identifier="Address Select Segue" modalTransitionStyle="flipHorizontal" id="VSY-1L-731"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gwi-90-MsB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -591,12 +532,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
             <relationships>
                 <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="AddressSelectTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddressSelectTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelAddressSelect:" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="ListViewController" superclassName="UITableViewController">
