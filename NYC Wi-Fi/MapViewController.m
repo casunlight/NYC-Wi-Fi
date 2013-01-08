@@ -15,7 +15,6 @@
 #import "UIBarButtonItem+WEPopover.h"
 #import "WifiClusterAnnotationView.h"
 #import "Reachability.h"
-//#import "CLLocation+Geocodereverse.h"
 
 //mapview starting points
 #define kCenterPointLatitude  40.746347
@@ -36,6 +35,7 @@
 @synthesize filterPredicate = _filterPredicate;
 @synthesize fetchedLocations = _fetchedLocations;
 @synthesize selectedLocation = _selectedLocation;
+@synthesize popoverButton = _popoverButton;
 @synthesize searchBarButtonItem = _searchBarButtonItem;
 @synthesize locateMeButtonItem = _locateMeButtonItem;
 @synthesize searchBar = _searchBar;
@@ -243,7 +243,10 @@ calloutAccessoryControlTapped:(UIControl *)control
             LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
                                                                        inManagedObjectContext:_backgroundMOC];
             
-            locationInfo.name = [mapLocation valueWithPath:@"name"];
+            //locationInfo.name = [mapLocation valueWithPath:@"name"];
+            NSString *locationName = [mapLocation valueWithPath:@"name"];
+            locationInfo.name = [locationName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                              withString:[[locationName substringToIndex:1] capitalizedString]];
             locationInfo.address = [mapLocation valueWithPath:@"address"];
             locationInfo.fee_type = [self setupLocationType:locationInfo.name:[mapLocation valueWithPath:@"type"]];
             
@@ -268,6 +271,11 @@ calloutAccessoryControlTapped:(UIControl *)control
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"Importing Core Data Default Values for Locations Completed!");
             hud.detailsLabelText = nil;
+            UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
+            [tabBarItem setEnabled:YES];
+            tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
+            [tabBarItem setEnabled:YES];
+            [self enableNavigationBarButtonsAndSearchBar];
             [self reloadMap];
         });
     });
@@ -313,6 +321,29 @@ calloutAccessoryControlTapped:(UIControl *)control
 {
     [super viewDidLoad];
     
+    _searchBar.hidden = YES;
+    
+    // Create the search, fixed-space (optional), and locate buttons.
+    _searchBarButtonItem = [[UIBarButtonItem alloc]
+                            initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                            target:self
+                            action:@selector(searchLocations)];
+    
+    //    // Optional: if you want to add space between the refresh & profile buttons
+    //    UIBarButtonItem *fixedSpaceBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    //    fixedSpaceBarButtonItem.width = 12;
+    
+    //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+    
+    _locateMeButtonItem = [[UIBarButtonItem alloc]
+                           initWithImage:[UIImage imageNamed:@"locate-me-arrow.png"]
+                           style:UIBarButtonItemStyleBordered
+                           target:self
+                           action:@selector(showUserLocation)];
+    
+    self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
+    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
+    
     NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
 		// Update to handle the error appropriately.
@@ -324,6 +355,11 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         //NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
+        UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
+        [tabBarItem setEnabled:NO];
+        tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
+        [tabBarItem setEnabled:NO];
+        [self disableNavigationBarButtonsAndSearchBar];
         [self importCoreDataDefaultLocations];
     }
     else {
@@ -338,29 +374,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     popoverClass = [WEPopoverController class];
-    
-    _searchBar.hidden = YES;
-    
-    // Create the search, fixed-space (optional), and locate buttons.
-    _searchBarButtonItem = [[UIBarButtonItem alloc]
-                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                     target:self
-                                     action:@selector(searchLocations)];
-    
-    //    // Optional: if you want to add space between the refresh & profile buttons
-    //    UIBarButtonItem *fixedSpaceBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    //    fixedSpaceBarButtonItem.width = 12;
-    
-    //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
-    
-    _locateMeButtonItem = [[UIBarButtonItem alloc]
-                                           initWithImage:[UIImage imageNamed:@"locate-me-arrow.png"]
-                                           style:UIBarButtonItemStyleBordered
-                                           target:self
-                                           action:@selector(showUserLocation)];
-    
-    self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
-    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
 }
 
 - (void)viewDidUnload
@@ -369,6 +382,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self.popoverController dismissPopoverAnimated:NO];
 	self.popoverController = nil;
     [self setSearchBar:nil];
+    [self setPopoverButton:nil];
     [super viewDidUnload];
 }
 
@@ -668,6 +682,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)disableNavigationBarButtonsAndSearchBar
 {
+    _popoverButton.enabled = NO;
     _searchBar.userInteractionEnabled = NO;
     _searchBarButtonItem.enabled = NO;
     _locateMeButtonItem.enabled = NO;
@@ -675,6 +690,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)enableNavigationBarButtonsAndSearchBar
 {
+    _popoverButton.enabled = YES;
     _searchBar.userInteractionEnabled = YES;
     _searchBarButtonItem.enabled = YES;
     _locateMeButtonItem.enabled = YES;
@@ -728,7 +744,7 @@ calloutAccessoryControlTapped:(UIControl *)control
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
         [mailViewController setSubject:@"NYC Wi-Fi App"];
-        [mailViewController setMessageBody:@"Check out this handy new app to help you find wi-fi in New York City!" isHTML:YES];
+        [mailViewController setMessageBody:@"<p>Check out this handy new app to help you find Wi-Fi in New York City!</p><p><a href=\"http://www.nycwifiapp.com\">http://www.nycwifiapp.com/</a></p>" isHTML:YES];
       
         [self presentModalViewController:mailViewController animated:YES];
     } else {

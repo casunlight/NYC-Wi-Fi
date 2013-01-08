@@ -45,6 +45,7 @@
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) WEPopoverController *popoverController;
 @property (strong, nonatomic) CQMFloatingController *floatingController;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *popoverButton;
 @property (strong, nonatomic) UIBarButtonItem *searchBarButtonItem;
 @property (strong, nonatomic) UIBarButtonItem *locateMeButtonItem;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;

@@ -136,12 +136,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //return [[self.sections objectAtIndex:section] count];
-    /* if (tableView == self.searchDisplayController.searchResultsTableView)
-        return _filteredTableData.count;
-    else
-        return [[self.sections objectAtIndex:section] count]; */
-    
     if (tableView == self.tableView) {
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
         return [sectionInfo numberOfObjects];
@@ -152,11 +146,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    /* if (tableView == self.searchDisplayController.searchResultsTableView)
-        return nil;
-    else
-        return self.sectionTitles; */
-    
     if (tableView == self.tableView) {
         NSMutableArray *index = [NSMutableArray arrayWithObject:UITableViewIndexSearch];
         NSArray *initials = [self.fetchedResultsController sectionIndexTitles];
@@ -187,12 +176,7 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    /* if (tableView == self.searchDisplayController.searchResultsTableView)
-        return nil;
-    else
-        return [self.sectionTitles objectAtIndex:section]; */
-    
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {    
     if (tableView == self.tableView) {
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
         return [sectionInfo name];
@@ -219,14 +203,7 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     }
     
     // Configure the cell...
-    //LocationInfo *location = [_fetchedLocations objectAtIndex:indexPath.row];
-    //LocationInfo *location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     LocationInfo *location;
-    
-    /* if (tableView == self.searchDisplayController.searchResultsTableView)
-        location = [_filteredTableData objectAtIndex:indexPath.row];
-    else
-        location = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]; */
     
     if (tableView == self.tableView)
         location = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -249,28 +226,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
         [self performSegueWithIdentifier:@"Location Detail Segue" sender:cell];
     }
 }
-
-/* #pragma mark - Table view delegate
-
--(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
-{
-    _searchBar.showsCancelButton = YES;
-    if (text.length == 0) {
-        isFiltered = FALSE;
-    } else {
-        isFiltered = true;
-        _filteredTableData = [[NSMutableArray alloc] init];
-        
-        for (LocationInfo* location in _fetchedLocations) {
-            NSRange nameRange = [location.name rangeOfString:text options:NSCaseInsensitiveSearch];
-            if (nameRange.location != NSNotFound) {
-                [_filteredTableData addObject:location];
-            }
-        }
-    }
-    
-    [self.tableView reloadData];
-} */
 
 #pragma mark Content Filtering
 
@@ -348,24 +303,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     }
 }
 
-/* - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-	searchBar.showsScopeBar = YES;
-	[searchBar sizeToFit];
-    
-	//[searchBar setShowsCancelButton:YES animated:YES];
-    
-	return YES;
-}
-
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
-	searchBar.showsScopeBar = NO;
-	[searchBar sizeToFit];
-    
-	//[searchBar setShowsCancelButton:NO animated:YES];
-    
-	return YES;
-} */
-
 - (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
 	
 	WEPopoverContainerViewProperties *props = [WEPopoverContainerViewProperties alloc];
@@ -408,18 +345,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
         //NSLog(@"Setting ListViewController as a delegate of LocationDetailViewController");
         [_searchBar resignFirstResponder];
         LocationDetailTVC *locationDetailTVC = segue.destinationViewController;
-        //locationDetailTVC.delegate = self;
-        //locationDetailTVC.managedObjectContext = self.managedObjectContext;
-        
-        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        //self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        /* if(sender == self.searchDisplayController.searchResultsTableView) {
-            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-            self.selectedLocation = [_filteredTableData objectAtIndex:indexPath.row];
-        } else {
-            self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        } */
         
         if (self.searchDisplayController.isActive) {
             NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForCell:sender];
@@ -430,8 +355,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
             NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
             self.selectedLocation = [self.fetchedResultsController objectAtIndexPath:indexPath];
         }
-        
-        //self.selectedLocation = [[self.sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         
         //NSLog(@"Passing selected location (%@) to LocationDetailTVC", self.selectedLocation.name);
         //NSLog(@"%@", self.selectedLocation);
@@ -459,7 +382,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 #pragma mark Actions
 
 - (IBAction)showPopover:(UIBarButtonItem *)sender {
-    //[sheet showInView:self.view];
 	if (!self.popoverController) {
 		
 		PopoverViewController *contentViewController = [[PopoverViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -520,8 +442,8 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
-        [mailViewController setSubject:@"NYC Wi-Fi App."];
-        [mailViewController setMessageBody:@"Check out this handy new app to help you find wi-fi in New York City!" isHTML:YES];
+        [mailViewController setSubject:@"NYC Wi-Fi App"];
+        [mailViewController setMessageBody:@"<p>Check out this handy new app to help you find Wi-Fi in New York City!</p><p><a href=\"http://www.nycwifiapp.com/\">http://www.nycwifiapp.com/</a></p>" isHTML:YES];
         
         [self presentModalViewController:mailViewController animated:YES];
     } else {
@@ -553,8 +475,6 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
     
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-    
-    //[fetchRequest setFetchBatchSize:20];
     
     NSFetchedResultsController *theFetchedResultsController =
     [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
