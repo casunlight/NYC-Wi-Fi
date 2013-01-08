@@ -7,6 +7,7 @@
 //
 
 #import "ListViewController.h"
+#import "MapViewController.h"
 #import "MBProgressHUD.h"
 #import "PopoverViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
@@ -362,14 +363,14 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 	} else if ([segue.identifier isEqualToString:@"About Segue"]) {
         AboutViewController *aboutViewController = segue.destinationViewController;
         aboutViewController.delegate = self;
-        NSLog(@"Segue to About");
+        //NSLog(@"Segue to About");
     } else if ([segue.identifier isEqualToString:@"Settings Segue"]) {
         SettingsTVC *settingsTVC = segue.destinationViewController;
         settingsTVC.delegate = self;
-        NSLog(@"Segue to Settings");
+        //NSLog(@"Segue to Settings");
     }
-    else
-    { NSLog(@"Unidentified Segue Attempted!"); }
+    //else
+    //{ NSLog(@"Unidentified Segue Attempted!"); }
 }
 
 - (void)didReceiveMemoryWarning
@@ -404,16 +405,20 @@ static NSString *LocationCellIdentifier = @"ListViewCell";
 
 - (void)theDoneButtonOnTheAboutViewControllerWasTapped:(AboutViewController *)controller
 {
-    NSLog(@"theDoneButtonOnTheAboutViewControllerWasTapped");
+    //NSLog(@"theDoneButtonOnTheAboutViewControllerWasTapped");
     [self.popoverController dismissPopoverAnimated:YES];
     self.popoverController = nil;
 }
 
 - (void)theDoneButtonOnTheSettingsTVCWasTapped:(SettingsTVC *)controller
 {
-    NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
+    //NSLog(@"theDoneButtonOnTheSettingsTVCWasTapped");
     [self.popoverController dismissPopoverAnimated:YES];
     self.popoverController = nil;
+    UINavigationController *mapViewControllerNav = [self.tabBarController.viewControllers objectAtIndex:0];
+    MapViewController *mapViewController = [mapViewControllerNav.viewControllers objectAtIndex:0];
+    [mapViewController.fetchedResultsController.fetchRequest setPredicate:[mapViewController setupFilterPredicate]];
+    [mapViewController reloadMap];
 }
 
 #pragma mark -

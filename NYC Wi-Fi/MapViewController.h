@@ -55,5 +55,6 @@
 - (void)searchLocations;
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address;
 - (void)showUserLocation;
+- (void)reloadMap;
 
 @end

@@ -175,7 +175,7 @@
                                                     <rect key="frame" x="5" y="0.0" width="290" height="100"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <string key="text">NYC Wi-Fi is a free app that organizes      Wi-Fi location data provided by NYC Open Data. We hope you enjoy this app and find it useful. Please do not hestitate to send us feedback. Thanks!</string>
+                                                    <string key="text">NYC Wi-Fi is a free app which organizes      Wi-Fi location data provided by NYC Open Data. We hope you enjoy this app and find it useful. Please do not hesitate to send us feedback. Thanks!</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -528,6 +528,52 @@
         <image name="tab-clipboard.png" width="18" height="25"/>
         <image name="tab-map.png" width="24" height="25"/>
     </resources>
+    <classes>
+        <class className="AboutViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="ListViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+        <class className="LocationDetailTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationDetailTVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="locationAddress" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationMap" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="locationName" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationPhone" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationType" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="locationWebsite" candidateClass="UITableViewCell"/>
+            </relationships>
+        </class>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="showPopover:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mapView" candidateClass="WifiClusterMapView"/>
+                <relationship kind="outlet" name="popoverButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
+        <class className="SettingsTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButton:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="feeSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="freeSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="WifiClusterMapView" superclassName="MKMapView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WifiClusterMapView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -355,6 +355,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         //NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
+        [self setStandardRegion];
         UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
         [tabBarItem setEnabled:NO];
         tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
