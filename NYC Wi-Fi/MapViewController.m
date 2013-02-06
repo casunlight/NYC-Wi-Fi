@@ -281,7 +281,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     });
 }
 
-- (NSString *)setupLocationType:(NSString *)locationName:(NSString *)locationType
+- (NSString *)setupLocationType:(NSString *)locationName :(NSString *)locationType
 {
     if ([locationName isEqualToString:@"Starbucks"] ||
         [locationName isEqualToString:@"McDonalds"] ||
