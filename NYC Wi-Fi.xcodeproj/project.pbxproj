@@ -255,7 +255,7 @@
 				0A002C0716928B9D00109769 /* Reachability.h */,
 				0A002C0816928B9D00109769 /* Reachability.m */,
 			);
-			name = Reachability;
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		0A22800A1603C8FA00189106 /* Model */ = {
@@ -284,7 +284,7 @@
 				0A4DBA981660404800CD17F3 /* WETouchableView.h */,
 				0A4DBA991660404800CD17F3 /* WETouchableView.m */,
 			);
-			name = Popover;
+			path = Popover;
 			sourceTree = "<group>";
 		};
 		0A556F9415F2C44700C5638C /* MBProgressHUD */ = {
@@ -293,7 +293,7 @@
 				0AD472D31688BF7A006BD2D3 /* MBProgressHUD.h */,
 				0AD472D41688BF7A006BD2D3 /* MBProgressHUD.m */,
 			);
-			name = MBProgressHUD;
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		0A556FA415F41F6300C5638C /* SMXMLDocument */ = {
@@ -302,7 +302,7 @@
 				0A556FA515F41F8D00C5638C /* SMXMLDocument.h */,
 				0A556FA615F41F9C00C5638C /* SMXMLDocument.m */,
 			);
-			name = SMXMLDocument;
+			path = SMXMLDocument;
 			sourceTree = "<group>";
 		};
 		0A65F1CB15ED6EB200E58FC5 = {
@@ -375,6 +375,11 @@
 		0A65F1E115ED6EB200E58FC5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0AD52734168226EE00B4BD02 /* Default.png */,
+				0AD52732168226E800B4BD02 /* Default@2x.png */,
+				0A83BBA31646D2AF00319860 /* Default-568h@2x.png */,
+				0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */,
+				0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */,
 				0A002BB9168F597500109769 /* import.xml */,
 				0AAC8FAF15FEA53D003B85F7 /* nycwifi.xcdatamodeld */,
 				0A556FA215F3D24B00C5638C /* command.json */,
@@ -397,9 +402,6 @@
 				0AD527371682516600B4BD02 /* tab-clipboard@2x.png */,
 				0AD527381682516600B4BD02 /* tab-map.png */,
 				0AD527391682516600B4BD02 /* tab-map@2x.png */,
-				0AD52734168226EE00B4BD02 /* Default.png */,
-				0AD52732168226E800B4BD02 /* Default@2x.png */,
-				0A83BBA31646D2AF00319860 /* Default-568h@2x.png */,
 				0AD5272916821DB400B4BD02 /* nyc-nav-bar-logo.png */,
 				0AD5272A16821DB400B4BD02 /* nyc-nav-bar-logo@2x.png */,
 				0A0721061679A2080047EB6D /* orange-cluster.png */,
@@ -410,8 +412,6 @@
 				0A0720FC1679A0C70047EB6D /* red-cluster@2x.png */,
 				0A0720FD1679A0C70047EB6D /* yellow-cluster.png */,
 				0A0720FE1679A0C70047EB6D /* yellow-cluster@2x.png */,
-				0A91C259166C1B6E0027BEB0 /* nyc-wifi-logo-icon-retina.png */,
-				0A91C256166C1B570027BEB0 /* nyc-wifi-logo-icon.png */,
 				0A4DBA9E166040B400CD17F3 /* popoverArrowDown.png */,
 				0A4DBA9F166040B400CD17F3 /* popoverArrowDown@2x.png */,
 				0A4DBAA0166040B400CD17F3 /* popoverArrowDownSimple.png */,
@@ -432,7 +432,7 @@
 				0A07210E167A76CE0047EB6D /* wifi-pin-fee.png */,
 				0A07210F167A76CE0047EB6D /* wifi-pin-fee@2x.png */,
 			);
-			name = Images;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		0AAA290916757C4500BF6383 /* WifiClusterMap */ = {
@@ -450,7 +450,7 @@
 				0AAA290616757C3400BF6383 /* WifiClusterMapView.h */,
 				0AAA290716757C3500BF6383 /* WifiClusterMapView.m */,
 			);
-			name = WifiClusterMap;
+			path = WifiClusterMap;
 			sourceTree = "<group>";
 		};
 		0ADA473C1697E13D001CCAA9 /* CWMFloatingController */ = {
@@ -469,7 +469,7 @@
 				0ADA47481697E158001CCAA9 /* CQMPathUtilities.h */,
 				0ADA47491697E158001CCAA9 /* CQMPathUtilities.m */,
 			);
-			name = CWMFloatingController;
+			path = CWMFloatingController;
 			sourceTree = "<group>";
 		};
 		0AEE2C8115F16631003C3BE8 /* Additions */ = {
