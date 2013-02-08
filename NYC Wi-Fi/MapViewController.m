@@ -47,8 +47,6 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
-    //static NSString *identifier = @"MapLocation";
-    
     if ([annotation isKindOfClass:[MapLocation class]]) {
         
         MapLocation *pin = (MapLocation *)annotation;
@@ -133,8 +131,6 @@
     MKCoordinateSpanMake(mapView.region.span.latitudeDelta/2.0,
                          mapView.region.span.longitudeDelta/2.0);
     
-    //mapView.region = MKCoordinateRegionMake(centerCoordinate, newSpan);
-    
     [mapView setRegion:MKCoordinateRegionMake(centerCoordinate, newSpan)
               animated:YES];
 }
@@ -186,68 +182,43 @@ calloutAccessoryControlTapped:(UIControl *)control
 	}
 }
 
-/* - (void)zoomToFitMapAnnotations
+- (void)importCoreDataDefaultLocations
 {
-    if([_mapView.annotations count] == 0)
-        return;
-    
-    NSLog(@"zoomToFitMapAnnotations");
-    
-    CLLocationCoordinate2D topLeftCoord;
-    topLeftCoord.latitude = -90;
-    topLeftCoord.longitude = 180;
-    
-    CLLocationCoordinate2D bottomRightCoord;
-    bottomRightCoord.latitude = 90;
-    bottomRightCoord.longitude = -180;
-    
-    for (MapLocation *annotation in _mapView.annotations)
-    {
-        topLeftCoord.longitude = fmin(topLeftCoord.longitude, annotation.coordinate.longitude);
-        topLeftCoord.latitude = fmax(topLeftCoord.latitude, annotation.coordinate.latitude);
-        
-        bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, annotation.coordinate.longitude);
-        bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, annotation.coordinate.latitude);
-    }
-    
-    MKCoordinateRegion region;
-    region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
-    region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
-    region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1; // Add a little extra space on the sides
-    region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1; // Add a little extra space on the sides
-    
-    region = [_mapView regionThatFits:region];
-    [_mapView setRegion:region animated:YES];
-} */
-
-- (void)importCoreDataDefaultLocations {
-    
-    //NSLog(@"Importing Core Data Default Values for Locations...");
     hud.labelText = @"Initializing location database...";
     hud.detailsLabelText = @"One time only. Please sit tight.";
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     
+    // Use SMXMLDocument to read location data in import XML file
     NSString *xmlPath = [[NSBundle mainBundle] pathForResource:@"import" ofType:@"xml"];
     NSData *xmlData = [NSData dataWithContentsOfFile:xmlPath];
     NSError *error;
     SMXMLDocument *document = [SMXMLDocument documentWithData:xmlData error:&error];
+    
+    // Prepare XML data and progress updates to be processed within asynchronous call
     __block SMXMLElement *mapLocations = [document.root childNamed:@"row"];
     __block float progress = 0.0f;
     __block float progressStep = 1.0f / [[document.root childNamed:@"row"] childrenNamed:@"row"].count;
     
+    // Run asynchronous process to parse all XML data and insert into Core Data
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Set up a background MOC to use within this thread for storing data in the database
         _backgroundMOC = [[NSManagedObjectContext alloc] init];
         [_backgroundMOC setPersistentStoreCoordinator:[self.managedObjectContext persistentStoreCoordinator]];
         
+        // Parse!
         for (SMXMLElement *mapLocation in [mapLocations childrenNamed:@"row"]) {
             LocationInfo *locationInfo = [NSEntityDescription insertNewObjectForEntityForName:@"LocationInfo"
                                                                        inManagedObjectContext:_backgroundMOC];
             
             //locationInfo.name = [mapLocation valueWithPath:@"name"];
             NSString *locationName = [mapLocation valueWithPath:@"name"];
+            
+            // Let's make sure all imported titles have the first letter uppercased so our list view's alphabetical index displays correctly later on
             locationInfo.name = [locationName stringByReplacingCharactersInRange:NSMakeRange(0,1)
                                               withString:[[locationName substringToIndex:1] capitalizedString]];
             locationInfo.address = [mapLocation valueWithPath:@"address"];
+            
+            // This data is a little old. McDonalds and Starbucks are still marked as 'fee-based', but they're free now, so let's 'free' them up.
             locationInfo.fee_type = [self setupLocationType:locationInfo.name:[mapLocation valueWithPath:@"type"]];
             
             LocationDetails *locationDetails = [NSEntityDescription
@@ -269,12 +240,9 @@ calloutAccessoryControlTapped:(UIControl *)control
             hud.progress = progress;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Importing Core Data Default Values for Locations Completed!");
+            // Now that the asynchronous call is done, let's re-enable tab bar and nav bar buttons, and reload the map view with all our nifty new locations
             hud.detailsLabelText = nil;
-            UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
-            [tabBarItem setEnabled:YES];
-            tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
-            [tabBarItem setEnabled:YES];
+            [self enableTabBarButtons];
             [self enableNavigationBarButtonsAndSearchBar];
             [self reloadMap];
         });
@@ -313,8 +281,8 @@ calloutAccessoryControlTapped:(UIControl *)control
     [super viewDidDisappear:(BOOL)animated];    // Call the super class implementation.
     // Usually calling super class implementation is done before self class implementation, but it's up to your application.
     
+    // Stop tracking the user's location when we switch to another view to save battery
     _mapView.showsUserLocation = NO;
-    //[self.locationManager stopUpdatingLocation];
 }
 
 - (void)viewDidLoad
@@ -323,17 +291,11 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     _searchBar.hidden = YES;
     
-    // Create the search, fixed-space (optional), and locate buttons.
+    // Create the search and locate buttons
     _searchBarButtonItem = [[UIBarButtonItem alloc]
                             initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                             target:self
                             action:@selector(searchLocations)];
-    
-    //    // Optional: if you want to add space between the refresh & profile buttons
-    //    UIBarButtonItem *fixedSpaceBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    //    fixedSpaceBarButtonItem.width = 12;
-    
-    //UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
     
     _locateMeButtonItem = [[UIBarButtonItem alloc]
                            initWithImage:[UIImage imageNamed:@"locate-me-arrow.png"]
@@ -341,8 +303,7 @@ calloutAccessoryControlTapped:(UIControl *)control
                            target:self
                            action:@selector(showUserLocation)];
     
-    self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, /* fixedSpaceBarButtonItem, */ _searchBarButtonItem];
-    //self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nyc-nav-bar-logo"]];
+    self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, _searchBarButtonItem];
     
     NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
@@ -353,18 +314,14 @@ calloutAccessoryControlTapped:(UIControl *)control
     
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    // If we're running the app for the first time, let's import all our locations. If not, load the locations from Core Data
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
-        //NSLog(@"!!!!! --> There's nothing in the database so defaults will be inserted");
         [self setStandardRegion];
-        UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
-        [tabBarItem setEnabled:NO];
-        tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
-        [tabBarItem setEnabled:NO];
+        [self disableTabBarButtons];
         [self disableNavigationBarButtonsAndSearchBar];
         [self importCoreDataDefaultLocations];
     }
     else {
-        //NSLog(@"There's stuff in the database so skipping the import of default data");
         [self plotMapLocations];
         [self setStandardRegion];
     }
@@ -391,11 +348,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
-
-/* - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    if (self.popoverController)
-        [self.popoverController dismissPopoverAnimated:YES];
-} */
 
 - (void)plotMapLocations
 {
@@ -437,7 +389,6 @@ calloutAccessoryControlTapped:(UIControl *)control
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    //NSLog(@"%@", error.localizedDescription);
     UIAlertView *locationUpdateFailed = [[UIAlertView alloc] initWithTitle:@"Location Unavailable" message:@"Please try again and ensure Location Services are enabled for NYC Wi-Fi." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [locationUpdateFailed show];
 }
@@ -697,6 +648,22 @@ calloutAccessoryControlTapped:(UIControl *)control
     _locateMeButtonItem.enabled = YES;
 }
 
+- (void)disableTabBarButtons
+{
+    UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
+    [tabBarItem setEnabled:NO];
+    tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
+    [tabBarItem setEnabled:NO];
+}
+
+- (void)enableTabBarButtons
+{
+    UITabBarItem *tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:0];
+    [tabBarItem setEnabled:YES];
+    tabBarItem = [[[[self tabBarController] tabBar] items] objectAtIndex:1];
+    [tabBarItem setEnabled:YES];
+}
+
 - (void)zoomMapAndCenterAtLatitude:(double)latitude andLongitude:(double)longitude
 {
     MKCoordinateRegion region;
@@ -705,7 +672,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     region.span = MKCoordinateSpanMake(0.008, 0.008);
     region = [_mapView regionThatFits:region];
     [_mapView setRegion:region animated:YES];
-    //[_mapView setCenterCoordinate:_mapView.region.center animated:NO];
 }
 
 - (void)showUserLocation {
@@ -830,8 +796,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     
-    //[fetchRequest setFetchBatchSize:20];
-    
     NSFetchedResultsController *theFetchedResultsController =
     [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                         managedObjectContext:_managedObjectContext sectionNameKeyPath:nil
@@ -843,12 +807,6 @@ calloutAccessoryControlTapped:(UIControl *)control
     return _fetchedResultsController;
     
 }
-
-/* - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
-    //[self.tableView beginUpdates];
-} */
-
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     
@@ -871,21 +829,6 @@ calloutAccessoryControlTapped:(UIControl *)control
             break;
     }
 }
-
-
-/* - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-    
-    switch(type) {
-            
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
-} */
 
 - (void)fetchedResultsChangeInsert:(NSObject*)anObject {
     LocationInfo *location = (LocationInfo*)anObject;
@@ -929,10 +872,5 @@ calloutAccessoryControlTapped:(UIControl *)control
     [self fetchedResultsChangeInsert:anObject];
     
 }
-
-/* - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
-    [self.tableView endUpdates];
-} */
 
 @end
