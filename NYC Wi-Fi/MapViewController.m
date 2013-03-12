@@ -260,6 +260,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     }
 }
 
+// Center map on Manhattan and set the zoom to cover the majority of the island (show a little bit of Brooklyn too)
 - (void)setStandardRegion
 {
     CLLocationCoordinate2D zoomLocation;
@@ -303,6 +304,7 @@ calloutAccessoryControlTapped:(UIControl *)control
                            target:self
                            action:@selector(showUserLocation)];
     
+    // Setup the Locate Me and address search buttons in the nav bar
     self.navigationItem.rightBarButtonItems = @[_locateMeButtonItem, _searchBarButtonItem];
     
     NSError *error;
@@ -351,17 +353,21 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)plotMapLocations
 {
+    // Clear any and all annotations from the map so we can re-plot free, fee-based, or all locations
     [_mapView removeAnnotations:[_mapView annotations]];
     
+    // Get Wi-Fi locations (free, fee-based, or all depending on if a fetch request predicate is set)
     _fetchedLocations = [[NSArray alloc] initWithArray:self.fetchedResultsController.fetchedObjects];
     __block NSMutableArray *pins = [NSMutableArray array];
     
+    // Setup the location load progress indicator
     hud.labelText = @"Loading locations...";
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.progress = 0.0f;
     __block float progress = 0.0;
     __block float progressStep = 1.0 / _fetchedLocations.count;
     
+    // Create map annotations for each fetched location
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         for (LocationInfo *location in _fetchedLocations) {
             LocationDetails *locationDetails = location.details;
@@ -377,6 +383,7 @@ calloutAccessoryControlTapped:(UIControl *)control
             hud.progress = progress;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            // Plot location annotations on the map and hide the progress indicator
             [_mapView addAnnotations:pins];
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
@@ -405,6 +412,7 @@ calloutAccessoryControlTapped:(UIControl *)control
     [_mapView setRegion:region animated:YES];
 }
 
+// Compose email for Tell-A-Friend function
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
     switch (result)
@@ -506,6 +514,8 @@ calloutAccessoryControlTapped:(UIControl *)control
         [_floatingController dismissAnimated:YES];
         _floatingController = nil;
     }
+    
+    // Check for an internet connection, and if one exists, allow the user to search for an address
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
     if (networkStatus == NotReachable) {
@@ -528,12 +538,16 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    // Hide the search bar and keyboard, and disable all visible buttons to prevent the user from disrupting the search
     _searchBar.hidden = YES;
+    [self disableTabBarButtons];
     [self disableNavigationBarButtonsAndSearchBar];
     [_searchBar resignFirstResponder];
     NSString *address = searchBar.text;
     _searchBar.text = @"";
     address = [self addNewYorkSuffixIfNecessary:[address lowercaseString]];
+    
+    // Perform the address search
     [self geolocateAddressAndZoomOnMap:address];
 }
 
@@ -546,11 +560,13 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (void)geolocateAddressAndZoomOnMap:(NSString *)address
 {
+    // Remove the annotation marking the previously searched address, if one exists
     if (_mapView.lastSearchedAnnotation != nil) {
         [_mapView removeAnnotation:_mapView.lastSearchedAnnotation];
         _mapView.lastSearchedAnnotation = nil;
     }
     
+    // Find the coordinates of the address
     CLGeocoder *coder = [[CLGeocoder alloc] init];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Searching for address...";
@@ -592,6 +608,9 @@ calloutAccessoryControlTapped:(UIControl *)control
             [errorFindingAddress show];
             NSLog(@"%@", error);
         }
+        
+        // Re-enable our buttons so the user can interact with the whole app again
+        [self enableTabBarButtons];
         [self enableNavigationBarButtonsAndSearchBar];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
@@ -599,6 +618,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (NSString *)addNewYorkSuffixIfNecessary:(NSString *)address
 {
+    // If the user did not include a borough name, New York, NY, or NYC in the address string, add in a default 'New York, NY'
     if (![self searchTextIsNumeric:address]) {
         if ([address rangeOfString:@"new york"].location == NSNotFound &&
             [address rangeOfString:@"ny"].location == NSNotFound &&
@@ -616,6 +636,7 @@ calloutAccessoryControlTapped:(UIControl *)control
 
 - (BOOL)aValidZipCodeIfNumericWithSearchText:(NSString *)searchText
 {
+    // If the search text is numeric, make sure it is a legitimate zip code
     if ([self searchTextIsNumeric:searchText]) {
         NSString *zipRegex = @"(^[0-9]{5}(-[0-9]{4})?$)";
         NSPredicate *zipCheck = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", zipRegex];
